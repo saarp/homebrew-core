@@ -1,12 +1,21 @@
 class Llvm < Formula
   desc "Next-gen compiler infrastructure"
   homepage "https://llvm.org/"
-  # TODO: Rebase `clang-cl` patch.
-  url "https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/llvm-project-20.1.8.src.tar.xz"
-  sha256 "6898f963c8e938981e6c4a302e83ec5beb4630147c7311183cf61069af16333d"
   # The LLVM Project is under the Apache License v2.0 with LLVM Exceptions
   license "Apache-2.0" => { with: "LLVM-exception" }
   head "https://github.com/llvm/llvm-project.git", branch: "main"
+
+  stable do
+    url "https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.7/llvm-project-21.1.7.src.tar.xz"
+    sha256 "e5b65fd79c95c343bb584127114cb2d252306c1ada1e057899b6aacdd445899e"
+
+    # Fix triple config loading for clang-cl
+    # https://github.com/llvm/llvm-project/pull/111397
+    patch do
+      url "https://github.com/llvm/llvm-project/compare/1381ad497b9a6d3da630cbef53cbfa9ddf117bb6...40a8c7c0ff3f688b690e4c74db734de67f0f89e9.diff"
+      sha256 "f6dafd762737eb79761ab7ef814a9fc802ec4bb8d20f46691f07178053b0eb36"
+    end
+  end
 
   livecheck do
     url :stable
@@ -14,13 +23,12 @@ class Llvm < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "3617478bd20ddd536327d656fe6ccf18e5e1b23bb84a352af9d44f30112d58b7"
-    sha256 cellar: :any,                 arm64_sonoma:  "c9bf1b69d4d9e4f3976cda4d85679425400011c3e8d7ff096fd73ae202136aa6"
-    sha256 cellar: :any,                 arm64_ventura: "0a6f568432bef74f5bcca0f9475b851fd723108a1213702ff539bdab3eac1825"
-    sha256 cellar: :any,                 sonoma:        "ee67fc8628df1fb5e54024fb9de83f6bffa3888d788f4b2d04d4ace2e0a97869"
-    sha256 cellar: :any,                 ventura:       "d049d90575f5ca7fc9fff4f5f62c259a3964e0d79baeb51eb48a6ef7d038b16f"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "c9856d92622861417f8118f5fe5df3265987e320cd107d50158fb230e2b72b4c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5a01c604dadccdedbe3b6a445387eae417b076c2e77ca2780c0d584e5cf40a5c"
+    sha256 cellar: :any,                 arm64_tahoe:   "de4ee735b055cf97c15bf187519044eb828e6004fad0db50695290e213fb98cf"
+    sha256 cellar: :any,                 arm64_sequoia: "e1ebdbe81c63665229fd7f93ffea08ed77df9a868a6c3f466024a76246661fc9"
+    sha256 cellar: :any,                 arm64_sonoma:  "dc30429b078ea5d0a249af6a677c09990efa6e24080d4af64a8e573c6eb3a15a"
+    sha256 cellar: :any,                 sonoma:        "19eead2e9b2cd7e251827e2c5e212ef7002b14900e620963c45331b23349d2a6"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "dae43d1c93754cd0d4151fbb99e24ea8045e52fa933f63f1236158853c5ce7da"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2c44f960c247cfb7a475182ac01f49fedf9024be892e425ddf98d3fbcab3d767"
   end
 
   keg_only :provided_by_macos
@@ -29,13 +37,13 @@ class Llvm < Formula
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "swig" => :build
-  depends_on "python@3.13"
+  depends_on "python@3.14"
   depends_on "xz"
   depends_on "z3"
   depends_on "zstd"
 
   uses_from_macos "libedit"
-  uses_from_macos "libffi", since: :catalina
+  uses_from_macos "libffi"
   uses_from_macos "ncurses"
   uses_from_macos "zlib"
 
@@ -46,7 +54,7 @@ class Llvm < Formula
   end
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def clang_config_file_dir
@@ -54,6 +62,14 @@ class Llvm < Formula
   end
 
   def install
+    # Work around OOM error on arm64 linux runner by reducing number of jobs
+    github_arm64_linux = OS.linux? && Hardware::CPU.arm? &&
+                         ENV["HOMEBREW_GITHUB_ACTIONS"].present? &&
+                         ENV["GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED"].blank?
+    if github_arm64_linux && (jobs = ENV.make_jobs - 1).positive?
+      ENV["CMAKE_BUILD_PARALLEL_LEVEL"] = ENV["HOMEBREW_MAKE_JOBS"] = jobs.to_s
+    end
+
     # The clang bindings need a little help finding our libclang.
     inreplace "clang/bindings/python/clang/cindex.py",
               /^(\s*library_path\s*=\s*)None$/,
@@ -70,7 +86,6 @@ class Llvm < Formula
       libcxx
       libcxxabi
       libunwind
-      pstl
     ]
 
     unless versioned_formula?
@@ -91,7 +106,7 @@ class Llvm < Formula
     # Work around build failure (maybe from CMake 4 update) by using environment
     # variable for https://cmake.org/cmake/help/latest/variable/CMAKE_OSX_SYSROOT.html
     # TODO: Consider if this should be handled in superenv as impacts other formulae
-    ENV["SDKROOT"] = MacOS.sdk_for_formula(self).path if OS.mac? && MacOS.sdk_root_needed?
+    ENV["SDKROOT"] = MacOS.sdk_for_formula(self).path if OS.mac?
 
     # Apple's libstdc++ is too old to build LLVM
     ENV.libcxx if ENV.compiler == :clang
@@ -150,10 +165,8 @@ class Llvm < Formula
 
     if OS.mac?
       macos_sdk = MacOS.sdk_path_if_needed
-      if MacOS.version >= :catalina
-        args << "-DFFI_INCLUDE_DIR=#{macos_sdk}/usr/include/ffi"
-        args << "-DFFI_LIBRARY_DIR=#{macos_sdk}/usr/lib"
-      end
+      args << "-DFFI_INCLUDE_DIR=#{macos_sdk}/usr/include/ffi"
+      args << "-DFFI_LIBRARY_DIR=#{macos_sdk}/usr/lib"
 
       libcxx_install_libdir = lib/"c++"
       libunwind_install_libdir = lib/"unwind"
@@ -473,12 +486,10 @@ class Llvm < Formula
     arches = Set.new([:arm64, :x86_64, :aarch64])
     arches << arch
 
-    sysroot = if macos_version.blank? || (MacOS.version > macos_version && MacOS::CLT.separate_header_package?)
+    sysroot = if macos_version.blank? || MacOS.version > macos_version
       "#{MacOS::CLT::PKG_PATH}/SDKs/MacOSX.sdk"
-    elsif macos_version >= "10.14"
-      "#{MacOS::CLT::PKG_PATH}/SDKs/MacOSX#{macos_version}.sdk"
     else
-      "/"
+      "#{MacOS::CLT::PKG_PATH}/SDKs/MacOSX#{macos_version}.sdk"
     end
 
     {

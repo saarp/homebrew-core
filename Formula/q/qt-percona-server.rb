@@ -1,27 +1,30 @@
 class QtPerconaServer < Formula
   desc "Qt SQL Database Driver"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/6.9/6.9.1/submodules/qtbase-everywhere-src-6.9.1.tar.xz"
-  sha256 "40caedbf83cc9a1959610830563565889878bc95f115868bbf545d1914acf28e"
+  url "https://download.qt.io/official_releases/qt/6.9/6.9.3/submodules/qtbase-everywhere-src-6.9.3.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/6.9/6.9.3/submodules/qtbase-everywhere-src-6.9.3.tar.xz"
+  mirror "https://mirrors.ukfast.co.uk/sites/qt.io/archive/qt/6.9/6.9.3/submodules/qtbase-everywhere-src-6.9.3.tar.xz"
+  sha256 "c5a1a2f660356ec081febfa782998ae5ddbc5925117e64f50e4be9cd45b8dc6e"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only", "LGPL-3.0-only"]
 
   livecheck do
-    formula "qt"
+    formula "qtbase"
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "e4161a8e9ba54e9f6d5c53582edfd0e8c1279d7ebe5d886942b1ca62064cbb35"
-    sha256 cellar: :any,                 arm64_ventura: "59cc5b51418fa1b3eddf67c0ec97d62cea5bc32ef14a80acd9483cafb1d262a2"
-    sha256 cellar: :any,                 sonoma:        "06c0bf421d18585bcc62795ee42e2667f27063e34e9d53b192199b23d8580c3b"
-    sha256 cellar: :any,                 ventura:       "fce02bc99e7fef8c9ad2c7b0ce7ee2b6711562e4a08592ab0da443393dc0d56a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c1b2eb8f3ccf7bf02c14ce5d4ac85613967b4e3a609e01925c87c566e7f9f52d"
+    sha256 cellar: :any,                 arm64_tahoe:   "c61120bbce4d1c610981c891d46b533b91f9f42f25bfb713cffb38754e36f143"
+    sha256 cellar: :any,                 arm64_sequoia: "e893f07fe1dd3f2629860adcb6c586c7c374eb5ee0a49cbcefa3e7611cd450dc"
+    sha256 cellar: :any,                 arm64_sonoma:  "0f47f8f4315aab469775a83936d5b1ad402b504f01cd49acb3b1943352545601"
+    sha256 cellar: :any,                 sonoma:        "4cee6a48c6d924b15692d2671a935092794f436a578ee0c3658115eb708ad9db"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "958597e0a036bd75841a2d7ea4ae0c5c02338dcb83d255f65f4c2f845b20dcf3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8b75b67d199de55822c1cf2ec3c2302a6de15985a5b6f4c38c74bb90993c501d"
   end
 
   depends_on "cmake" => [:build, :test]
   depends_on "pkgconf" => :build
 
   depends_on "percona-server"
-  depends_on "qt"
+  depends_on "qtbase"
 
   conflicts_with "qt-mysql", "qt-mariadb",
     because: "qt-mysql, qt-mariadb, and qt-percona-server install the same binaries"
@@ -38,6 +41,7 @@ class QtPerconaServer < Formula
       -DMySQL_LIBRARY=#{Formula["percona-server"].opt_lib/shared_library("libperconaserverclient")}
       -DQT_GENERATE_SBOM=OFF
     ]
+    args << "-DQT_NO_APPLE_SDK_AND_XCODE_CHECK=ON" if OS.mac?
     # Workaround for missing libraries failure in CI dependent tests when `percona-server`
     # is unlinked due to conflict handling but not re-linked before linkage test
     args << "-DCMAKE_INSTALL_RPATH=#{Formula["percona-server"].opt_lib}" if OS.linux?
@@ -57,21 +61,19 @@ class QtPerconaServer < Formula
       set(CMAKE_AUTORCC ON)
       set(CMAKE_AUTOUIC ON)
       find_package(Qt6 COMPONENTS Core Sql REQUIRED)
-      add_executable(test
-          main.cpp
-      )
+      add_executable(test main.cpp)
       target_link_libraries(test PRIVATE Qt6::Core Qt6::Sql)
     CMAKE
 
-    (testpath/"test.pro").write <<~EOS
-      QT       += core sql
-      QT       -= gui
-      TARGET = test
-      CONFIG   += console
-      CONFIG   -= app_bundle
+    (testpath/"test.pro").write <<~QMAKE
+      QT      += core sql
+      QT      -= gui
+      TARGET   = test
+      CONFIG  += console
+      CONFIG  -= app_bundle
       TEMPLATE = app
       SOURCES += main.cpp
-    EOS
+    QMAKE
 
     (testpath/"main.cpp").write <<~CPP
       #include <QCoreApplication>
@@ -87,6 +89,7 @@ class QtPerconaServer < Formula
       }
     CPP
 
+    ENV["LC_ALL"] = "en_US.UTF-8"
     system "cmake", "-DCMAKE_BUILD_TYPE=Debug", testpath
     system "make"
     system "./test"

@@ -1,19 +1,18 @@
 class Lxc < Formula
   desc "CLI client for interacting with LXD"
   homepage "https://ubuntu.com/lxd"
-  url "https://github.com/canonical/lxd/releases/download/lxd-6.4/lxd-6.4.tar.gz"
-  sha256 "69fb7aead2325c7a5eede6dcb1a943a0f6544892929e6ae394729582abdd9aa7"
+  url "https://github.com/canonical/lxd/releases/download/lxd-6.6/lxd-6.6.tar.gz"
+  sha256 "2ddfa88441ef1f4f1f0b49cce11285620e34f3245e792f22034a688f3c07233a"
   license "AGPL-3.0-only"
   head "https://github.com/canonical/lxd.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "680831e50844065f167f9bda1224a8779bea2e5ea5f3c36ac8950ff241cc3a56"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "680831e50844065f167f9bda1224a8779bea2e5ea5f3c36ac8950ff241cc3a56"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "680831e50844065f167f9bda1224a8779bea2e5ea5f3c36ac8950ff241cc3a56"
-    sha256 cellar: :any_skip_relocation, sonoma:        "0de8398833d6d560eb0d6583120e20ffac199a993631ff50298d51b328408a86"
-    sha256 cellar: :any_skip_relocation, ventura:       "0de8398833d6d560eb0d6583120e20ffac199a993631ff50298d51b328408a86"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "be1c55d9fc6b5bf7d841240c5e2d795499297642c014b5b5389ed1d66e2ec129"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f882a67a1241a812fd53d5ab2cb43135628b27fd42974e3e2f0ebd08a8fd480d"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "de746f141acbdaa3ecb9858a7229e9dc4b4cbfe64962834f22db07b32a2f04ed"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "de746f141acbdaa3ecb9858a7229e9dc4b4cbfe64962834f22db07b32a2f04ed"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "de746f141acbdaa3ecb9858a7229e9dc4b4cbfe64962834f22db07b32a2f04ed"
+    sha256 cellar: :any_skip_relocation, sonoma:        "e6900c1d192281f649915c603e0e79536ad21adc63acd621ce5cd19ef9505661"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9fb87b9fb0628ad16eaa59dd2e167ded804f6df542afdb81d1fa5d261d7c2dc2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bded123100fc22d53330a903b406065464ab6e48063a0a80f4ad8bac50aa9b7f"
   end
 
   depends_on "go" => :build

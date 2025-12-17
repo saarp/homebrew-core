@@ -1,22 +1,21 @@
 class Maturin < Formula
   desc "Build and publish Rust crates as Python packages"
   homepage "https://github.com/PyO3/maturin"
-  url "https://github.com/PyO3/maturin/archive/refs/tags/v1.9.1.tar.gz"
-  sha256 "ad374fbf04340083add2a47f3b3acdd809ceea1275d80cb5918cde80940a2fca"
+  url "https://github.com/PyO3/maturin/archive/refs/tags/v1.10.2.tar.gz"
+  sha256 "8acb4eb224896b3fa67036680e9e7908eeb8e5c2ea3a495e987a3f2edb666f36"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/PyO3/maturin.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d14c94a93020669faceba1a85269e3475f016780816b5647b2320ace4bb99c68"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "bb6f78ccca323a041316da5986633ac393e1a83380bbb5ccdde1713f2b18d9f2"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "dfbe1127cd5b73fb55becdc948e6bc9b2a2e05511257d3c8364391cbeaa0fc7c"
-    sha256 cellar: :any_skip_relocation, sonoma:        "0cd3ba93743cc1954bf3287f499fed8a9d21589843c8f955fe8ff3449de1a36a"
-    sha256 cellar: :any_skip_relocation, ventura:       "a079eefffe41c3329197c37cbf525404e66e93ffa26e204b8c09f43afb8bfb93"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "be59c21ec4a3914c6580452392bd918b1f00f1c2e41e32e900aa02724f29ec3a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "69bc3ea9e128fa250a298d164241c157484ca93aeece5af247441335067140cc"
+    sha256 cellar: :any,                 arm64_tahoe:   "a86f93d1e7e760798d607ccfbc4469d7fbe5bd0f6432e583066da6f7db833e9c"
+    sha256 cellar: :any,                 arm64_sequoia: "b5aa3a12ce060aeedaf598e18549850f690ae8cb9e701f5a9dd71d881543edde"
+    sha256 cellar: :any,                 arm64_sonoma:  "36ba4894ead30f6a85e85f41266587f06c18683e017fea848a2a3567e85b6f6b"
+    sha256 cellar: :any,                 sonoma:        "e470aea2b5f0ba344518fe653d9ce60d905988ce4714cabeb4376f8873baa5ed"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "09b9c7c1e83ff024a73686c87220ea8f532f684bf3dac7caa3668c92d5209ec7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bc2dffdd954054c5ebc1ae0788b8ec610c205d1f2585a5d5d3ed7f8953096329"
   end
 
-  depends_on "python@3.13" => :test
+  depends_on "python@3.14" => :test
   depends_on "rust"
 
   uses_from_macos "bzip2"
@@ -49,10 +48,10 @@ class Maturin < Formula
   end
 
   test do
-    python = "python3.13"
+    python3 = "python3.14"
     system "cargo", "init", "--name=brew", "--bin"
     system bin/"maturin", "build", "-o", "dist", "--compatibility", "off"
-    system python, "-m", "pip", "install", "brew", "--prefix=./dist", "--no-index", "--find-links=./dist"
-    system python, "-c", "import maturin"
+    system python3, "-m", "pip", "install", "brew", "--prefix=./dist", "--no-index", "--find-links=./dist"
+    system python3, "-c", "import maturin"
   end
 end

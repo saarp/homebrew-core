@@ -1,20 +1,17 @@
 class NodeRed < Formula
   desc "Low-code programming for event-driven applications"
   homepage "https://nodered.org/"
-  url "https://registry.npmjs.org/node-red/-/node-red-4.0.9.tgz"
-  sha256 "d8548204752c8ed7c1c5648e6fe2843342797ff5f0214647bdd1078366811cba"
+  url "https://registry.npmjs.org/node-red/-/node-red-4.1.2.tgz"
+  sha256 "a0203340780a07e7214d2e1bc88a575ee431da89a2045665142a9d55f57f79eb"
   license "Apache-2.0"
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "ef1c67c28407a8a57ed82cbc8c1da9a0535dc4432be1db15b815fb4bd6920fc5"
-    sha256 cellar: :any,                 arm64_sonoma:  "ef1c67c28407a8a57ed82cbc8c1da9a0535dc4432be1db15b815fb4bd6920fc5"
-    sha256 cellar: :any,                 arm64_ventura: "ef1c67c28407a8a57ed82cbc8c1da9a0535dc4432be1db15b815fb4bd6920fc5"
-    sha256 cellar: :any,                 sonoma:        "d48c0d73840489fe500398d2a58cce5d112c62ccbd8ce1f294688a43562045fc"
-    sha256 cellar: :any,                 ventura:       "d48c0d73840489fe500398d2a58cce5d112c62ccbd8ce1f294688a43562045fc"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "0eebad2f551bf8639e8bb5eb9e52cc6cb97518d8902e06d712b80c517b1a4d46"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "94b147afe0b47f633a38f2055292a62dcfd78d7a31a4f336e7f84b29879d57f1"
+    sha256 cellar: :any,                 arm64_tahoe:   "deb69f1b659b48287c5596e77349528a9fc404e04fbe6153cd021048beb2b537"
+    sha256 cellar: :any,                 arm64_sequoia: "89c3a639d9ca0b3e41905428cfc31d955a3f32ab815b9b9773f3cfe90926bef6"
+    sha256 cellar: :any,                 arm64_sonoma:  "89c3a639d9ca0b3e41905428cfc31d955a3f32ab815b9b9773f3cfe90926bef6"
+    sha256 cellar: :any,                 sonoma:        "8e5012ad19cb5f96ae0cc069707c4aed80c8f9cb755a1c42482415ddfa334b57"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "bbb87981c1c5d1b74292f6f54b4b73d2696d6fdc27408d9e1ee6c5a1d97c6bd2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "59f76cda3a6f24146d7ad0ace05f72508e962044f09d85a1b5fdec8ce3e22c79"
   end
 
   depends_on "node"

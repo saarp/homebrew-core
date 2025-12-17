@@ -1,10 +1,14 @@
 class HaskellStack < Formula
   desc "Cross-platform program for developing Haskell projects"
   homepage "https://haskellstack.org/"
-  url "https://github.com/commercialhaskell/stack/archive/refs/tags/v3.7.1.tar.gz"
-  sha256 "e2ce0d053566634a426ba1916592dfcefe48bdebbfe6a0da07e23a79c0ed7759"
   license "BSD-3-Clause"
-  head "https://github.com/commercialhaskell/stack.git", branch: "master"
+
+  stable do
+    url "https://github.com/commercialhaskell/stack/archive/refs/tags/v3.7.1.tar.gz"
+    sha256 "e2ce0d053566634a426ba1916592dfcefe48bdebbfe6a0da07e23a79c0ed7759"
+
+    depends_on "ghc@9.8" => :build
+  end
 
   livecheck do
     url :stable
@@ -12,6 +16,7 @@ class HaskellStack < Formula
   end
 
   bottle do
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "af23e3d97a6a29edecd7d64cebe979329a4a1acb873e30fa9f3bb47469deebca"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "f3231702c5fcba9e516315148b1d002bd8a992b023a9c9d792e319e707c3fc49"
     sha256 cellar: :any_skip_relocation, arm64_sonoma:  "aa271a60946b01b795002384e6de6aec40e0b7183bb52210be9ff385845f4f75"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "0c53dca7b80ae751d1b41730be17e01a437cfca9a1118360f41566ed52434150"
@@ -21,10 +26,13 @@ class HaskellStack < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "8342bcb2b1b190c7f4278e29b2e91301024dbe884da0d865b756dc5ddd9b8f6e"
   end
 
+  head do
+    url "https://github.com/commercialhaskell/stack.git", branch: "master"
+
+    depends_on "ghc" => :build
+  end
+
   depends_on "cabal-install" => :build
-  # https://github.com/commercialhaskell/stack/issues/6625#issuecomment-2228087359
-  # https://github.com/commercialhaskell/stack/blob/master/stack-ghc-9.10.1.yaml#L4-L5
-  depends_on "ghc@9.8" => :build # GHC 9.10+ blocked by Cabal 3.12+ API changes
 
   uses_from_macos "zlib"
 

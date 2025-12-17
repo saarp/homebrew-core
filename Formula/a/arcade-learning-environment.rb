@@ -6,27 +6,30 @@ class ArcadeLearningEnvironment < Formula
   url "https://github.com/Farama-Foundation/Arcade-Learning-Environment/archive/refs/tags/v0.11.2.tar.gz"
   sha256 "d6ac9406690bb3533b37a99253bdfc59bc27779c5e1b6855c763d0b367bcbf96"
   license "GPL-2.0-only"
-  revision 1
+  revision 2
   head "https://github.com/Farama-Foundation/Arcade-Learning-Environment.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "f9e5141de4537f42e665272622bb1e80101e56835fe96e4461e1e34ee30ed1dc"
-    sha256 cellar: :any,                 arm64_ventura: "4690459baaa900a92ca12148fc9b903255cfaebb8010618f7b49a6b3628f29c9"
-    sha256 cellar: :any,                 sonoma:        "5e790225d13f8530a2a1faf055fdb0896efb4327b453ebca625cbc7ed3b017c8"
-    sha256 cellar: :any,                 ventura:       "8a4113efcf0febc8c2b4fe874147a76758d91c4bd5b04ddc225d491a33b71e48"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8b815daf069ea26c41d3952945a69abe6c75e721171b2dae63f59319da11c561"
+    sha256 cellar: :any,                 arm64_tahoe:   "20c6169c99eae1ec8c5b84f3aa476b3698aabe8e53fc55467df6c919f3d2a37c"
+    sha256 cellar: :any,                 arm64_sequoia: "90dd63ee68a79e84f56eea3b497d9aec024b85a688b61e478a21ccd9fda1fdbc"
+    sha256 cellar: :any,                 arm64_sonoma:  "2843789ab3abd613b3d7e362d77233e583f32e99e1d9621b3c8aca1db573feda"
+    sha256 cellar: :any,                 sonoma:        "109c69ebaef2cb4fe7c89891b2129ea6314802bc3e2ea7d72652b97bad0bc82c"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "8c5a11b87cd65e6f331ecda5a1398f8188ee2839842d449fd7dc1193085d91fc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6f5589a69518c79a98c0d33ba3276055954516932f6c4d8c35ae74be8d5ed128"
   end
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "pybind11" => :build
-  depends_on macos: :catalina # requires std::filesystem
   depends_on "numpy"
   depends_on "opencv"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
   depends_on "sdl2"
 
   uses_from_macos "zlib"
+
+  pypi_packages exclude_packages: "numpy",
+                extra_packages:   "gymnasium"
 
   # See https://github.com/Farama-Foundation/Arcade-Learning-Environment/blob/master/scripts/download_unpack_roms.sh
   resource "roms" do
@@ -45,17 +48,17 @@ class ArcadeLearningEnvironment < Formula
   end
 
   resource "gymnasium" do
-    url "https://files.pythonhosted.org/packages/fd/17/c2a0e15c2cd5a8e788389b280996db927b923410de676ec5c7b2695e9261/gymnasium-1.2.0.tar.gz"
-    sha256 "344e87561012558f603880baf264ebc97f8a5c997a957b0c9f910281145534b0"
+    url "https://files.pythonhosted.org/packages/b3/de/b923d09654df8f8ee29a3cc7ec7829ac057efd0d969cc3da0c8a7b219d59/gymnasium-1.2.1.tar.gz"
+    sha256 "4e6480273528523a90b3db99befb6111b13f15fa0866de88c4b675770495b66c"
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/98/5a/da40306b885cc8c09109dc2e1abd358d5684b1425678151cdaed4731c822/typing_extensions-4.14.1.tar.gz"
-    sha256 "38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"
+    url "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz"
+    sha256 "0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"
   end
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def install

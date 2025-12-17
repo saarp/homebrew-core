@@ -10,39 +10,36 @@
 class Mutt < Formula
   desc "Mongrel of mail user agents (part elm, pine, mush, mh, etc.)"
   homepage "http://www.mutt.org/"
-  url "https://bitbucket.org/mutt/mutt/downloads/mutt-2.2.14.tar.gz"
-  sha256 "d162fb6d491e3af43d6f62f949b7e687bb0c7c2584da52c99a99354a25de14ef"
+  url "http://ftp.mutt.org/pub/mutt/mutt-2.2.16.tar.gz"
+  sha256 "1d3109a743ad8b25eef97109b2bdb465db7837d0a8d211cd388be1b6faac3f32"
   license "GPL-2.0-or-later"
 
   # Livecheck uses GitLab tags to determine current version.
   # They all have `-rel` suffix which needs to be omitted.
-  #
-  # BitBucket strategy doesn't work for some reason.
   livecheck do
     url "https://gitlab.com/muttmua/mutt.git"
     regex(/^mutt[._-]v?(\d+(?:-\d+)+)-rel$/i)
   end
 
   bottle do
-    sha256 arm64_sequoia: "e11bd2be69fee9b5c24190699cf2318559ca0cda04520ae1845a5512e0fcd843"
-    sha256 arm64_sonoma:  "b5ef0c774e2c1926a13345f73f2f6370aa28d54bd4dfff553f945fb7f9ab7858"
-    sha256 arm64_ventura: "da5fc14cf6e06faab09da46efbea32504378573518a19f58645809f80d2e7781"
-    sha256 sonoma:        "a2b125aa772f366ed34ee8da0d71565e88334f0dadc37c10513f358fc0c4d106"
-    sha256 ventura:       "a17770bc4c28b5f01f213145fc6f78967616b8dd4b4b95839935981d9f00b058"
-    sha256 arm64_linux:   "9ba607d24fa2463909af8d212233024e9c3c7fde6868bc8a2ea3c901d68d9e18"
-    sha256 x86_64_linux:  "17374083e28fb5d5bad686eb2c301a0f37bf49e46c8bcd30c5a04cc90c8c79ee"
+    sha256 arm64_tahoe:   "06ea8391b928c80af89ebd9a2a2a7453c68a96f2354caf3339897ea53675c0f1"
+    sha256 arm64_sequoia: "de913ddba41e3f6a1d0819a62bf65945dc3025869565e42358de41a0ce5d61df"
+    sha256 arm64_sonoma:  "10ef4e94a3371d85349b09d1131bc3bf995f0bb72a32c2c1b2da129aa6935991"
+    sha256 sonoma:        "3e41590dfed3a0e80fbd5edbb741912a6f9d9da22d78378a727af2108da52cb1"
+    sha256 arm64_linux:   "44ae949e70e0fd867ac5a36d26dedeaee7e0c867feaff1cd2978d82d348853dd"
+    sha256 x86_64_linux:  "363d6627599998ada6b02599e4e8587fa35e66c8c9fc3df9a40885b19ce4939d"
   end
 
   head do
     url "https://gitlab.com/muttmua/mutt.git", branch: "master"
 
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+
     resource "html" do
       url "https://muttmua.gitlab.io/mutt/manual-dev.html"
     end
   end
-
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
 
   depends_on "gpgme"
   depends_on "libgpg-error"
@@ -82,7 +79,8 @@ class Mutt < Formula
       --with-tokyocabinet
     ]
 
-    system "./prepare", *args, *std_configure_args
+    configure = build.head? ? "./prepare" : "./configure"
+    system configure, *args, *std_configure_args
     system "make"
 
     # This permits the `mutt_dotlock` file to be installed under a group

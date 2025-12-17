@@ -1,19 +1,19 @@
 class PhraseCli < Formula
   desc "Tool to interact with the Phrase API"
   homepage "https://phrase.com/"
-  url "https://github.com/phrase/phrase-cli/archive/refs/tags/2.44.0.tar.gz"
-  sha256 "72f84cbabc358584302427e1a6d38a8106833d52d0ebc895bda18c7c8dc2ae0d"
+  url "https://github.com/phrase/phrase-cli/archive/refs/tags/2.52.0.tar.gz"
+  sha256 "6f62986a31e700c7fba8431df3421aa678571c1e942a7533c6b60371cb355fad"
   license "MIT"
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8f7cc421dfbb934d00aa95e26e31796de67dbc2841f5ee3dfd32a7417b207fba"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "8f7cc421dfbb934d00aa95e26e31796de67dbc2841f5ee3dfd32a7417b207fba"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8f7cc421dfbb934d00aa95e26e31796de67dbc2841f5ee3dfd32a7417b207fba"
-    sha256 cellar: :any_skip_relocation, sonoma:        "974a8855cc20c34a6f445a56dca33e71981703ba903b9b9e3dcff98fe200d3ec"
-    sha256 cellar: :any_skip_relocation, ventura:       "974a8855cc20c34a6f445a56dca33e71981703ba903b9b9e3dcff98fe200d3ec"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "62b1df332f5e63fdbc508860f0b9f380275fd1d3735967a084283097874dd80d"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "53671ad6f0c8ebed4b7bdcf97f840572f8aa3906248fc137ab0db95140cb1f78"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "53671ad6f0c8ebed4b7bdcf97f840572f8aa3906248fc137ab0db95140cb1f78"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "53671ad6f0c8ebed4b7bdcf97f840572f8aa3906248fc137ab0db95140cb1f78"
+    sha256 cellar: :any_skip_relocation, sonoma:        "c18d6db94264a1362b52c1ffee4aae881b81db2afe82a52ae4f3f14515d465d6"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "e9ef38fdd9a4d0698207f8d6ac0e3873907d66e40311bb62dcca7fe933d1523c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fd9b306919074818ce3ca7d71ed48987b601d0f97d101888ba5e4bc80a7f0530"
   end
 
   depends_on "go" => :build

@@ -2,8 +2,8 @@ class Flyctl < Formula
   desc "Command-line tools for fly.io services"
   homepage "https://fly.io"
   url "https://github.com/superfly/flyctl.git",
-      tag:      "v0.3.161",
-      revision: "db4d3b0282693e9fcb29e115ec1bdfbbb371addd"
+      tag:      "v0.3.232",
+      revision: "8702b3bc086867d6f72218d1a5baf7cf0b959915"
   license "Apache-2.0"
   head "https://github.com/superfly/flyctl.git", branch: "master"
 
@@ -18,13 +18,12 @@ class Flyctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a8e488776f3110c20c86f2ea56d7218b8ac83d44d9df3f253d8896681f20e540"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a8e488776f3110c20c86f2ea56d7218b8ac83d44d9df3f253d8896681f20e540"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a8e488776f3110c20c86f2ea56d7218b8ac83d44d9df3f253d8896681f20e540"
-    sha256 cellar: :any_skip_relocation, sonoma:        "298dc6de1ab513a424c41ebd9feac6c99bd0a816462c5638df126a1af0196625"
-    sha256 cellar: :any_skip_relocation, ventura:       "298dc6de1ab513a424c41ebd9feac6c99bd0a816462c5638df126a1af0196625"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "1ecb9877ae7bb5e8fe2ac6f1855bf71af0ca16cb7bf37ce50489e869865c039e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ba87905c6494867fbff195d3980ecd32826baed2dfc4a64e0552fa1f4647f471"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "2679235bcea85c96ba38f017d5d82ce350adfd30ba60664125c26dd088ee907e"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "2679235bcea85c96ba38f017d5d82ce350adfd30ba60664125c26dd088ee907e"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "2679235bcea85c96ba38f017d5d82ce350adfd30ba60664125c26dd088ee907e"
+    sha256 cellar: :any_skip_relocation, sonoma:        "1bd0e1edaf416561914e0c195a3ff4ce450cf1c26239d7a54326582cb2624dc9"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f3ed7975a72e51ca6d0ada664b5eacd59a75f0b37c38d9f510152fb370f4c225"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5ddb2e6c1477b800ea8d260f9d42e3a647447ffe93f820b8df642f8493c9e326"
   end
 
   depends_on "go" => :build
@@ -50,5 +49,12 @@ class Flyctl < Formula
 
     flyctl_status = shell_output("#{bin}/flyctl status 2>&1", 1)
     assert_match "Error: No access token available. Please login with 'flyctl auth login'", flyctl_status
+
+    json = <<~JSON
+      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26"}}
+      {"jsonrpc":"2.0","id":2,"method":"tools/list"}
+    JSON
+
+    assert_match "Create a new Fly.io app", pipe_output("#{bin}/flyctl mcp server", json, 0)
   end
 end

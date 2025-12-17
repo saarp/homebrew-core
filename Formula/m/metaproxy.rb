@@ -4,6 +4,7 @@ class Metaproxy < Formula
   url "https://ftp.indexdata.com/pub/metaproxy/metaproxy-1.22.1.tar.gz"
   sha256 "d67a9f7fc9d36ccea8c4770c96c4ae2bc4250f484f941cbeec2a11695ec8d7b8"
   license "GPL-2.0-or-later"
+  revision 3
 
   # The homepage doesn't link to the latest source file, so we have to check
   # the directory listing page directly.
@@ -13,13 +14,12 @@ class Metaproxy < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "cc491840e22486538a41b371ddf6f4ccb8a5d979319fb5b80d8b135b20cef13d"
-    sha256 cellar: :any,                 arm64_sonoma:  "b6d34b512fbfde767f33c8f0481db3d9bce926b3fa8e243ddf33ddae776e1db2"
-    sha256 cellar: :any,                 arm64_ventura: "c4f1b360f83e40c4bddda2a33765cfa9a889fb15e604d02924edc4b1a6b0da28"
-    sha256 cellar: :any,                 sonoma:        "678f0f79e1f5c7b0dda4140c2e769b5ba31a7b409ef98ff042125794aee119ff"
-    sha256 cellar: :any,                 ventura:       "d419856bdf031a9d82300b4e1d07711a2716ad6cc4bf7cca8dba4f5c3381f347"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "84c0c0ccfd26ca56b7a4b07a2a593509ec3f3340e2d75e54e758df8c1d8af4a8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f942530680f0423e8faa116c235631349055ba5afa9b021352b582caf593bf0e"
+    sha256 cellar: :any,                 arm64_tahoe:   "f14fa4d6ea346f7e3e2b90c71d8679a598956497304f7c5ae4eb130d383d2205"
+    sha256 cellar: :any,                 arm64_sequoia: "ca8dbb7a8d52e82d5df2d6c64fdaf9ed908db26d8eb4259c023fb28958e90754"
+    sha256 cellar: :any,                 arm64_sonoma:  "2c7303f53ffdaa10fcb15af1a95eee8e99df4a517d2a3d861ac27d4481452a79"
+    sha256 cellar: :any,                 sonoma:        "5d84218f0e6984fa70ed4166d863043623083ca97a9b11bca3e64764587431e8"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9ef38bcc069a2e3dbd538259e582a3f45d17cee08cecd8a0997d4ff4f665c633"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d07a86c33e951d08458bf41cdbba595b8e8f210d23e1132507114dcdbaea4e39"
   end
 
   depends_on "pkgconf" => :build

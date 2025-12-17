@@ -1,8 +1,8 @@
 class Micromamba < Formula
   desc "Fast Cross-Platform Package Manager"
   homepage "https://github.com/mamba-org/mamba"
-  url "https://github.com/mamba-org/mamba/archive/refs/tags/2.3.0.tar.gz"
-  sha256 "671432a2b64719baba54c9efda3662d321a1cc9ff3eba49047b83ffda9acf661"
+  url "https://github.com/mamba-org/mamba/archive/refs/tags/2.4.0.tar.gz"
+  sha256 "a49646eadb913d5c761e316dfcb9f277278c5fd99fc2851d06e4bcf00f1c1412"
   license "BSD-3-Clause"
   head "https://github.com/mamba-org/mamba.git", branch: "main"
 
@@ -14,13 +14,12 @@ class Micromamba < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "d1db7510ebc7520fbac4d5b645ae225ca6995118fc814297eef71bc0c6fa2fae"
-    sha256 cellar: :any,                 arm64_sonoma:  "dc6e9cdbca7699214acef54cf812ddf88fc9b42e875318613951f2782d0a05c5"
-    sha256 cellar: :any,                 arm64_ventura: "acb7151ed7cb3c8dff85e3900d0d28d4627e56f32064f35b8cb04c20776bd4cd"
-    sha256 cellar: :any,                 sonoma:        "37bbfa7a9b2a29d1ff0fd6181333410a0497c0cb15af2d190ae2a7699c036e6c"
-    sha256 cellar: :any,                 ventura:       "cfe7699fe65306d4164468c80fe4961ed598e6dc8ac6d22e3f367794e6e7cba2"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "b03da1f11c51a5bec1d7b0fb1c20e9d0928a72d2d7636cbaacb4ca06df05927b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "477a6db697c772293935161277569dff71b0f1371b0e4cbe25d8d22a48b0670b"
+    sha256 cellar: :any,                 arm64_tahoe:   "ea114ed7a87ea39d8a7ec4581e9b87dc47d50af31098190fcba45aa81efcb60a"
+    sha256 cellar: :any,                 arm64_sequoia: "b7d7ae6a51ba2299e18a779e9e0e9fd7b0dd5a4f07eef5a5dd378cefd848266b"
+    sha256 cellar: :any,                 arm64_sonoma:  "b944f17c24c151c158bcf0f5d41b5d8b3edda3e58c06c0eca9e5b8f481f0e46b"
+    sha256 cellar: :any,                 sonoma:        "ddfc17d46b2ccf804717631e41ca9b00943c57fd05081cb7c4d2b3a572105109"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "684ca0889ab766be4d4cf0312590868e2c276edffdb8ef612a25cffbab2ff6fb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9a14e61df1f7ddfaa170bf0e5b165a9f4f63c55348d7c16bc68126c009d4430d"
   end
 
   depends_on "cli11" => :build
@@ -48,7 +47,7 @@ class Micromamba < Formula
   uses_from_macos "zlib"
 
   on_macos do
-    depends_on "llvm" if DevelopmentTools.clang_build_version <= 1600
+    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1600
   end
 
   fails_with :clang do
@@ -57,14 +56,7 @@ class Micromamba < Formula
   end
 
   def install
-    if OS.mac? && DevelopmentTools.clang_build_version <= 1600
-      ENV.llvm_clang
-
-      # Needed in order to find the C++ standard library
-      # See: https://github.com/Homebrew/homebrew-core/issues/178435
-      ENV.prepend "LDFLAGS", "-L#{Formula["llvm"].opt_lib}/unwind -lunwind"
-      ENV.prepend_path "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib/"c++"
-    end
+    ENV.llvm_clang if OS.mac? && DevelopmentTools.clang_build_version <= 1600
 
     args = %W[
       -DBUILD_LIBMAMBA=ON

@@ -1,8 +1,8 @@
 class ImmichGo < Formula
   desc "Alternative to the official immich-CLI command written in Go"
   homepage "https://github.com/simulot/immich-go"
-  url "https://github.com/simulot/immich-go/archive/refs/tags/v0.27.0.tar.gz"
-  sha256 "8ba4a21d3b69d6543cd4445d4a7c4a05facb53bb9c3666400c11543b7c4a5bbf"
+  url "https://github.com/simulot/immich-go/archive/refs/tags/v0.31.0.tar.gz"
+  sha256 "b24fd12f28d9691853cae1f48ff846b33794a36a4d356912060d019314789fd4"
   license "AGPL-3.0-only"
   head "https://github.com/simulot/immich-go.git", branch: "main"
 
@@ -12,12 +12,12 @@ class ImmichGo < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "44aecd18a7d5aa28cb087bcb83072d1d02c4be22b7cf8e09a5de65b019a997c4"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "67b1d74ac9c887a5b51073e6c9fc848f7cacd3d57bedd750ce0746ed02b90b88"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "e9ae40632254cf4468eae608027a1878009d6fe8d792ce426ef0cefffe1033b9"
-    sha256 cellar: :any_skip_relocation, sonoma:        "b32ebf9191cf0bc2191652f4ed515042ff4445ea3c74956d33521e3e211bb5f9"
-    sha256 cellar: :any_skip_relocation, ventura:       "a85787447194b9e3c55c2e73df40febcff878d37b7f03454c6310fa9fe887a48"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6c4347078464fcb848c52126f27129f3baf780ed4c06f9ab4a8baf70a25bf38c"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "d921b5c5a96b8797f29f37ea80f35e96fd3322585b87cd98d6cd378379780e04"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d921b5c5a96b8797f29f37ea80f35e96fd3322585b87cd98d6cd378379780e04"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "d921b5c5a96b8797f29f37ea80f35e96fd3322585b87cd98d6cd378379780e04"
+    sha256 cellar: :any_skip_relocation, sonoma:        "be6741530f0e6350b1bcfc51612524fb79dfc0160cf7dff5dc6659d587f92768"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "1090d16b91b9f6abcbdd2a94582727bde6ab378b916f70e7ef2d9b413ed2bf77"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4ede3d32fc5faf80f2237b25fe2971d1b4a69aa91b1c8c618a53f7c9d6ae5797"
   end
 
   depends_on "go" => :build

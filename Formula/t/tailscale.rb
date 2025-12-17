@@ -2,8 +2,8 @@ class Tailscale < Formula
   desc "Easiest, most secure way to use WireGuard and 2FA"
   homepage "https://tailscale.com"
   url "https://github.com/tailscale/tailscale.git",
-      tag:      "v1.84.2",
-      revision: "5f702f4c2babf95e4244ce0dafbb7a50b52c1fc8"
+      tag:      "v1.92.3",
+      revision: "9a08e8f1c2021d5c85895e660cf01d8bb1bc9df0"
   license "BSD-3-Clause"
 
   livecheck do
@@ -13,17 +13,17 @@ class Tailscale < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "9160e50845fa2b6bfe1ad6d33be4349ab1dae1b632cc962e1cf4a8128abc68a1"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3558192ebdb84c37f3bdd6e08f629dafbeeb03d38f04baa1fe788fe7fa2ea6bf"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "c65e0420dce23b74e6fb00263f5997bbdbf9e4221aa359d53661793b8611a758"
-    sha256 cellar: :any_skip_relocation, sonoma:        "0b465add3482295922e12702955f16919f3a3c16dcdd7a774214dbbc058a7f45"
-    sha256 cellar: :any_skip_relocation, ventura:       "903319b68a8a065f1e1beb2b39a7817e216b67216f6deeb1a028a02313b526ad"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d7e4fd4101b52ce2a5fd6a59b06e181910d6fbac5412e7327d691214f40488db"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "8b522802056b79c93db39396c706b98b2465890e43bce9009d5554b3d8016844"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d7670a838bd39c079434fc34020846fa2c950b286793811414da740958b9b8ec"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "bda881eb9be29e8e4e234225ba8dd748d58bc411337fe8a20265ea0995eb5775"
+    sha256 cellar: :any_skip_relocation, sonoma:        "8268cbff3181971301093b289d699a67db989b873aa1bfa02563037f1b307b46"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "b484bfebabf3295a45f229b319ea3715d44e0c72e8f9099ce8eabbb9aa9c0c52"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1770121c122e062de034c24fcba003349bedb4a953645fd0064ee039428f2bda"
   end
 
   depends_on "go" => :build
 
-  conflicts_with cask: "tailscale"
+  conflicts_with cask: "tailscale-app"
 
   def install
     vars = Utils.safe_popen_read("./build_dist.sh", "shellvars")

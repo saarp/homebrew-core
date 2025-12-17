@@ -2,8 +2,8 @@ class StellarCore < Formula
   desc "Backbone of the Stellar (XLM) network"
   homepage "https://www.stellar.org/"
   url "https://github.com/stellar/stellar-core.git",
-      tag:      "v22.4.1",
-      revision: "5d4528c331c553ccd8963ece9b0fbdd41efd43cb"
+      tag:      "v25.0.0",
+      revision: "e9748b05a70d613437a52c8388dc0d8e68149394"
   license "Apache-2.0"
   head "https://github.com/stellar/stellar-core.git", branch: "master"
 
@@ -16,13 +16,12 @@ class StellarCore < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "860254d33a2d578f583c16c50d2e49a7b0dc4adb28f509c3e9584208d79581e2"
-    sha256 cellar: :any,                 arm64_sonoma:  "5b50abf0563e5fcd1501dca761b9dab2634529ed5bf0fc3592de4157964027db"
-    sha256 cellar: :any,                 arm64_ventura: "004ec4897d6da078d4bcaffaeb6c85b078befee011a43dc972faa6ecb524f5a7"
-    sha256 cellar: :any,                 sonoma:        "2ba9ace590045400a3fbf695f2f2d1ac79cd5f980a4f19bdc8cb2aabd9c27034"
-    sha256 cellar: :any,                 ventura:       "ff13f56530c6a55b32e7150b46956b790909f7e383dcb4d5f6b943cad3d73b5b"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "f54889e142ef87bc90de29ed2f43a97ba7defb965cf26c6f5a73081e0b1eb7c7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7912218dda9cb3797c1d64432136cffbfd2809d684f52ea2371683c40ae2e2a5"
+    sha256 cellar: :any,                 arm64_tahoe:   "59ecfaa7c5b3690057171688e4c60a29375ba48ea7c31d8d40bf1c6814b00ee5"
+    sha256 cellar: :any,                 arm64_sequoia: "f4bbbf71e52d535c4d0ea29ff262d5b2337eb4e31abb6c5282609a6e900ed918"
+    sha256 cellar: :any,                 arm64_sonoma:  "e0f0852df10b69844f76638d9d6b1a1c25a9d0a4add1df1a5ee57c4b69f2b92b"
+    sha256 cellar: :any,                 sonoma:        "ea14435949b4634860861a18f39dee4cff9856f725396ae0246d4f34936d143e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "ecb7ce061ac73fb8cf5b2ecac9388d5c14296cd2e4169884e99feeaebe2b32f1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b11fd04fb7f4ac9a898eaa10e9b8851d277b2a03461a608d37b2d2c64d6d8b4f"
   end
 
   depends_on "autoconf" => :build
@@ -35,7 +34,6 @@ class StellarCore < Formula
   depends_on "libpq"
   depends_on "libpqxx"
   depends_on "libsodium"
-  depends_on macos: :catalina # Requires C++17 filesystem
 
   uses_from_macos "flex" => :build
 

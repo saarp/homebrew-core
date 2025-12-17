@@ -1,18 +1,17 @@
 class AtSpi2Core < Formula
   desc "Protocol definitions and daemon for D-Bus at-spi"
   homepage "https://www.freedesktop.org/wiki/Accessibility/AT-SPI2/"
-  url "https://download.gnome.org/sources/at-spi2-core/2.56/at-spi2-core-2.56.3.tar.xz"
-  sha256 "0e41e1fc6a1961b38b4f9c0bea64bad30efff75949b7cdb988d2f2fdab72267a"
+  url "https://download.gnome.org/sources/at-spi2-core/2.58/at-spi2-core-2.58.2.tar.xz"
+  sha256 "a2823b962ed16cdd5cb1fc5365029fd218394d852acd4098b321854bd6692f6e"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 arm64_sequoia: "e6ce3d11b86f1f11c7193f3335f3697676759abad4b01d8824a6162cbd006c2e"
-    sha256 arm64_sonoma:  "b4e86dbc5d2b1243309fc25794758d8f0d40b50789e364367920833a65090121"
-    sha256 arm64_ventura: "c510ba1771adda6e3a88be7a3784e7bd695ca606bd80a19dc55ab9848f33f5fd"
-    sha256 sonoma:        "7411120d55974056aee8f75317cc2fc215fda4bbe0be9899f60a1059c2f17fa1"
-    sha256 ventura:       "5f3012bcca8189bb7ca69a68ed49cd1eef7b4de8de75d4467750324ef99192f1"
-    sha256 arm64_linux:   "bae92fd43f2717d258787355128f6c4b26dc95a6528bd43b51499e8f884cdaf0"
-    sha256 x86_64_linux:  "d5121ca9b226f8d5ffd499acb5c04bd0d4650d3e2b87f7621546ebff2dc27a8a"
+    sha256 arm64_tahoe:   "8b79f2c4fa9bde2418bc4970197b9aa19cca6e7ed1723fddff9972702a4c85c9"
+    sha256 arm64_sequoia: "c93fb47b0f426a9f111495e3576c0ce3179b60e6321e4b109311d63a35cd7087"
+    sha256 arm64_sonoma:  "6143655ee4251d92af8f4480efc98ccafafe7c62fcffab665d95e1446da06d75"
+    sha256 sonoma:        "019329d38025c2ce6f2f2704fbdc49825d6d02bcf233261ab7d46ce69a04be63"
+    sha256 arm64_linux:   "6a1ddca14412925c33747714c34d46ed9b6b741f2df823c24bbb3775f3c10233"
+    sha256 x86_64_linux:  "7cbd9c2e42caf42100477d2a3101f8780cfe658035f54e0c35e62765ba9cca80"
   end
 
   depends_on "gettext" => :build
@@ -20,21 +19,27 @@ class AtSpi2Core < Formula
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkgconf" => [:build, :test]
+  depends_on "xorgproto" => :build
 
   depends_on "dbus"
   depends_on "glib"
   depends_on "libx11"
   depends_on "libxi"
   depends_on "libxtst"
-  depends_on "xorgproto"
 
-  uses_from_macos "libxml2"
+  uses_from_macos "libxml2" => :build
 
   on_macos do
     depends_on "gettext"
   end
 
   def install
+    if OS.linux?
+      # Work around brew not adding dependencies of build dependencies to PKG_CONFIG_PATH
+      icu4c_dep = Formula["libxml2"].deps.find { |dep| dep.name.match?(/^icu4c(@\d+)?$/) }
+      ENV.append_path "PKG_CONFIG_PATH", icu4c_dep.to_formula.opt_lib/"pkgconfig"
+    end
+
     system "meson", "setup", "build", *std_meson_args
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"

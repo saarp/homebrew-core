@@ -1,8 +1,8 @@
 class Psalm < Formula
   desc "PHP Static Analysis Tool"
   homepage "https://psalm.dev"
-  url "https://github.com/vimeo/psalm/releases/download/6.13.0/psalm.phar"
-  sha256 "5c39a7782450f889c8c2a60cd4942d70939df9ae703f4c0a19d60823159f08e7"
+  url "https://github.com/vimeo/psalm/releases/download/6.14.1/psalm.phar"
+  sha256 "019dcf6f7a60995b2ce8e538d5040491f54315177ceb71c57ec8d355ae327891"
   license "MIT"
 
   livecheck do
@@ -11,13 +11,7 @@ class Psalm < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "dac4b95687bf8973e21b5e9c57014def99b69f4f3722300630c2547d688c1290"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "dac4b95687bf8973e21b5e9c57014def99b69f4f3722300630c2547d688c1290"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "dac4b95687bf8973e21b5e9c57014def99b69f4f3722300630c2547d688c1290"
-    sha256 cellar: :any_skip_relocation, sonoma:        "1b5439a1081af205c9eee6365186d01455059cf123b85095e238c41332e30cb1"
-    sha256 cellar: :any_skip_relocation, ventura:       "1b5439a1081af205c9eee6365186d01455059cf123b85095e238c41332e30cb1"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "dac4b95687bf8973e21b5e9c57014def99b69f4f3722300630c2547d688c1290"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dac4b95687bf8973e21b5e9c57014def99b69f4f3722300630c2547d688c1290"
+    sha256 cellar: :any_skip_relocation, all: "f2c5fbf357568f7da74600c8393995a876829bdbadf318a5b50f235b9345f23b"
   end
 
   depends_on "composer" => :test
@@ -33,10 +27,10 @@ class Psalm < Formula
   def install
     libexec.install "psalm.phar" => "psalm"
 
-    (bin/"psalm").write <<~EOS
+    (bin/"psalm").write <<~PHP
       #!#{Formula["php"].opt_bin}/php
       <?php require '#{libexec}/psalm';
-    EOS
+    PHP
   end
 
   test do

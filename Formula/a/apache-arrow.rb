@@ -1,23 +1,29 @@
 class ApacheArrow < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://www.apache.org/dyn/closer.lua?path=arrow/arrow-20.0.0/apache-arrow-20.0.0.tar.gz"
-  mirror "https://archive.apache.org/dist/arrow/arrow-20.0.0/apache-arrow-20.0.0.tar.gz"
-  sha256 "89efbbf852f5a1f79e9c99ab4c217e2eb7f991837c005cba2d4a2fbd35fad212"
   license "Apache-2.0"
-  revision 2
+  revision 1
   head "https://github.com/apache/arrow.git", branch: "main"
 
-  no_autobump! because: :requires_manual_review
+  stable do
+    url "https://www.apache.org/dyn/closer.lua?path=arrow/arrow-22.0.0/apache-arrow-22.0.0.tar.gz"
+    mirror "https://archive.apache.org/dist/arrow/arrow-22.0.0/apache-arrow-22.0.0.tar.gz"
+    sha256 "131250cd24dec0cddde04e2ad8c9e2bc43edc5e84203a81cf71cf1a33a6e7e0f"
+
+    # Backport fix for `ARROW_SIMD_LEVEL=NONE`
+    patch do
+      url "https://github.com/apache/arrow/commit/00245cc802bc3be9a9cd169017f285586483fbb5.patch?full_index=1"
+      sha256 "fb692196f928401bb8aca93f9a7af7e028f65705c170f31a300728b041a07a71"
+    end
+  end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "0b5e6bec418b8d476409844acdead4773e6b4ca38be74346cc0d8a4c1f5d3c0a"
-    sha256 cellar: :any,                 arm64_sonoma:  "e196dbb52845147898bd7ddd873258e414097dc838526e590e0556f6de553502"
-    sha256 cellar: :any,                 arm64_ventura: "17b97a1ac6a3dc3509624294fa78135ba1808f68a32ac2d4c447237d335d5bd6"
-    sha256 cellar: :any,                 sonoma:        "947d25d7c7b2d056edc4334c301ad0f0859a020e7292afa3053f6bf159dcea3b"
-    sha256 cellar: :any,                 ventura:       "9625295df585e4c99643a645e2a9e50be0b9717e2076f75537bd710322867f14"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "027d737202ff80afe6ed0952fc5822732c47bb01f46de4a01deea999ad068e54"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d548a9aa85cf48096938825ce583fdb44d303d5eede2ea3bd14d891ac350dfe4"
+    sha256 cellar: :any, arm64_tahoe:   "2fa06988f94fcc06f9c31a3ad785276d260776c9b9e85fac18bdbc0f1c8daffa"
+    sha256 cellar: :any, arm64_sequoia: "2bc99aef0ae9f336eed981d92c5458360e402e0c3e2b842465a0b5c72d1b2a9c"
+    sha256 cellar: :any, arm64_sonoma:  "d36687dcf1bb6b1f47e0144e634ffbf6e2f6efb042057a1bb42b9c7b2c6502b8"
+    sha256 cellar: :any, sonoma:        "3bcfd83bdec667a867eeff99ca48ee6d25d2eed08f71a5183a87b2365009b416"
+    sha256               arm64_linux:   "0130c2c6619dc43c126f0dae657c9abb31a8c48181122117c29221d2217581c8"
+    sha256               x86_64_linux:  "2d1760f034a70cccde5ae05b939b79381ff92250161042f62cd2a00a058bf4b1"
   end
 
   depends_on "boost" => :build
@@ -44,15 +50,7 @@ class ApacheArrow < Formula
   uses_from_macos "bzip2"
   uses_from_macos "zlib"
 
-  # Issue ref: https://github.com/protocolbuffers/protobuf/issues/19447
-  fails_with :gcc do
-    version "12"
-    cause "Protobuf 29+ generated code with visibility and deprecated attributes needs GCC 13+"
-  end
-
   def install
-    ENV.llvm_clang if OS.linux?
-
     # We set `ARROW_ORC=OFF` because it fails to build with Protobuf 27.0
     args = %W[
       -DCMAKE_INSTALL_RPATH=#{rpath}
@@ -83,8 +81,11 @@ class ApacheArrow < Formula
       -DPARQUET_BUILD_EXECUTABLES=ON
     ]
     args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?
-    # Reduce overlinking. Can remove on Linux if GCC 11 issue is fixed
-    args << "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,#{OS.mac? ? "-dead_strip_dylibs" : "--as-needed"}"
+    args << if OS.mac?
+      "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-dead_strip_dylibs" # Reduce overlinking
+    else
+      "-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON" # Avoid versioned LLVM RPATH getting dropped
+    end
     # ARROW_SIMD_LEVEL sets the minimum required SIMD. Since this defaults to
     # SSE4.2 on x86_64, we need to reduce level to match oldest supported CPU.
     # Ref: https://arrow.apache.org/docs/cpp/env_vars.html#envvar-ARROW_USER_SIMD_LEVEL
@@ -98,8 +99,6 @@ class ApacheArrow < Formula
   end
 
   test do
-    ENV.method(DevelopmentTools.default_compiler).call if OS.linux?
-
     (testpath/"test.cpp").write <<~CPP
       #include "arrow/api.h"
       int main(void) {

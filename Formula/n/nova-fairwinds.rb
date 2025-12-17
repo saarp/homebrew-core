@@ -1,21 +1,23 @@
 class NovaFairwinds < Formula
   desc "Find outdated or deprecated Helm charts running in your cluster"
   homepage "https://github.com/FairwindsOps/nova"
-  url "https://github.com/FairwindsOps/nova/archive/refs/tags/v3.11.6.tar.gz"
-  sha256 "b97ee64a429667411e00e6075ca204bf1b65bca499f00b6b468cd5391383b630"
+  url "https://github.com/FairwindsOps/nova/archive/refs/tags/v3.11.10.tar.gz"
+  sha256 "a32f1b00ba808d906648e806f9d1e1102d4e7118230dbbd3ece5c7511b3ae84f"
   license "Apache-2.0"
   head "https://github.com/FairwindsOps/nova.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "3d4ff2b8735799119fa2ca51b8ad0ba69c44bad887edd61d1901834d23bd0111"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3d4ff2b8735799119fa2ca51b8ad0ba69c44bad887edd61d1901834d23bd0111"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "3d4ff2b8735799119fa2ca51b8ad0ba69c44bad887edd61d1901834d23bd0111"
-    sha256 cellar: :any_skip_relocation, sonoma:        "83e2d2fa125fadcdc32b5ef3d8d61b11b0b9a83422ab16e881f84b0dee184943"
-    sha256 cellar: :any_skip_relocation, ventura:       "83e2d2fa125fadcdc32b5ef3d8d61b11b0b9a83422ab16e881f84b0dee184943"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "96de080d425d1caca170095ce428982cf2742f1f9d36b2b2a163e50bf01ab626"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "b56ea2cff008a496f6d00b5a6c341781b58629e40b483f0e959f22bbb3b28964"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b56ea2cff008a496f6d00b5a6c341781b58629e40b483f0e959f22bbb3b28964"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "b56ea2cff008a496f6d00b5a6c341781b58629e40b483f0e959f22bbb3b28964"
+    sha256 cellar: :any_skip_relocation, sonoma:        "2222a870301afe85a2f9630b42aab9b6e8a54d7d6b833a10731001270628e9da"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "c43d72312a2cdbed0f8502855f1e4a4813bfec542e85fe7bab1cd2a1368fa29a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e9c425b47c796e35e45621c9883c2512a9abfcbf9b77336a91a866addf400ec3"
   end
 
   depends_on "go" => :build
+
+  conflicts_with "open-simh", because: "both install `nova` binaries"
 
   def install
     ldflags = "-s -w -X main.version=#{version} -X main.commit=#{tap.user}"

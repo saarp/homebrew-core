@@ -1,8 +1,8 @@
 class Groonga < Formula
   desc "Fulltext search engine and column store"
   homepage "https://groonga.org/"
-  url "https://github.com/groonga/groonga/releases/download/v15.1.3/groonga-15.1.3.tar.gz"
-  sha256 "2fc5078d80507fd8800ef22ced035903ff35166558ffe802c12ef77dfeb67587"
+  url "https://github.com/groonga/groonga/releases/download/v15.2.1/groonga-15.2.1.tar.gz"
+  sha256 "77d9aa56e33c0986bbec6ddd2ee897aba6c347cff45fce988f2708145e0c9d77"
   license "LGPL-2.1-or-later"
 
   livecheck do
@@ -11,13 +11,12 @@ class Groonga < Formula
   end
 
   bottle do
-    sha256 arm64_sequoia: "55108a61b787d1db98999604d003a3fbcedfaaa783c5f245f0bb5b859e1f398c"
-    sha256 arm64_sonoma:  "7053b2fc55d6aec4298cf042159b530fce5ad5bcc258d063ea830394db38a3c1"
-    sha256 arm64_ventura: "6b8b0fe131279f863738ed07537ee1ffaa1bacaaf74446de52d12f8e5bea1377"
-    sha256 sonoma:        "346e2596561348e7aa5bf2d7f3a9383b111063e012faa96b6bf0c7ecb67c025b"
-    sha256 ventura:       "aa2256472ea09a47f368e229e3172fe1e6f3dd42d8ea0610ab6ac293b1729666"
-    sha256 arm64_linux:   "0f1a5e5cbe03be26908bcfbf8a13f5377b1e5245cceb801dc7c074620ea5f717"
-    sha256 x86_64_linux:  "9eb390a48401aa1bc299728f789fca02256c9724cf0b39a85ca968bbd576938c"
+    sha256 arm64_tahoe:   "2a5b2010f64cf1bacd1e0c3133e7cc390205978cc170742c8f432c800130be4e"
+    sha256 arm64_sequoia: "f906ff3c39376fefe3be3cceb52f8f212f96042dfe59840380f76fb9570b5e42"
+    sha256 arm64_sonoma:  "d72f1a1c995aa2ae91bb2397b9fd3edc78386e223d7ee7e35b79a66a2371981c"
+    sha256 sonoma:        "918c2ae1d9b69619986d6c4c025f89d246419e4490bae6f98760e6e1e7054bec"
+    sha256 arm64_linux:   "539c8cdcca98669610a715666e8d3ad937f61d627ab95d66d1a5960bf0dd7b98"
+    sha256 x86_64_linux:  "c35747420293fa0c96f9a5e668bc156312d20259c7030cf67f4b0c9edec3306b"
   end
 
   head do
@@ -27,6 +26,7 @@ class Groonga < Formula
     depends_on "libtool" => :build
   end
 
+  depends_on "cmake" => :build
   depends_on "pkgconf" => :build
   depends_on "mecab"
   depends_on "mecab-ipadic"
@@ -45,8 +45,8 @@ class Groonga < Formula
   link_overwrite "lib/pkgconfig/groonga-normalizer-mysql.pc"
 
   resource "groonga-normalizer-mysql" do
-    url "https://packages.groonga.org/source/groonga-normalizer-mysql/groonga-normalizer-mysql-1.2.1.tar.gz"
-    sha256 "c8d65bfaf45ea56326e4fec24a1e3818fef9652b2ab3a2ad9b528b7a1a00c0cc"
+    url "https://github.com/groonga/groonga-normalizer-mysql/releases/download/v1.3.0/groonga-normalizer-mysql-1.3.0.tar.gz"
+    sha256 "693c24eff9ba95cd498ba28f8d5826843caec347b5aa6976e565e69535b44147"
   end
 
   def install
@@ -70,9 +70,9 @@ class Groonga < Formula
     resource("groonga-normalizer-mysql").stage do
       ENV.prepend_path "PATH", bin
       ENV.prepend_path "PKG_CONFIG_PATH", lib/"pkgconfig"
-      system "./configure", "--prefix=#{prefix}"
-      system "make"
-      system "make", "install"
+      system "cmake", "-S", ".", "-B", "_build", *std_cmake_args
+      system "cmake", "--build", "_build"
+      system "cmake", "--install", "_build"
     end
   end
 

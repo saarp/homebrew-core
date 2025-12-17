@@ -1,8 +1,8 @@
 class Threadweaver < Formula
   desc "Helper for multithreaded programming"
-  homepage "https://api.kde.org/frameworks/threadweaver/html/index.html"
-  url "https://download.kde.org/stable/frameworks/6.16/threadweaver-6.16.0.tar.xz"
-  sha256 "e89d1f276aef77430dd57f7f2e5c195b7201334e9ed114dc24c7ba59430e14b6"
+  homepage "https://api.kde.org/threadweaver-index.html"
+  url "https://download.kde.org/stable/frameworks/6.21/threadweaver-6.21.0.tar.xz"
+  sha256 "3d6f94722ca329f1697e80d8345d96e513047077399bbebb0e3a2cdc177f04e5"
   license "LGPL-2.0-or-later"
   head "https://invent.kde.org/frameworks/threadweaver.git", branch: "master"
 
@@ -12,17 +12,19 @@ class Threadweaver < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "6efe12ce65efe3f355263db3e6c2931fa14a7eba220dea62412b3ff971732d78"
-    sha256 cellar: :any,                 arm64_ventura: "fd1e66557f86302f479581a04ea8c97ea21c18234236e9d1b1742484f0505e10"
-    sha256 cellar: :any,                 sonoma:        "aefaf11b58f75b077e8e2d74fb5b1a44db1f2819babcecff1f3ed602ece1c517"
-    sha256 cellar: :any,                 ventura:       "617593b433c9fd143baa3984173cba4e21c4677663273d68062a63f2ce92b9cc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a6555826394150f2b9707c340113447e2fc26b9ef15fa7f6b3b79694aefa8ccf"
+    sha256 cellar: :any,                 arm64_tahoe:   "d4bcfc5ef96c0744cca5bbcaddac2ab3a88517906746df7735c6ac9e8f03e3f3"
+    sha256 cellar: :any,                 arm64_sequoia: "8480b00229f7a788dc28f19e562ef26fe212d8b9cac74c534822df2a75d24249"
+    sha256 cellar: :any,                 arm64_sonoma:  "421ea3b3da8bbbaa143c20b38906344e73e5ac1830ac85952457e7f564d83bab"
+    sha256 cellar: :any,                 sonoma:        "53212d6d3437c96e65b7594afdfeac2b3e09d72ac6f51d45e6717cc9af83ab20"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "a24e01f82781e67ac08fe613a0fcdfa851c48607ea652734338ea0e74a4718e6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e2d493f5afd83e018fa60b9e9c21096234521c9a4845e1f3d60ec2b81a266ad5"
   end
 
   depends_on "cmake" => [:build, :test]
   depends_on "doxygen" => :build
   depends_on "extra-cmake-modules" => [:build, :test]
-  depends_on "qt"
+  depends_on "qttools" => :build
+  depends_on "qtbase"
 
   def install
     system "cmake", "-S", ".", "-B", "build", "-DBUILD_QCH=ON", *std_cmake_args

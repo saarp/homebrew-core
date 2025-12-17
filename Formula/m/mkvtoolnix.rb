@@ -1,10 +1,20 @@
 class Mkvtoolnix < Formula
   desc "Matroska media files manipulation tools"
   homepage "https://mkvtoolnix.download/"
-  url "https://mkvtoolnix.download/sources/mkvtoolnix-93.0.tar.xz"
-  mirror "https://fossies.org/linux/misc/mkvtoolnix-93.0.tar.xz"
-  sha256 "9510a6682a2e0b79a7420c30aac3c49fd6fa1bbc5e2131a89c52259d88835f78"
   license "GPL-2.0-or-later"
+  revision 1
+
+  stable do
+    url "https://mkvtoolnix.download/sources/mkvtoolnix-96.0.tar.xz"
+    mirror "https://fossies.org/linux/misc/mkvtoolnix-96.0.tar.xz"
+    sha256 "509a1e3aca1f63fe5cc96b4c7272ba533dbcbb69c61d1c5114dccf610fd405cb"
+
+    # Backport fix for older Xcode
+    patch do
+      url "https://codeberg.org/mbunkus/mkvtoolnix/commit/a821117045d0328b1448ca225d0d5b9507aa00af.diff"
+      sha256 "4d537e37b1351ff23590199685dfc61c99844421629a9c572bb895edced1ac67"
+    end
+  end
 
   livecheck do
     url "https://mkvtoolnix.download/sources/"
@@ -12,11 +22,12 @@ class Mkvtoolnix < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_sonoma:  "1e6365d70194a17a1b9c9c650a5e29478e228c6713bb8d24c099325cada2d359"
-    sha256 cellar: :any, arm64_ventura: "b5b85fd8df11f7b9eea116b52b212a432ffd1a7d04aadcd6a029cf056618d3df"
-    sha256 cellar: :any, sonoma:        "ac650fb7306af3843d6060f9a7a34e5f7c731fe7210fc15085818543173208d5"
-    sha256 cellar: :any, ventura:       "cd12c94593168c8d1de05e5057579cd12a1e1c694a4375391a43443de3a2f900"
-    sha256               x86_64_linux:  "066b768ff3e71f5be1b91896b4a3ca4ceebc516e4045af51e38c82c426b3d108"
+    sha256 cellar: :any, arm64_tahoe:   "6aee4ea6c32a81c9fd629eadb3478fa264309d227925c01846f371c34f46e89f"
+    sha256 cellar: :any, arm64_sequoia: "2fe8b0f5ec2e85ace6329d1dbb1a0d1165adba518266897b350ad20fc28e7401"
+    sha256 cellar: :any, arm64_sonoma:  "b164872e285d9c78d1ce46b19d7b73c2d4b11fa643cf6071a78fa969503d7cfc"
+    sha256 cellar: :any, sonoma:        "a0849f6cd0f20fc65ea26292371aa1482dc30e762ab678f33530c27da5eae34f"
+    sha256               arm64_linux:   "011388f3730a8f5f3712dc1ef059bdbc6818be2b22cf3d1275b4dbc981e1af55"
+    sha256               x86_64_linux:  "d9bfdc2d888ca9665e0896a3a0dfb12a0b3ac88c74c39e2cef4ce38d3f2a6331"
   end
 
   head do
@@ -39,10 +50,8 @@ class Mkvtoolnix < Formula
   depends_on "libmatroska"
   depends_on "libogg"
   depends_on "libvorbis"
-  # https://mkvtoolnix.download/downloads.html#macosx
-  depends_on macos: :catalina # C++17
   depends_on "pugixml"
-  depends_on "qt"
+  depends_on "qtbase"
 
   uses_from_macos "libxslt" => :build
   uses_from_macos "ruby" => :build
@@ -52,7 +61,7 @@ class Mkvtoolnix < Formula
     depends_on "gettext"
   end
 
-  conflicts_with cask: "mkvtoolnix"
+  conflicts_with cask: "mkvtoolnix-app"
 
   def install
     # Remove bundled libraries

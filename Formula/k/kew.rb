@@ -1,19 +1,18 @@
 class Kew < Formula
   desc "Command-line music player"
   homepage "https://github.com/ravachol/kew"
-  url "https://github.com/ravachol/kew/archive/refs/tags/v3.4.0.tar.gz"
-  sha256 "a7d19f004d05eb820fee5c43bce9d625eac1c7d7b3ab0b0181858abb97912e35"
+  url "https://github.com/ravachol/kew/archive/refs/tags/v3.7.2.tar.gz"
+  sha256 "e56e01cc199a09c70e15668291ad717c559e9e0809643206c0398602b6b5f5ad"
   license "GPL-2.0-only"
   head "https://github.com/ravachol/kew.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "72efbb4eff98959c8485ccc4ee752f84757a5abdfab19ef68d84a000f0e9235d"
-    sha256 cellar: :any,                 arm64_sonoma:  "fb572d340cf41403518bbe15de195fffa31847610ba57b58f28b3715b783623c"
-    sha256 cellar: :any,                 arm64_ventura: "3bf31c3fa40823ffc3146ed8a4ac02cf814c4f1510ac5b3774c8d8bca5ba9508"
-    sha256 cellar: :any,                 sonoma:        "40074ca7dab37969e5ab676a4174da2642ea7d40686c35d7b18a79246118b3df"
-    sha256 cellar: :any,                 ventura:       "2bbc357941c68682e75cb94edcfbf87a5baa2faab28a6e6c6e28a63184f1330e"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "80633ab62b7b0e3b0c5bd67a87751c558908e1f47d9c57e88333dd5310b68eb7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "08674d321e4693db7cf8f7e66c6fc5bb620129849479af4d2faf5359f51e5cae"
+    sha256 arm64_tahoe:   "6152e233a19babd2e7bc959f2e43a46460aed0919fca605c7a4d4adf35e6350a"
+    sha256 arm64_sequoia: "3254acb2861828d6e89271f46758ef442dd5cc22ee6d0cc506fcce49d6f265b3"
+    sha256 arm64_sonoma:  "c8a31c90630c09aa599fa5995769beae0b660ff995e6fd5bfbf66c9c4a92cfa3"
+    sha256 sonoma:        "0a3d434054fe7ab30f4b55172394ebb7e3d0be6b5d93ed6e44e6cefa129a334f"
+    sha256 arm64_linux:   "31bb34851e86876a6280635f9f8fe6474fb4e99a38f605071cce9edce55e0e07"
+    sha256 x86_64_linux:  "daf3cdc9ab209997a4fb17ff59751449bb0f0cecf2ce0d2285e5317488e90121"
   end
 
   depends_on "pkgconf" => :build
@@ -38,7 +37,7 @@ class Kew < Formula
   end
 
   def install
-    system "make", "install", "PREFIX=#{prefix}"
+    system "make", "install", "PREFIX=#{prefix}", "LANGDIRPREFIX=#{prefix}"
     man1.install "docs/kew.1"
   end
 

@@ -1,8 +1,8 @@
 class Htslib < Formula
   desc "C library for high-throughput sequencing data formats"
   homepage "https://www.htslib.org/"
-  url "https://github.com/samtools/htslib/releases/download/1.22/htslib-1.22.tar.bz2"
-  sha256 "6250c1df297db477516e60ac8df45ed75a652d1f25b0f37f12f5b17269eafde9"
+  url "https://github.com/samtools/htslib/releases/download/1.23/htslib-1.23.tar.bz2"
+  sha256 "63927199ef9cea03096345b95d96cb600ae10385248b2ef670b0496c2ab7e4cd"
   license "MIT"
 
   livecheck do
@@ -11,13 +11,12 @@ class Htslib < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "3f2f3384d807cf96d55f5d9ee31b073b289fb4c64ba9a11f8fb3242d8dc1858e"
-    sha256 cellar: :any,                 arm64_sonoma:  "3c77b5d9fd49d47b2b564b8ee27fc49e9edd26823acd90f9404e20a9e2475fe8"
-    sha256 cellar: :any,                 arm64_ventura: "75e8ee504a3eab812f7d89466eae548555326d402cb88fdb5ba055795b903926"
-    sha256 cellar: :any,                 sonoma:        "e01127e06e3b038b2b369282b0eea80e150ddd9af5ad19425acdbe41656df073"
-    sha256 cellar: :any,                 ventura:       "11d618732f21f25791476ded2decbde94109ec1a40eb790f49936f825b07f4d6"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "9fc3eb865aaa8f8c3d586cb7dcc70b46178a5e16e6a5a68d6b1af8f7ada4974e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b91e2b3ea97ac6210260a78519720b6b560cd8c4f86761d75ec72d8fbe312f55"
+    sha256 cellar: :any,                 arm64_tahoe:   "a38faeceb5a5bbf1db94b8284866d39c26b4ff388553b475172bad7106594880"
+    sha256 cellar: :any,                 arm64_sequoia: "ed6c17e8ed5f93267d4d83cb4c36feb8c26a650764490336ef522cf033b4dfc1"
+    sha256 cellar: :any,                 arm64_sonoma:  "ec48464d019c3d8cb10c6af649c7ca5cb285052e82f2820ab592d94a1df378e3"
+    sha256 cellar: :any,                 sonoma:        "55d83b5bd32a41299a86f559534f9d578261ac69ec057afd7236cee69ed5782a"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "6af2ea035e9e25fa70f14b88c00811c95199fb6055ab1a67272208a38f487ad3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "53cbf8e35c705d7df70ceeea2e93f2336d398be03777984f1c271f6c6776307c"
   end
 
   depends_on "libdeflate"

@@ -1,26 +1,22 @@
 class ShibbolethSp < Formula
   desc "Shibboleth 2 Service Provider daemon"
   homepage "https://wiki.shibboleth.net/confluence/display/SHIB2"
-  url "https://shibboleth.net/downloads/service-provider/3.5.0/shibboleth-sp-3.5.0.tar.bz2"
-  sha256 "f301604bd17ee4d94a66e6dd7ad1c3f0917949a4a12176d55614483d78fefe58"
+  url "https://shibboleth.net/downloads/service-provider/3.5.1/shibboleth-sp-3.5.1.tar.bz2"
+  sha256 "05da3a09d76c3ba1a5ddd7f919fd942be2d87025f214aba139c2b64b804f9a99"
   license "Apache-2.0"
-  revision 2
 
   livecheck do
     url "https://shibboleth.net/downloads/service-provider/latest/"
     regex(/href=.*?shibboleth-sp[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 arm64_sequoia: "0569ff4651fd7d6700c65c25790574f19066174c768959ae2064aea20ad5a99b"
-    sha256 arm64_sonoma:  "0a46e994d409ba22543dc7bc7736238bcce908efc32d987ce0c043ceced97a70"
-    sha256 arm64_ventura: "e5d6b7a4b089ab17ec32cd0808c1d5f0c7de2190df46a0a02bb00c1561d1cfca"
-    sha256 sonoma:        "3266a747920724d2be0e306610ebfc6348cab7d02331702d398dc6fa671c7dfc"
-    sha256 ventura:       "05d2cc8a93f269863e7dee8ce5806dd840b8d8ba6bf0619cb425b8635a1a6dc3"
-    sha256 arm64_linux:   "8543a12970a4d9909660f736f4a4a4fe10b0b26ead2c011d32aa39614fa068d2"
-    sha256 x86_64_linux:  "5d6bdcc1ac27a3cadcc7e5b0d38d8718ec1e20ee599f2eb2c373af7d24b34d7e"
+    sha256 arm64_tahoe:   "033427d4bfe6a3bfc7fa2545f27e956ec4259af610e40777ff7c3bee4bbb6941"
+    sha256 arm64_sequoia: "fce3533547b871de8ad8bd019aec8eebbbc4a9a31bf7d35a703af226573a4c3c"
+    sha256 arm64_sonoma:  "657db4adad6253944963645bd95bb2af9a823492c840987ed958b38331df2155"
+    sha256 sonoma:        "412323e88bd1945e3ed7c968c1bc836afa142d6786cd796ded97812100a6a911"
+    sha256 arm64_linux:   "009e69f1c86182e95ef8dbefaf57a79636e48c877fe8f35cc73915020310fda3"
+    sha256 x86_64_linux:  "d7a51b5bc378342760b72691ea44b49cd474981fdf1c0909850dbe3fd701da1b"
   end
 
   depends_on "pkgconf" => :build
@@ -55,10 +51,8 @@ class ShibbolethSp < Formula
 
     system "./configure", *args, *std_configure_args
     system "make", "install"
-  end
 
-  def post_install
-    (var/"run/shibboleth/").mkpath
+    (var/"run/shibboleth").mkpath
     (var/"cache/shibboleth").mkpath
   end
 

@@ -1,18 +1,17 @@
 class Cython < Formula
   desc "Compiler for writing C extensions for the Python language"
   homepage "https://cython.org/"
-  url "https://files.pythonhosted.org/packages/18/40/7b17cd866158238db704965da1b5849af261dbad393ea3ac966f934b2d39/cython-3.1.2.tar.gz"
-  sha256 "6bbf7a953fa6762dfecdec015e3b054ba51c0121a45ad851fa130f63f5331381"
+  url "https://files.pythonhosted.org/packages/39/e1/c0d92b1258722e1bc62a12e630c33f1f842fdab53fd8cd5de2f75c6449a9/cython-3.2.3.tar.gz"
+  sha256 "f13832412d633376ffc08d751cc18ed0d7d00a398a4065e2871db505258748a6"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e6149b960fe4b737e331e86645b1c9d508ff7bdc8cf5b73e99d165096fc7f94b"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a08b16148b890d63f6204eb10c8d906f72751fb23b6bce79b5d63f84ac2bda8c"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "eb1ac6f6d311be63424bda991ddd9f9a7179635809151f6b349f8ddd72e856db"
-    sha256 cellar: :any_skip_relocation, sonoma:        "18d0ede4966c9f220f502c08a0441e8f344f34d6a00d105bb6943f5a966cbf85"
-    sha256 cellar: :any_skip_relocation, ventura:       "d78513b902111d7826c52f6a04035b248d04656144e75ca59ee7b27ddc6d6311"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "0730c3aca106185dcf247e5af41ee3ca03f40d576790f8a1245547293768509e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "862da5fc26bf6ffc960159a4cb25992b9751a1ad90212db666e9d56a449c967f"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "e0f6b81f2e97c5285de1a912e893aa1479853ff2535c6e66233321ffc0c13d70"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "59544556451d741f852cbeb45da74649c5afc258595e6a9c6ff97910b8bdf411"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "fa4fab1a942968b0d2974a47539b029b5e1a4c95223be8d09602f3e094cf82cf"
+    sha256 cellar: :any_skip_relocation, sonoma:        "7c4bde0ef9e895276aac4b09c4522f3e12c8ee805fac020360aa2df8a4795269"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4a3f479f97dfdefcd030311af48c35bfaa6a46228db5f40d8248dd008c2851cc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6110b3581a5e3d407dda0bc3700c5d276a3f2c8d26f9e52d5739b0af909970a9"
   end
 
   keg_only <<~EOS
@@ -21,10 +20,10 @@ class Cython < Formula
   EOS
 
   depends_on "python-setuptools" => [:build, :test]
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def install

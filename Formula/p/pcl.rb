@@ -1,18 +1,28 @@
 class Pcl < Formula
   desc "Library for 2D/3D image and point cloud processing"
   homepage "https://pointclouds.org/"
-  url "https://github.com/PointCloudLibrary/pcl/archive/refs/tags/pcl-1.15.0.tar.gz"
-  sha256 "e90c981c21e89c45201c5083db8308e099f34c1782f92fd65a0a4eb0b72c6fbf"
   license "BSD-3-Clause"
-  revision 1
+  revision 3
   head "https://github.com/PointCloudLibrary/pcl.git", branch: "master"
 
+  stable do
+    url "https://github.com/PointCloudLibrary/pcl/archive/refs/tags/pcl-1.15.1.tar.gz"
+    sha256 "e1d862c7b6bd27a45884a825a2e509bfcbd4561307d5bfe17ce5c8a3d94a6c29"
+
+    # Backport support for eigen 5.0.0
+    patch do
+      url "https://github.com/PointCloudLibrary/pcl/commit/2d6929bdcd98beaa28fa8ee3a105beb566f16347.patch?full_index=1"
+      sha256 "66e6b47a2373224f6a64a87124c94fbe79d3624b4cb0d71603c4805323343b62"
+    end
+  end
+
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "03fde7c94634272d2b7b00d03942edbfd0a522be1dccb79d6cc7c5bbc8a31f42"
-    sha256 cellar: :any,                 arm64_ventura: "747c17ba17c637e726e7bd4016af13867223c979a513705293ca6f912b2db62a"
-    sha256 cellar: :any,                 sonoma:        "43a7b7cb8a0712dc1db29cdb073242ef20200ae6883eca9616c9ada9f0b00367"
-    sha256 cellar: :any,                 ventura:       "174bdea4b9e66ef9e3a8f5887f65dbfa3f9edf7cb3808860b379d2df11cdc25e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a5d708d8ddda9491022bea26195a43f176f7bf4a1d89d1b09a160c5c41a154e2"
+    sha256 cellar: :any,                 arm64_tahoe:   "f46b04ca74b3f6a48bbeb99a1b6fe6420bd8d9b83730a14082770b96c05e6d40"
+    sha256 cellar: :any,                 arm64_sequoia: "2b9dbca807d8ae3cf737b7804dec2ba5342962efad463b46a6831d73c4cde1df"
+    sha256 cellar: :any,                 arm64_sonoma:  "aef1cd2d0b53ac816683368252c64d99ea8da0002c95e144cd79a9da54bbb9ca"
+    sha256 cellar: :any,                 sonoma:        "5e2c8ffddf2c4955ac8a4f1d50b4863cc608bd7566a7ab7dbcf7c2d0a27ffe39"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "a3515bbd9a9ddebab74d80bf3e9a8b68ce3b07480d57e8ddccd40eee0e300bb9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "934824a5b692586a24f8bc4b3e23354adaff9feb425554d0a9383a2030041289"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -27,7 +37,7 @@ class Pcl < Formula
   depends_on "libusb"
   depends_on "lz4"
   depends_on "qhull"
-  depends_on "qt"
+  depends_on "qtbase"
   depends_on "vtk"
 
   on_macos do
@@ -40,6 +50,13 @@ class Pcl < Formula
     depends_on "libx11"
     depends_on "mesa"
     depends_on "mesa-glu"
+  end
+
+  # Apply open PR to fix build with Boost 1.89
+  # PR ref: https://github.com/PointCloudLibrary/pcl/pull/6330
+  patch do
+    url "https://github.com/PointCloudLibrary/pcl/commit/8dfb0e10ebdf4a5086328b38f854294d2d6b1627.patch?full_index=1"
+    sha256 "f31c11abb6bec8864b7a109472768ba80e87ddf90533890c303294d264f389e1"
   end
 
   def install
@@ -69,6 +86,11 @@ class Pcl < Formula
 
     # The AppleClang versions shipped on current MacOS versions do not support the -march=native flag on arm
     args << "-DPCL_ENABLE_MARCHNATIVE:BOOL=OFF" if build.bottle?
+
+    # Work around ../../lib/libpcl_cc_tool_interface.a(mocs_compilation.cpp.o):
+    # relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `...' which may bind
+    # externally can not be used when making a shared object; recompile with -fPIC
+    args << "-DCMAKE_POSITION_INDEPENDENT_CODE=ON" if OS.linux? && Hardware::CPU.arm?
 
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"

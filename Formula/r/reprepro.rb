@@ -1,8 +1,8 @@
 class Reprepro < Formula
   desc "Debian package repository manager"
   homepage "https://salsa.debian.org/debian/reprepro"
-  url "https://deb.debian.org/debian/pool/main/r/reprepro/reprepro_5.3.1.orig.tar.xz"
-  sha256 "5a6d48bf1f60cfd3c32eae05b535b334972c1e9d4e62ed886dd54e040e9c1cda"
+  url "https://deb.debian.org/debian/pool/main/r/reprepro/reprepro_5.4.7.orig.tar.xz"
+  sha256 "df87e4168a580366cdeb3fdc31c5fa99b7d73140e7a7ca5d85ce64bb25370d6f"
   license "GPL-2.0-only"
 
   livecheck do
@@ -10,18 +10,13 @@ class Reprepro < Formula
     regex(/href=.*?reprepro[._-]v?(\d+(?:\.\d+)+)\.orig\.t/i)
   end
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia:  "badeb1ae69e64807080d2a9a593d5195e784998e9fd7ac3c38666f90c3ac3aea"
-    sha256 cellar: :any,                 arm64_sonoma:   "6ae8f574c8fbfa13776901135cf93d2764d7fc039d7ab6727c959310785769b6"
-    sha256 cellar: :any,                 arm64_ventura:  "074ecc0f03f9b65eee888d3c80da0b236267cea25fdca49f6a77f25da6bbcb45"
-    sha256 cellar: :any,                 arm64_monterey: "4bd034f17d9a86c6e85173977ad58cbb2affa18678bd471b35216337be0f050f"
-    sha256 cellar: :any,                 sonoma:         "4b6b3e4d96f54fefc29c8708115b720aed7af8390a11e4527a09adf7d1613512"
-    sha256 cellar: :any,                 ventura:        "bb3fdf9b10d2edc35f84e82a851cb819aa1a1ba9cba1694ee98c17ef9c5a8e51"
-    sha256 cellar: :any,                 monterey:       "57d484a17dd70a259e33c8f6b74abba671f6fc689fc09ef8c8c00df1ee83f271"
-    sha256 cellar: :any_skip_relocation, arm64_linux:    "f5afdccc0ef5e723e280503d6c8e17c089a284dce9273fd80fa9d0ee836649d9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a79848562e65bd88dce7a8753728ac529fd080a20b36e40a1a58cccbc6f110f1"
+    sha256 cellar: :any,                 arm64_tahoe:   "2844e0a31431948d7695c42943a5eca453e15ecf54d4bd31cbc7cb0863670443"
+    sha256 cellar: :any,                 arm64_sequoia: "5146c355e2be811b41d026ae77f5c0d51fcc91d19cbb15a5e0fc4e6b78808834"
+    sha256 cellar: :any,                 arm64_sonoma:  "e912a43c8faef1de37effce75d6b5665d5d8039c86e73c1cebf71e9845255b29"
+    sha256 cellar: :any,                 sonoma:        "d0894c2657bddb755593ef65724ad0da78d742d26c9092433f6886bad46db64b"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "d952be54d3928a47d9191c3e9b5218e19fb27c4b38a13c2c1e7a1da5e8383edc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8b1f03fb797c16bdea4c00888be000b40ea8c6ef9b8d6f3cc189601093f70d6b"
   end
 
   depends_on "autoconf" => :build
@@ -56,7 +51,7 @@ class Reprepro < Formula
   end
 
   test do
-    (testpath/"conf"/"distributions").write <<~EOF
+    (testpath/"conf/distributions").write <<~EOF
       Codename: test_codename
       Architectures: source
       Components: main

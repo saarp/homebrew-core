@@ -1,18 +1,18 @@
 class Polaris < Formula
   desc "Validation of best practices in your Kubernetes clusters"
   homepage "https://www.fairwinds.com/polaris"
-  url "https://github.com/FairwindsOps/polaris/archive/refs/tags/10.0.0.tar.gz"
-  sha256 "b5ee1a9f31c11c44a11364d838f14c661c1af1c188c78ca431b66e5533df3aff"
+  url "https://github.com/FairwindsOps/polaris/archive/refs/tags/10.1.3.tar.gz"
+  sha256 "eaa15224739aea756f67ae84a2e086ec1f6716539245ed37572c064d3d598f46"
   license "Apache-2.0"
   head "https://github.com/FairwindsOps/polaris.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e696df385c784b3d6ac01ff8bf8fb7d1ed7d567975187aa7ad9364ecfc83cb6b"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "da02d33e584b1ee3946761f0f2b04315e71d1bd52d1888575c7bf2856f37dabe"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "c80ba5163b2ff56d3a0e9c730f103d067fd258bc08ced16896fbeb8379161f02"
-    sha256 cellar: :any_skip_relocation, sonoma:        "4f3f67999e7d82d5f6077737cdf850ee678e93b87cbf263c9fe715cc7838ccbc"
-    sha256 cellar: :any_skip_relocation, ventura:       "2f9fde3a195c0bfd22202dc6747261465ee16ce437e9df4d3b965c5f2566b79d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5f9b4baaa20c4cb42dfc4c7fa9422ed5e46181ec35cdb9c5bb0148b93bfeb529"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "fd7bd03e67b6dfebf14fd04353910ff437789b085b543a452895c4e6c239831d"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d66210fc9a2c1f8734b3f726e6fc590eb2ee073340d579e07a98949ce2e622df"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "397d4edde9178e7a6ba027880efe4621ce11ae84ef3e78ef25e31471bfa9b85a"
+    sha256 cellar: :any_skip_relocation, sonoma:        "25919769685ca991f65992b8020fee7dad9243ccd2e82ed6c639c45a6b74ba48"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "677e1b0140ab2c10d144719bb13b88fd5a38ded134ee21d27f5acbfa1ade53ca"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e6741fae123a99f1c79fe28ab58aae29bd4a418f522f2ea8fb6e830638a92ab2"
   end
 
   depends_on "go" => :build

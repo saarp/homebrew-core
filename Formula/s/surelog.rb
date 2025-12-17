@@ -1,29 +1,26 @@
 class Surelog < Formula
   desc "SystemVerilog Pre-processor, parser, elaborator, UHDM compiler"
   homepage "https://github.com/chipsalliance/Surelog"
-  url "https://github.com/chipsalliance/Surelog/archive/refs/tags/v1.84.tar.gz"
-  sha256 "ddcbc0d943ee52f2487b7a064c57a8239d525efd9a45b1f3e3e4a96a56cb3377"
+  url "https://github.com/chipsalliance/Surelog/archive/refs/tags/v1.86.tar.gz"
+  sha256 "5bffc61334f38b16b5dd57e5209d38bc1e07b0e0bda452e4580678aa3e9daf53"
   license "Apache-2.0"
-  revision 2
   head "https://github.com/chipsalliance/Surelog.git", branch: "master"
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "727db7b3c19efd328fef24f1eae4d5790e37d6c47a570edcd87a63042486d076"
-    sha256 cellar: :any,                 arm64_sonoma:  "3743df7ef2d3f379e55bc9d8e77fc9de3c9716a76bcb055a86ba5c52e027559c"
-    sha256 cellar: :any,                 arm64_ventura: "d489c736ba9d3ae719c3302d27e62a29a7072d28f5f42e41ed5218948e88436e"
-    sha256 cellar: :any,                 sonoma:        "4ef650973f4b852bf578c0a2df59948e6754b637eb1bbc75e65bfd6f4942b9d2"
-    sha256 cellar: :any,                 ventura:       "b1c5876a1bd6548646d385182550baf7e9a41f64eab6c7cdaf4d6b23075f4850"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "6c6afd3cb1e3a200aa037ea9ef4a09e7a136fe30b963ca1d91242dc44332f535"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ecfa15659fbee451ba2f7e6649fb7796707edc5de841ce124b031a6162113005"
+    rebuild 1
+    sha256 cellar: :any,                 arm64_tahoe:   "66093d81ba27bdec93164720b4ad7a74dff68180740febc45e38d69fdc71d9c1"
+    sha256 cellar: :any,                 arm64_sequoia: "2370a598c0bd3f175e076cc279f4e1288b97d10d37ebb9e88997e43e6930aa70"
+    sha256 cellar: :any,                 arm64_sonoma:  "d6f0e16d64bd3d7bd5288c4e67acac3f1c6532547383ba57fe9f79b911bfe5d1"
+    sha256 cellar: :any,                 sonoma:        "414a3876730209a6dc97e206e8f364bd37a345c12483277b30ea8a7778ac0ac8"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "3d759aa138eb2002443d6881c6cf3bec1e6c7f1d78089417ddc079afaf75a198"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "429877c5d363d0e611a33e01c5d77f88e2ac1c6253806b1c978581fa5e33cf21"
   end
 
   depends_on "antlr" => :build
   depends_on "cmake" => :build
   depends_on "nlohmann-json" => :build
   depends_on "openjdk" => :build
-  depends_on "python@3.13" => :build
+  depends_on "python@3.14" => :build
   depends_on "pkgconf" => :test
   depends_on "antlr4-cpp-runtime"
   depends_on "capnp"
@@ -39,7 +36,7 @@ class Surelog < Formula
                     "-DANTLR_JAR_LOCATION=#{antlr.opt_prefix}/antlr-#{antlr.version}-complete.jar",
                     "-DBUILD_SHARED_LIBS=ON",
                     "-DCMAKE_INSTALL_RPATH=#{rpath}",
-                    "-DPython3_EXECUTABLE=#{which("python3.13")}",
+                    "-DPython3_EXECUTABLE=#{which("python3.14")}",
                     "-DSURELOG_BUILD_TESTS=OFF",
                     "-DSURELOG_USE_HOST_ALL=ON",
                     "-DSURELOG_WITH_ZLIB=ON",

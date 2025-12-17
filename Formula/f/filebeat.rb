@@ -2,27 +2,28 @@ class Filebeat < Formula
   desc "File harvester to ship log files to Elasticsearch or Logstash"
   homepage "https://www.elastic.co/products/beats/filebeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v9.0.4",
-      revision: "7f7d7133471388154c895cf8fc6b40ae6d6245e2"
+      tag:      "v9.2.2",
+      revision: "46e1e32d1aac0400a852b4565f184e23ab03e0e1"
   # Outside of the "x-pack" folder, source code in a given file is licensed
   # under the Apache License Version 2.0
   license "Apache-2.0"
-  head "https://github.com/elastic/beats.git", branch: "master"
+  head "https://github.com/elastic/beats.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "28360d4e2b1455eb874f800561d6c4797c6a4e6d9d7900179d0d630d6426102d"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "077ebb9024bf896d90df348d96df600a7622aba14bd72496af45ec6423d478e1"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "65660ccd87a225f5758838b0806e2688ad1708cee8c75f66a5d509bc65674378"
-    sha256 cellar: :any_skip_relocation, sonoma:        "8b4bebdf1f6745368d2d41a3cb6f8bc3808719f423e4b980057d56e878d68302"
-    sha256 cellar: :any_skip_relocation, ventura:       "97fda4b06772821848a725e82242fc5b18a864d2c54a678950c164753ff4d8be"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "92957dee5d00895a363bf48535a6111c19825fa50e3743b962680fa43d8ab1ee"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "003e1a96a4536d6c494e65bc66324b63d799b804776cc9fd367ef197b89d03ae"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "9f686f852c0c1579605dd19c18f10d85a36dbaa5f7f1c391bb408e99a1d3580d"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "9009c0b5a86948d24e01fda24b44d4b432adc2e6c64d75c34f81333dcdcf0d90"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "859e26016e663a0d84e9fa9d489e451468a9fb84ce39b5c70b0fb9bc7a7420f4"
+    sha256 cellar: :any_skip_relocation, sonoma:        "da6ace161bfd27c663c6755395e86233767ab41b84e6bfa80138e70f17bac0e0"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "c69763bd047e861d5f8db592bc525477ad58381ec7e5d3ccff110b77db51be45"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "09b006075d23e777e30689fa5b9337bcb1e160be02ba737524715b3ebf9d9e82"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
 
   def install
+    ENV["CGO_ENABLED"] = "1" if OS.linux? && Hardware::CPU.arm?
+
     # remove non open source files
     rm_r("x-pack")
 

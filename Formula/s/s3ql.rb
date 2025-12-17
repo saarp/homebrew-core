@@ -3,8 +3,8 @@ class S3ql < Formula
 
   desc "POSIX-compliant FUSE filesystem using object store as block storage"
   homepage "https://github.com/s3ql/s3ql"
-  url "https://github.com/s3ql/s3ql/releases/download/s3ql-5.3.0/s3ql-5.3.0.tar.gz"
-  sha256 "f16e3aa218de86a7ec48002bbcb75c857f72f63d86e5e3c891b31a78c138d13c"
+  url "https://github.com/s3ql/s3ql/releases/download/s3ql-5.4.1/s3ql-5.4.1.tar.gz"
+  sha256 "6d3bbce3796ae0c08d33d1d3366de059cc70ded38eef22860765d03f88a0ac6b"
   license "GPL-3.0-only"
 
   livecheck do
@@ -13,21 +13,21 @@ class S3ql < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_linux:  "2d116d2bed3369e6530af6411882b54809681562ce62ad7832ccec6abfa5ff3e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "6e371a9c17d44c7564e8776152225425762e47f9b6deba93c495829d82531bde"
+    sha256 cellar: :any_skip_relocation, arm64_linux:  "f9a99acf69a389b0e54fc0e3e295d511f30b554cc7cd53ea9c26dbd64be1c8f2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "8cf0775e59d9f605a0cc070107680fe59d81fdbc2d6b096794761b41ab7f1fb2"
   end
 
   depends_on "pkgconf" => :build
 
-  depends_on "cryptography"
+  depends_on "cryptography" => :no_linkage
   depends_on "libffi"
   depends_on "libfuse"
   depends_on :linux # on macOS, requires closed-source macFUSE
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   resource "apsw" do
-    url "https://files.pythonhosted.org/packages/5b/c4/fcac432cb1aea5a1e7611e2ae927352232aec5c1546f10dece754279c4b9/apsw-3.49.2.0.tar.gz"
-    sha256 "04280710d01f918b96ec9067111b57ee70780388bbf83fd33fc15c43e82afd51"
+    url "https://files.pythonhosted.org/packages/02/ea/7469e89d75a07972255aac4c1b98675bfbc74df32a19dd5dc8ba87aa552b/apsw-3.50.4.0.tar.gz"
+    sha256 "a817c387ce2f4030ab7c3064cf21e9957911155f24f226c3ad4938df3a155e11"
   end
 
   resource "async-generator" do
@@ -56,8 +56,8 @@ class S3ql < Formula
   end
 
   resource "google-auth" do
-    url "https://files.pythonhosted.org/packages/cb/8e/8f45c9a32f73e786e954b8f9761c61422955d23c45d1e8c347f9b4b59e8e/google_auth-2.39.0.tar.gz"
-    sha256 "73222d43cdc35a3aeacbfdcaf73142a97839f10de930550d89ebfe1d0a00cde7"
+    url "https://files.pythonhosted.org/packages/9e/9b/e92ef23b84fa10a64ce4831390b7a4c2e53c0132568d99d4ae61d04c8855/google_auth-2.40.3.tar.gz"
+    sha256 "500c3a29adedeb36ea9cf24b8d10858e152f2412e3ca37829b3fa18e33d63b77"
   end
 
   resource "google-auth-oauthlib" do
@@ -81,18 +81,18 @@ class S3ql < Formula
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/63/70/2bf7780ad2d390a8d301ad0b550f1581eadbd9a20f896afe06353c2a2913/requests-2.32.3.tar.gz"
-    sha256 "55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"
+    url "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz"
+    sha256 "dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"
   end
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/70/dc/3976b322de9d2e87ed0007cf04cc7553969b6c7b3f48a565d0333748fbcd/setuptools-80.3.1.tar.gz"
-    sha256 "31e2c58dbb67c99c289f51c16d899afedae292b978f8051efaf6262d8212f927"
+    url "https://files.pythonhosted.org/packages/18/5d/3bf57dcd21979b887f014ea83c24ae194cfcd12b9e0fda66b957c69d1fca/setuptools-80.9.0.tar.gz"
+    sha256 "f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c"
   end
 
   resource "trio" do
-    url "https://files.pythonhosted.org/packages/01/c1/68d582b4d3a1c1f8118e18042464bb12a7c1b75d64d75111b297687041e3/trio-0.30.0.tar.gz"
-    sha256 "0781c857c0c81f8f51e0089929a26b5bb63d57f927728a5586f7e36171f064df"
+    url "https://files.pythonhosted.org/packages/76/8f/c6e36dd11201e2a565977d8b13f0b027ba4593c1a80bed5185489178e257/trio-0.31.0.tar.gz"
+    sha256 "f71d551ccaa79d0cb73017a33ef3264fde8335728eb4c6391451fe5d253a9d5b"
   end
 
   resource "six" do
@@ -110,10 +110,6 @@ class S3ql < Formula
     sha256 "25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"
   end
 
-  # Fix incompatability with build isolation, since `setup.py` imports `s3ql`
-  # Remove after https://github.com/s3ql/s3ql/pull/379
-  patch :DATA
-
   def install
     # The inreplace changes the name of the (fsck|mkfs|mount|umount).s3ql
     # utilities to use underscore (_) as a separator, which is consistent
@@ -125,45 +121,11 @@ class S3ql < Formula
   end
 
   test do
-    assert_match "S3QL ", shell_output(bin/"mount_s3ql --version")
+    assert_match "S3QL ", shell_output("#{bin}/mount_s3ql --version")
 
     # create a local filesystem, and run an fsck on it
-    assert_match "Creating metadata", shell_output(bin/"mkfs_s3ql --plain local://#{testpath} 2>&1")
+    assert_match "Creating metadata", shell_output("#{bin}/mkfs_s3ql --plain local://#{testpath} 2>&1")
     assert_match "s3ql_params", shell_output("ls s3ql_params")
     system bin/"fsck_s3ql", "local://#{testpath}"
   end
 end
-
-__END__
-diff --git a/setup.py b/setup.py
-index 00f6e9b..2b0a101 100755
---- a/setup.py
-+++ b/setup.py
-@@ -34,7 +34,6 @@ if DEVELOPER_MODE:
- # Add S3QL sources
- sys.path.insert(0, os.path.join(basedir, 'src'))
- sys.path.insert(0, os.path.join(basedir, 'util'))
--import s3ql
-
-
- class pytest(TestCommand):
-@@ -47,9 +46,6 @@ class pytest(TestCommand):
-
-
- def main():
--    with open(os.path.join(basedir, 'README.rst'), 'r') as fh:
--        long_desc = fh.read()
--
-     compile_args = ['-Wall', '-Wextra', '-Wconversion', '-Wsign-compare']
-
-     # Enable all fatal warnings only when compiling from Mercurial tip.
-@@ -88,9 +84,7 @@ def main():
-     setuptools.setup(
-         name='s3ql',
-         zip_safe=False,
--        version=s3ql.VERSION,
-         description='a full-featured file system for online data storage',
--        long_description=long_desc,
-         author='Nikolaus Rath',
-         author_email='Nikolaus@rath.org',
-         license='GPLv3',

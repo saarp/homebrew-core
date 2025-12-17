@@ -1,8 +1,8 @@
 class Netdata < Formula
   desc "Diagnose infrastructure problems with metrics, visualizations & alarms"
   homepage "https://www.netdata.cloud/"
-  url "https://github.com/netdata/netdata/releases/download/v2.6.0/netdata-v2.6.0.tar.gz"
-  sha256 "dc67e52bcc23a07cbcc36745b312cb767cb53a3e3914003a554707dce871f9a5"
+  url "https://github.com/netdata/netdata/releases/download/v2.8.3/netdata-v2.8.3.tar.gz"
+  sha256 "bc88f8e043aa8b78bffbdc11d60be6a2132ca9f690518c09ba7881006d7b13f5"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -12,17 +12,19 @@ class Netdata < Formula
   end
 
   bottle do
-    sha256 arm64_sequoia: "1ad256cd01968a8fb4c2ff074ea25f58cb031b048a8b74c97c459d7ed9f7aed2"
-    sha256 arm64_sonoma:  "b9980a89585bd1668748cbd46683d0e00e5cb092ae4f80c4e5e99311e9626f7a"
-    sha256 arm64_ventura: "ca42f820ba70a80e49259b767d2a33f23f7db0354e2e97165a98d70a0082e611"
-    sha256 sonoma:        "a46b03d5cbf3cd59ca4c4f29780e5f6266f42cb4465e4fcf000eb553570acbec"
-    sha256 ventura:       "b276ff05893e75d30c85357c57b43f6ea2cc6d3b240b68ee0c6460e051c401a1"
-    sha256 x86_64_linux:  "a424fdbdf03a767d46a6ee6761415e324352679f3ab267a84ed37d0faa308b40"
+    sha256 arm64_tahoe:   "3f2d1f114ab27ba1896b111344f834b95cd46ed4a7d0d4f2f13076643caba8d9"
+    sha256 arm64_sequoia: "0e8e76f96ed35661f43fac7bac6f441e973cce1e013f94fa1025c53d4d1b68dd"
+    sha256 arm64_sonoma:  "2a9e8f5d1b2f0c3e95fa90032dd3abad06e053944d9ec686a005343037e44ffe"
+    sha256 sonoma:        "f0b5f4bfaa0ba36efa82e449e52c1945bbf7dd830958eaa856c12ed8b747603a"
+    sha256 arm64_linux:   "aad78b12a6f0fd0f0ae10a533be4726b1ed8bf36d07ae393fcf0609294f9d8a4"
+    sha256 x86_64_linux:  "a202e1091e4ef47e59ca9667e6ec0c54b86922d960fff096ec09dd31c2ac4ad9"
   end
 
   depends_on "cmake" => :build
+  depends_on "corrosion" => :build
   depends_on "go" => :build
   depends_on "pkgconf" => :build
+  depends_on "rust" => :build
   depends_on "abseil"
   depends_on "dlib"
   depends_on "json-c"
@@ -48,10 +50,17 @@ class Netdata < Formula
     depends_on "libmnl"
     depends_on "systemd"
     depends_on "util-linux"
-    depends_on "zstd"
   end
 
   def install
+    # Fix to error: no member named 'tcps_sc_zonefail' in 'struct tcpstat'
+    # Issue ref: https://github.com/netdata/netdata/issues/20985
+    if OS.mac? && MacOS.version >= :tahoe
+      inreplace "src/collectors/macos.plugin/macos_sysctl.c",
+                'rrddim_set(st, "SyncookiesFailed", tcpstat.tcps_sc_zonefail);',
+                ""
+    end
+
     # Install files using Homebrew's directory layout rather than relative to root.
     inreplace "packaging/cmake/Modules/NetdataEBPFLegacy.cmake", "DESTINATION usr/", "DESTINATION "
     inreplace "CMakeLists.txt" do |s|
@@ -64,16 +73,21 @@ class Netdata < Formula
       s.gsub! "netdata_add_dlib_to_target(netdata)", ""
     end
 
-    system "cmake", "-S", ".", "-B", "build",
-                    "-DBUILD_FOR_PACKAGING=ON",
-                    "-DENABLE_PLUGIN_NFACCT=OFF",
-                    "-DENABLE_PLUGIN_XENSTAT=OFF",
-                    *std_cmake_args
+    args = %w[
+      -DBUILD_FOR_PACKAGING=ON
+      -DENABLE_PLUGIN_NFACCT=OFF
+      -DENABLE_PLUGIN_XENSTAT=OFF
+    ]
+    # Avoid to use FetchContent for `corrosion`
+    args += %w[
+      -DHOMEBREW_ALLOW_FETCHCONTENT=ON
+      -DFETCHCONTENT_FULLY_DISCONNECTED=ON
+      -DFETCHCONTENT_TRY_FIND_PACKAGE_MODE=ALWAYS
+    ]
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
-  end
 
-  def post_install
     (var/"cache/netdata/unittest-dbengine/dbengine").mkpath
     (var/"lib/netdata/registry").mkpath
     (var/"lib/netdata/lock").mkpath

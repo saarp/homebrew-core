@@ -1,8 +1,8 @@
 class Gitleaks < Formula
   desc "Audit git repos for secrets"
   homepage "https://gitleaks.io/"
-  url "https://github.com/gitleaks/gitleaks/archive/refs/tags/v8.28.0.tar.gz"
-  sha256 "c681af8aeacacf9d14f7ad97d534cf087f6d2d6fbd50dd02020b0f929b7a1c41"
+  url "https://github.com/gitleaks/gitleaks/archive/refs/tags/v8.30.0.tar.gz"
+  sha256 "606b3ce45d1e64d28ac7729ee03480a8ee2c5e5a5c5122844bd9516f3cc1bcf3"
   license "MIT"
   head "https://github.com/gitleaks/gitleaks.git", branch: "master"
 
@@ -15,18 +15,18 @@ class Gitleaks < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "dd1443521907f98711778ff09f29bc66fd711fb17ba89df2ff09814466617cd9"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "dd1443521907f98711778ff09f29bc66fd711fb17ba89df2ff09814466617cd9"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "dd1443521907f98711778ff09f29bc66fd711fb17ba89df2ff09814466617cd9"
-    sha256 cellar: :any_skip_relocation, sonoma:        "06c83ac2bbb8d9744479a77e74c752fbcf50a14ed5671a60704241d0a89022d7"
-    sha256 cellar: :any_skip_relocation, ventura:       "06c83ac2bbb8d9744479a77e74c752fbcf50a14ed5671a60704241d0a89022d7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f8c985d9b8ba59fdf4d9e42c4e52aac2189de3a1bbdeae500e28225e41a3b3b9"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "3b69222165e3992ec827f799080c99da6ddfb83b67a1cadb0279b5c1ed50dac4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "3b69222165e3992ec827f799080c99da6ddfb83b67a1cadb0279b5c1ed50dac4"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3b69222165e3992ec827f799080c99da6ddfb83b67a1cadb0279b5c1ed50dac4"
+    sha256 cellar: :any_skip_relocation, sonoma:        "a3be0014a6a247423522c3e26074156aca20cecc640fe9bccef25d656b981c82"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "03376dcde440d60bc146b0ceb6dc2d66387a73467ffdf0101dccda76c45dabcd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "569062400847b102f3c71673d130c11ec634b46fb656642f47b576b0bd5f3293"
   end
 
   depends_on "go" => :build
 
   def install
-    ldflags = "-s -w -X github.com/zricethezav/gitleaks/v#{version.major}/cmd.Version=#{version}"
+    ldflags = "-s -w -X github.com/zricethezav/gitleaks/v#{version.major}/version.Version=#{version}"
     system "go", "build", *std_go_args(ldflags:)
 
     generate_completions_from_executable(bin/"gitleaks", "completion")

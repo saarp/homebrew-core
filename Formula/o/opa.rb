@@ -1,18 +1,18 @@
 class Opa < Formula
   desc "Open source, general-purpose policy engine"
   homepage "https://www.openpolicyagent.org"
-  url "https://github.com/open-policy-agent/opa/archive/refs/tags/v1.6.0.tar.gz"
-  sha256 "13dd23c8dbfc104cace35b35ab4894af815e8ca10e9da6eac811944d98e504c8"
+  url "https://github.com/open-policy-agent/opa/archive/refs/tags/v1.11.1.tar.gz"
+  sha256 "4b4208bdf1aeb91def3ba3a42236d21b98dd35b2a92769baadb76c3950399023"
   license "Apache-2.0"
   head "https://github.com/open-policy-agent/opa.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b583c4cf67c9324506ce75542b2348941232831408636877ec73c3c9395eb693"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "adc2aed78534393067a087f45703f317890ff004077e7411837e920cc3575c30"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "46a5d86461c5cba0d4327cf021263b628b7b8ae63ab2b55f2f6b4f0d064afdfd"
-    sha256 cellar: :any_skip_relocation, sonoma:        "a98830e8dff9a67b747512c0b3cefcbe26d8d2862f7c79dff9bbd72076ad6ff8"
-    sha256 cellar: :any_skip_relocation, ventura:       "2aa4f6b6cc5bd0491a925769dbffc1118ec112a29cb16bb4adfb9c6657b39b7f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4596af3400d20ade1b86427c4ef8803213e4f919256280f6f2d7500bd1cba484"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "876566b3318ddcbf175c16aec074315f5f88a23bf8326af3a1def389cce734d9"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1937a87bdcf00be33c5b2bb56d65afdb054885c7f7e019cb3332e9e574633437"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "246388a66c3b7f811a632ab24d0636df45195d542505f05d2e5ab8d74b4a5da4"
+    sha256 cellar: :any_skip_relocation, sonoma:        "5c97b89ef0bde40d69170b45293e14839fe5b6bd1b62fefbe5a2757d7b4dd5e1"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "31b0e1e5de04b6643730a242b9a644c4deb4fd1d444b6cabda94747b59cde3e3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "66e70994dfa2f63b284c1e677aed21c6446f020e17d95105498874e6e01b6d54"
   end
 
   depends_on "go" => :build
@@ -31,7 +31,7 @@ class Opa < Formula
 
   test do
     output = shell_output("#{bin}/opa eval -f pretty '[x, 2] = [1, y]' 2>&1")
-    assert_equal "+---+---+\n| x | y |\n+---+---+\n| 1 | 2 |\n+---+---+\n", output
+    assert_equal "┌───┬───┐\n│ x │ y │\n├───┼───┤\n│ 1 │ 2 │\n└───┴───┘\n", output
     assert_match "Version: #{version}", shell_output("#{bin}/opa version 2>&1")
   end
 end

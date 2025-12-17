@@ -1,27 +1,21 @@
 class Kor < Formula
   desc "CLI tool to discover unused Kubernetes resources"
   homepage "https://github.com/yonahd/kor"
-  url "https://github.com/yonahd/kor/archive/refs/tags/v0.6.2.tar.gz"
-  sha256 "949b5857f126b4a237daae3670b115b6671fb8c233fd5569d2897635f867c2cd"
+  url "https://github.com/yonahd/kor/archive/refs/tags/v0.6.6.tar.gz"
+  sha256 "c635a981f05ba3f1c21395348e858f6e4354455ae019b023e84fe408a29c2294"
   license "MIT"
   head "https://github.com/yonahd/kor.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "31275612e3e476d5047283d9ca94ed3e6ef837b2e5f8b0ab8b495d9789eae542"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "cf6d3c5ebb828e74eb0654983c9725b700e523a9ad65683d8008db9619618113"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8370d440712f082fe7e6a68e9d4e794f85c04213ee379ada103bffbad32bc513"
-    sha256 cellar: :any_skip_relocation, sonoma:        "e4732b6723d5dc195bb5258085e4e5d5a3dee97429f76e41698ec9416f5ec672"
-    sha256 cellar: :any_skip_relocation, ventura:       "91affdfcff34d36ad82f851b7b7ab90193464c5410b797dacd1174e9e88d54d8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4659212b65a1845b56de8f3688617729e3f443122510e192cbf2ee263dbcf652"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "36fa1bc7b373051fcf0b45601ce5ca8f05d3851bf37b977f2c935c863601c2e6"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "af23bf965170c800f41a54113de23bbb4103a3862e2b998e614dbe30f3548f35"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3ea9df23a16f3ad23dc4c7f2f9c5c7b8734e3f64a3966922ed25b808c86935c6"
+    sha256 cellar: :any_skip_relocation, sonoma:        "2916efa9776111e48ca0b17e907474dc7eaa6134647910252d8368598802a045"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "c5ff651494040f6ff0d8d9e36f6fa17b29c63eda0271087d2c64a122aec45b1a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91ffc1b4d3457f14e6ef1ad02ad3c91211651f40ac865534f44cdf3c4e6c40bd"
   end
 
   depends_on "go" => :build
-
-  # skip kubeconfig for utility commands, upstream pr ref, https://github.com/yonahd/kor/pull/457
-  patch do
-    url "https://github.com/yonahd/kor/commit/6c02951894e587c023e57a7ab2654136024bff70.patch?full_index=1"
-    sha256 "98b3dac34c1164831a25502f8c2723d227cdac8ade8e4f68b17b00057e149be4"
-  end
 
   def install
     ldflags = "-s -w -X github.com/yonahd/kor/pkg/utils.Version=#{version}"

@@ -1,8 +1,8 @@
 class Forgit < Formula
   desc "Interactive git commands in the terminal"
   homepage "https://github.com/wfxr/forgit"
-  url "https://github.com/wfxr/forgit/releases/download/25.07.0/forgit-25.07.0.tar.gz"
-  sha256 "60cc0aabcd0816653a9618af7cfe86488fdadf0750583434e0fcac391d8ae1b2"
+  url "https://github.com/wfxr/forgit/releases/download/25.12.0/forgit-25.12.0.tar.gz"
+  sha256 "bb6aab32c2870ea98376d122e80bef9248258990b010a4b5256d785d8b62b2d2"
   license "MIT"
 
   livecheck do
@@ -11,7 +11,7 @@ class Forgit < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "34b2ca941bba6423601da1be3b33a684c262c681ebf442d866e1a36848ca1542"
+    sha256 cellar: :any_skip_relocation, all: "6adbde8314a1bd0e70cc47afe9a371c2777459c40f94d2f14abdca80f828d06e"
   end
 
   depends_on "fzf"

@@ -1,12 +1,12 @@
 class Flyway < Formula
   desc "Database version control to control migrations"
   homepage "https://www.red-gate.com/products/flyway/community/"
-  url "https://github.com/flyway/flyway/releases/download/flyway-11.10.4/flyway-commandline-11.10.4.tar.gz"
-  sha256 "01b9ff3bc5957feae3370247332c6b832f4183bcfeeefc622a32c3f4dfb94b8a"
+  url "https://github.com/flyway/flyway/releases/download/flyway-11.19.0/flyway-commandline-11.19.0.tar.gz"
+  sha256 "f46ef671f8694deb4cd02fa4fe00332c9efaf211f67e99fcf882424e44ae381f"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "47d64d87afd0b215cfd921a3f38f559501454f97659791f8d990ac2c6320a7d3"
+    sha256 cellar: :any_skip_relocation, all: "ac6d92b0170f93a3aeecc898f73c21a4d5ddf346e4c2f1672dd1bfd84d4124b2"
   end
 
   depends_on "openjdk"

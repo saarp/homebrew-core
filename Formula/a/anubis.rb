@@ -1,8 +1,8 @@
 class Anubis < Formula
   desc "Protect resources from scraper bots"
   homepage "https://anubis.techaro.lol"
-  url "https://github.com/TecharoHQ/anubis/archive/refs/tags/v1.21.2.tar.gz"
-  sha256 "4ae64e7ae54820059f64083a2f87e8bbb6504d8159b541647150cc83c58377c5"
+  url "https://github.com/TecharoHQ/anubis/archive/refs/tags/v1.23.1.tar.gz"
+  sha256 "55bf6d6ee6a1372604816b2bac08e7d6850f747a0c86bcdf9eca1be281feffab"
   license "MIT"
   head "https://github.com/TecharoHQ/anubis.git", branch: "main"
 
@@ -12,18 +12,23 @@ class Anubis < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "25f5e322854ca7cb1cb96d27160d69ba2971c333023376428ac3e7546b2118f7"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "64561e092adc6960bb14127aeef9d69ff24fc5f8dfb3611f14fdba7177149b92"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "1824dcea57b2b459276f116a1ce6de5a75d44991c7d5585a6e77c90dccdae22c"
-    sha256 cellar: :any_skip_relocation, sonoma:        "8a9e838f1b662daaa6895f90d2022e8312bf3806d391b85937cad69e2d8d85de"
-    sha256 cellar: :any_skip_relocation, ventura:       "429e135421bdd7a80826e81f5363d53c3b7d6d6af0f0866ba9ac93b710eaeaf3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1adb5648d51daf749489755564d2f5313eb9befe14d525e3a82c452b7c026be3"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "81bc0dccfe364179a4d85eb88444a905558711719d37f6de65fc2c70836b247d"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "22cc45cc4abc41185037efb28b37f12eb1ed3da41f297acc6749e376ad3a5167"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6a94c85651a045923e7d0e95bd4b77855ec2c04756b7574288cc413637921bdb"
+    sha256 cellar: :any_skip_relocation, sonoma:        "d660357ec790c0abe3629ce8a113dde57fb3a7cc9efe7735756a8049bc4365e9"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "48ec4f5756c54aa197f905bdca29904fff4b4ea90bbba731515dff065ee0992a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8ddffe7933f8dd924b8f36bad677657d3e6af1b1d524f5dce886910c326f1338"
   end
 
+  depends_on "bash" => :build # error: shopt: globstar: invalid shell option name on macos
+  depends_on "brotli" => :build
   depends_on "go" => :build
+  depends_on "node" => :build
+  depends_on "zstd" => :build
   depends_on "webify" => :test
 
   def install
+    system "make", "assets"
     ldflags = "-s -w -X github.com/TecharoHQ/anubis.Version=#{version}"
     system "go", "build", *std_go_args(ldflags:), "./cmd/anubis"
   end

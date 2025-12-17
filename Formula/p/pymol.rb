@@ -6,16 +6,16 @@ class Pymol < Formula
   url "https://github.com/schrodinger/pymol-open-source/archive/refs/tags/v3.1.0.tar.gz"
   sha256 "54306d65060bd58ed8b3dab1a8af521aeb4fd417871f15f463ff05ccb4e121fe"
   license :cannot_represent
-  revision 1
+  revision 2
   head "https://github.com/schrodinger/pymol-open-source.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_sonoma:  "748ce6bec5a5ed59d3520ace556d0cd32ae265fadbe58891f732898f8cb6da85"
-    sha256 cellar: :any,                 arm64_ventura: "355be7a610fda4208cadcaa6bf24e10ecc479436e1dcd1d621fa426c8467308f"
-    sha256 cellar: :any,                 sonoma:        "e2a9a1c776a564ce03f506933b04f85369db1d36b4f960c5616a1c3d020cf969"
-    sha256 cellar: :any,                 ventura:       "cb9de65d304f4c80ab4db5c75b70d8ed3cad27bc70c321d813545c3e88dfb447"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d8c1e82b8585b97ab30d595ffbeb51404bf16650037f313f6c3395542f42ec4f"
+    sha256 cellar: :any,                 arm64_tahoe:   "8f76f4858674072e0992eb5a2d004e2c088556c460ee98cadd828dc3c0c9b453"
+    sha256 cellar: :any,                 arm64_sequoia: "df129b99341114fdc3cbbcfbd469bb563e10af06dcb8fbfaa417dfec84c6b973"
+    sha256 cellar: :any,                 arm64_sonoma:  "e7ec9b524c7b30829ca8ed8e4e4195db5e687a0b2de3a5ea92cc569a4c092ff5"
+    sha256 cellar: :any,                 sonoma:        "808c4b989cb6240b0e3172d5279f8fce333231e33bbcf5c6f51f55c840632582"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "8c06f9389168a9a133cbe6dfc12a150fdd36a90e3268af20f1120f1e00703958"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "291e786a0fd830c0a55b2db5fa0ff7d08b27140938a990549ea75fc1974e758b"
   end
 
   depends_on "cmake" => :build
@@ -29,7 +29,7 @@ class Pymol < Formula
   depends_on "netcdf"
   depends_on "numpy"
   depends_on "pyqt"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   uses_from_macos "libxml2"
 
@@ -66,7 +66,7 @@ class Pymol < Formula
   end
 
   def python3
-    which("python3.13")
+    which("python3.14")
   end
 
   def install

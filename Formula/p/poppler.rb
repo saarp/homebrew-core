@@ -1,8 +1,8 @@
 class Poppler < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-25.07.0.tar.xz"
-  sha256 "c504a9066dbdfebe377ad53cec641fd971ee96c4e1e8ca74e6c9c03d46d817ae"
+  url "https://poppler.freedesktop.org/poppler-25.12.0.tar.xz"
+  sha256 "c18b40eb36b1a0c5b86e29ca054bf0770304583da4f2cdd42fe86eca6a20de48"
   license "GPL-2.0-only"
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
@@ -12,13 +12,12 @@ class Poppler < Formula
   end
 
   bottle do
-    sha256 arm64_sequoia: "3560d3df79e931767f72b74169ca69959d6dba7c858bdec5b4d620f7ba69806d"
-    sha256 arm64_sonoma:  "2d78a5989af01748a7c1e9db1cece90dee62880d48842a3a6181a12d2e4bacf6"
-    sha256 arm64_ventura: "35145176d16b304e5be2cc6d5543357f469651272d86afccbbfed59855dfcb55"
-    sha256 sonoma:        "926084d4193ba342ff4a4c823de92c4b270c3e6e24d2d04c8df42949ebb1c175"
-    sha256 ventura:       "826d529e015d839b40a0219361b4c41ee13410ee357ab90eb37133ffe2d14df6"
-    sha256 arm64_linux:   "0a5083e99dbf0555c13322a7f9e0ae40813fc93c0c0f46b0627862b999a8957e"
-    sha256 x86_64_linux:  "cfeeaace6cb7b57b38e77ba86867a2c06de5b606853e16cda7b947e95ff94f92"
+    sha256 arm64_tahoe:   "0a0fa9c290cfd239685c702a2e901639f8088c0c95ddd0fa62a72b0ae1b4f8d9"
+    sha256 arm64_sequoia: "9e8c2ecd0b8381d54d0107ad49dbe5d5bcda0d6050bcc5527e04570dc6f33a71"
+    sha256 arm64_sonoma:  "748ad1d382ea31409dbbcb3c7a8a69c1ee9fa81e2f916402d964e3dde19165d1"
+    sha256 sonoma:        "584dfd780a32e86eed44b2edc5a4c261c972b2902cb0ec35048c597701279cfa"
+    sha256 arm64_linux:   "1ebb7a2151adf8eb80b57f943f9badc50f272dcd164f7ee49ade052df5751563"
+    sha256 x86_64_linux:  "91b5ee0ee07d6b559d6c750c339d6278f34f56454b238556b6828b10cf2aea7b"
   end
 
   depends_on "cmake" => :build
@@ -31,6 +30,7 @@ class Poppler < Formula
   depends_on "gettext"
   depends_on "glib"
   depends_on "gpgme"
+  depends_on "gpgmepp"
   depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
@@ -62,9 +62,6 @@ class Poppler < Formula
 
   def install
     ENV.cxx11
-
-    # removes /usr/include from CFLAGS (not clear why)
-    ENV["PKG_CONFIG_SYSTEM_INCLUDE_PATH"] = "/usr/include" if OS.mac? && MacOS.version < :mojave
 
     args = std_cmake_args + %W[
       -DBUILD_GTK_TESTS=OFF

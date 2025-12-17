@@ -3,8 +3,8 @@ class LlamaCpp < Formula
   homepage "https://github.com/ggml-org/llama.cpp"
   # CMake uses Git to generate version information.
   url "https://github.com/ggml-org/llama.cpp.git",
-      tag:      "b5980",
-      revision: "820de57d4faa427a3d0bfb14e48057247fae036e"
+      tag:      "b7410",
+      revision: "96a181a933a34e92c316b0603f0f30cb7f30eefa"
   license "MIT"
   head "https://github.com/ggml-org/llama.cpp.git", branch: "master"
 
@@ -12,20 +12,19 @@ class LlamaCpp < Formula
   # Having multiple updates in one day is not very convenient
   # Update formula only after 10 new tags (1 update per ≈2 days)
   #
-  # `trottle 10` doesn't work
+  # `throttle 10` doesn't work
   livecheck do
     url :stable
     regex(/^v?b(\d+(?:\.\d+)*0)$/i)
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "6baf9ca42ca9297506cb2f27f025101fcb652e1f4072c5954997219764e27382"
-    sha256 cellar: :any,                 arm64_sonoma:  "5221b6a6f70c7f18234243aba2857b88640bc71c002dd10f99948c18f29256e8"
-    sha256 cellar: :any,                 arm64_ventura: "d7116f3e911cf6f9b23229503d499e63f5cc9997a56f7c1e08b03cd45ba2f514"
-    sha256 cellar: :any,                 sonoma:        "2243e00601d03b0850c6cabeabc602763bee381e6478ec658141092c4db60799"
-    sha256 cellar: :any,                 ventura:       "f63dc74e1005c8746a6e4baf6be98ff2f2ab8d1453994148a97627836eb13429"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "110374c9280cc1f3d106926e92ea7fbc2d62acc79a0493be6f3c6372eb803009"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7bbb0dab7754abdc2954ed9a13eabce6a56db6aa2ce1c6291045eba2f631430e"
+    sha256 cellar: :any,                 arm64_tahoe:   "0bec21ea67f2a7eafbbd5e10a75087b87961d68274d40ba49206f4060cf836b2"
+    sha256 cellar: :any,                 arm64_sequoia: "fbf4ec1830d4ce9db88c424c25fa8dba84d0e3427cf5ed9847c1c66b80882d28"
+    sha256 cellar: :any,                 arm64_sonoma:  "1ef51c0331a7a597beba55f589620f0d7285f57ca534dd8b0f8fddeb029ee149"
+    sha256 cellar: :any,                 sonoma:        "1438f0dd2138b4263a22c5e5f484be31b1820485c964d067abd8c8467d5b8cf8"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "dac51ceb6fb5d29f3a60bf6e6a4502e37dc4e68dad7b77f403f0778df9428441"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "18e94f827f6a0a95c94fb21212984e88088f14dfd55269bb7e85bfc1c1fbcfe7"
   end
 
   depends_on "cmake" => :build
@@ -69,8 +68,8 @@ class LlamaCpp < Formula
     # The test below is flaky on slower hardware.
     return if OS.mac? && Hardware::CPU.intel? && MacOS.version <= :monterey
 
-    system bin/"llama-cli", "--hf-repo", "ggml-org/tiny-llamas",
-                            "-m", "stories260K.gguf",
-                            "-n", "400", "-p", "I", "-ngl", "0"
+    system bin/"llama-completion", "--hf-repo", "ggml-org/tiny-llamas",
+                                   "-m", "stories260K.gguf",
+                                   "-n", "400", "-p", "I", "-ngl", "0"
   end
 end

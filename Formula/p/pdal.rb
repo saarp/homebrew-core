@@ -1,9 +1,10 @@
 class Pdal < Formula
   desc "Point data abstraction library"
-  homepage "https://www.pdal.io/"
-  url "https://github.com/PDAL/PDAL/releases/download/2.9.0/PDAL-2.9.0-src.tar.bz2"
-  sha256 "f0be2f6575021d0c4751d5babd4c1096d4e5934f86f8461914e9f9c6dc63567d"
+  homepage "https://pdal.org/"
+  url "https://github.com/PDAL/PDAL/releases/download/2.9.3/PDAL-2.9.3-src.tar.bz2"
+  sha256 "22e90c8b9653e2bd0eb24efbe071b6c281e972145b47c0ccfdc329d73c188d9c"
   license "BSD-3-Clause"
+  revision 1
   head "https://github.com/PDAL/PDAL.git", branch: "master"
 
   livecheck do
@@ -12,13 +13,12 @@ class Pdal < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "df3625f29b78818e5612df608c7285c427d61a4f958a1bbc12f2c2acd6102a7d"
-    sha256 cellar: :any,                 arm64_sonoma:  "0deebb7f4aed87f93e8a8312bfbb7b345ddaab7b38976f977cdb9cfd5d144265"
-    sha256 cellar: :any,                 arm64_ventura: "c16bb2d479d3012b3e68089d525679da0c033282cd4b8420f698e4e97c414c2e"
-    sha256 cellar: :any,                 sonoma:        "7a67735f291181d21846502f6e8fa6d132b148ec524a78445f24324ce6ed8535"
-    sha256 cellar: :any,                 ventura:       "a8c294bf0ac08b50c658d4a293ffc19960da1e17b360184c435607cf2e80a37f"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "5a3edab3708912af7677213c85466ef1ba09e2cf01b527db65e9dc241e0f2383"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "135d54d4953876f23dcfa6dd5ce606cc29ffc8711ee549305aa1170bffcecfe2"
+    sha256 cellar: :any,                 arm64_tahoe:   "fd9574824b61bfaeb03e419f2f8419ecac5dad68e26d9d4e1265e6269ae2fdd5"
+    sha256 cellar: :any,                 arm64_sequoia: "9cf2120d17fca9e35c805e00855fc160f83053f5b8d36618960c93361669fb3a"
+    sha256 cellar: :any,                 arm64_sonoma:  "22281c24d53bb3204a454b039c92c0689530be0734f51aa1606299e4c8363d88"
+    sha256 cellar: :any,                 sonoma:        "a488265cc57f828e1965cbcf716bd82cc8c9ca3da1c057d9a8aa8e9d55a47c65"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "8031c642131f178ef0d5a5c9a7d47ef63322e2f75fe110a1d2e9abfff6b647ca"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f79ecc846531cf0002193d1c2951749670bf939eccc5a51f49f74f59db400d72"
   end
 
   depends_on "cmake" => :build

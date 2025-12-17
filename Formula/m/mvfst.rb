@@ -1,19 +1,18 @@
 class Mvfst < Formula
   desc "QUIC transport protocol implementation"
   homepage "https://github.com/facebook/mvfst"
-  url "https://github.com/facebook/mvfst/archive/refs/tags/v2025.07.21.00.tar.gz"
-  sha256 "f5e8567871aaf20ca526441bb3cf9fc93b636bc38377e60cdd7d800399e24389"
+  url "https://github.com/facebook/mvfst/archive/refs/tags/v2025.12.15.00.tar.gz"
+  sha256 "acbb76ffdf9a2c38fff0a80efbb04422c2c7ba4934bdc0630626d8bb2db9f144"
   license "MIT"
   head "https://github.com/facebook/mvfst.git", branch: "main"
 
   bottle do
-    sha256                               arm64_sequoia: "6b6269658011c6ceb892c2a6b4846858fdf503d69e5f5bdcddad6b1c11cf6828"
-    sha256                               arm64_sonoma:  "273adce827bd368c85bcc863cd895c164b756ed124f04d8eabc59a77d37e0c7d"
-    sha256                               arm64_ventura: "70b4624d32cd7c2b59660a56be8cb833a224eed109d3f34f81f6f2fde6b20adb"
-    sha256 cellar: :any,                 sonoma:        "1012e6d08f3a3ed506c49c2ea2d8379165368fef82ae20a3c7b4f7b4c1d8817a"
-    sha256 cellar: :any,                 ventura:       "06564005e4a67493bfc36824fa35a66c6c578772136b519cc6fd9bf4e5d7468e"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ed841bb21411492097ea4984c9ce524def58996e3204417a0e1ce3e669f1b8f8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dae3e16ebf56d4ad2878763893f5067d6cdc64e743df2af9aff8734f1ce9c710"
+    sha256                               arm64_tahoe:   "c410c628fd0ad0f7116a670358f505588c785c37d98041f1f57fe0bbb31fcc7d"
+    sha256                               arm64_sequoia: "4026f0143aa9db77a828e861524e33c12c1938919c0b935232ae11295efd65eb"
+    sha256                               arm64_sonoma:  "4a002bfa3a4e395ad3d21b20ec87dbcf7904c94cdbee6bafee23cbfee41f9bfb"
+    sha256 cellar: :any,                 sonoma:        "a24a5fe4db8fe2c853f8cd2a77009e4e1495c77c4b868bfbd28a23d842d835d5"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "6a00a81254cdcebe9d228f706f0b90ea1819c1f67478a4bcd330b78228a67a73"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cc14e5e003b7efd7668541aa0f84817fb806af0ea23f72a0b0520ff64d1d36da"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -26,6 +25,13 @@ class Mvfst < Formula
   depends_on "glog"
   depends_on "libsodium"
   depends_on "openssl@3"
+
+  # Fix CMake config
+  # https://github.com/facebook/mvfst/pull/416
+  patch do
+    url "https://github.com/facebook/mvfst/commit/a65e4d4042dd6a37448550bb7de42cc591a917e9.patch?full_index=1"
+    sha256 "a6d7602b0372ea791664948a1ecdb006479c352b402174f42596384ee9b6c864"
+  end
 
   def install
     shared_args = ["-DBUILD_SHARED_LIBS=ON", "-DCMAKE_INSTALL_RPATH=#{rpath}"]

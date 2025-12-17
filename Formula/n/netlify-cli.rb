@@ -1,18 +1,17 @@
 class NetlifyCli < Formula
   desc "Netlify command-line tool"
   homepage "https://www.netlify.com/docs/cli"
-  url "https://registry.npmjs.org/netlify-cli/-/netlify-cli-22.4.0.tgz"
-  sha256 "e90a2d54b6755aa9f0b4c4f1a6eb07f3a4926fb869d82f4c1b9b3ab1847e3ea4"
+  url "https://registry.npmjs.org/netlify-cli/-/netlify-cli-23.12.3.tgz"
+  sha256 "d78d8a239d24dc9f2cb9e3065824bec9e5e7e4e01e53bd373f9a3a572fe33afb"
   license "MIT"
 
   bottle do
-    sha256                               arm64_sequoia: "911f82bdf0141be98923c93e3ca01171d46b047c94d4fb5ca63c6b376953b7ca"
-    sha256                               arm64_sonoma:  "77e77c2375389ce39797e6bd614c13af3576de24f8f8222e26cd8d03313a1630"
-    sha256                               arm64_ventura: "e0e0ba7b688e5dd481cc00b439146cfdbf9b2e0e2e52cdb4de43ddfa5f8e2a99"
-    sha256                               sonoma:        "5d7089771c5689f6d5f281611aa7a6d8d50f1f78b72554b3a749d367b1244668"
-    sha256                               ventura:       "ed7980b05a244b2e1320861d2316aa9357c67cc67362628ed446e8642d052763"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "3d8371b31b4fec4f3ab0e1528857edcfba144a7a60c6e0839b77abc412b02cc4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "77d9a4af04fa28997d8eaedaa930480360f44c941c4eaadc54b0da1ff5c30e2c"
+    sha256                               arm64_tahoe:   "f4df9fdf0c85e010015df7751fba5d8586462a0a3a753f1a96d315400737abdb"
+    sha256                               arm64_sequoia: "b98f212f0113e124b5248f460932fd23279bcf2f54e1110b669f4a8e125aabcc"
+    sha256                               arm64_sonoma:  "3127db2e6c98b0c72925ad00ec93bccbc0cb5e6a885f92d692d9381cfadf009c"
+    sha256                               sonoma:        "db3eafa28a8695f56a953f87b599d6c56a15bfecf19eae0eaf8f9458d7e8f494"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "25ca4c623fc456e94a54db02dbb81cd0aec54462e051ad55facd00a0e16e8462"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5070f192663dfb2fe3ae2e7fd44c7288b394435ad480f7c2db857de7aedcecd5"
   end
 
   depends_on "pkgconf" => :build
@@ -26,21 +25,25 @@ class NetlifyCli < Formula
 
   on_linux do
     depends_on "gmp"
-    depends_on "vips"
     depends_on "xsel"
   end
 
+  # Resource needed to build sharp from source to avoid bundled vips
+  # https://sharp.pixelplumbing.com/install/#building-from-source
+  resource "node-gyp" do
+    url "https://registry.npmjs.org/node-gyp/-/node-gyp-12.1.0.tgz"
+    sha256 "492bca8e813411386e61e488f95b375262aa8f262e6e8b20d162e26bdf025f16"
+  end
+
   def install
-    system "npm", "install", *std_npm_args
+    ENV["SHARP_FORCE_GLOBAL_LIBVIPS"] = "1"
+    system "npm", "install", *std_npm_args(ignore_scripts: false), *resources.map(&:cached_download)
     bin.install_symlink libexec.glob("bin/*")
 
-    # Remove incompatible pre-built binaries
+    # Remove incompatible and unneeded pre-built binaries
     node_modules = libexec/"lib/node_modules/netlify-cli/node_modules"
-
-    if OS.linux?
-      (node_modules/"@lmdb/lmdb-linux-x64").glob("*.musl.node").map(&:unlink)
-      (node_modules/"@msgpackr-extract/msgpackr-extract-linux-x64").glob("*.musl.node").map(&:unlink)
-    end
+    rm_r(node_modules.glob("@img/sharp-*"))
+    rm_r(node_modules.glob("@parcel/watcher-{darwin,linux}*"))
 
     clipboardy_fallbacks_dir = node_modules/"clipboardy/fallbacks"
     rm_r(clipboardy_fallbacks_dir) # remove pre-built binaries
@@ -50,15 +53,15 @@ class NetlifyCli < Formula
       # Replace the vendored pre-built xsel with one we build ourselves
       ln_sf (Formula["xsel"].opt_bin/"xsel").relative_path_from(linux_dir), linux_dir
     end
-
-    # Remove incompatible pre-built `bare-fs`/`bare-os` binaries
-    os = OS.kernel_name.downcase
-    arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
-    node_modules.glob("{bare-fs,bare-os}/prebuilds/*")
-                .each { |dir| rm_r(dir) if dir.basename.to_s != "#{os}-#{arch}" }
   end
 
   test do
     assert_match "Not logged in. Please log in to see project status.", shell_output("#{bin}/netlify status")
+
+    require "utils/linkage"
+    sharp = libexec.glob("lib/node_modules/netlify-cli/node_modules/sharp/src/build/Release/sharp-*.node").first
+    libvips = Formula["vips"].opt_lib/shared_library("libvips")
+    assert sharp && Utils.binary_linked_to_library?(sharp, libvips),
+           "No linkage with #{libvips.basename}! Sharp is likely using a prebuilt version."
   end
 end

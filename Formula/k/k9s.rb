@@ -2,8 +2,8 @@ class K9s < Formula
   desc "Kubernetes CLI To Manage Your Clusters In Style!"
   homepage "https://k9scli.io/"
   url "https://github.com/derailed/k9s.git",
-      tag:      "v0.50.9",
-      revision: "ff62f621158b8d701279f9900437021bcfa369c2"
+      tag:      "v0.50.16",
+      revision: "3c37ca2197ca48591566d1f599b7b3a50d54a408"
   license "Apache-2.0"
   head "https://github.com/derailed/k9s.git", branch: "master"
 
@@ -13,13 +13,12 @@ class K9s < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0c86b4a8a8e57ee0637cccb45e9ec2c4615db3b9a132e72a79800e8f015f0b64"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "1c09b21891002fbefb699f8418d77bdb49a5e1ea3a991e1c0f604bd5fab3a27f"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "f058726009af36e7db23dbd7a007e5c544df6edbe5eb16e5bb99be9693a1bb72"
-    sha256 cellar: :any_skip_relocation, sonoma:        "b82aa88e05bedee1d0f017d18b149907636a676e8f3ebe44fb037ac953fa16f5"
-    sha256 cellar: :any_skip_relocation, ventura:       "1e46aa2f0549bbc12d028cd4ac1fbd340538709bf3cbd11d21b1f3fb58dd9876"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "71367c264a832bcda28f026198319d638b5ffff5fb0fbec7d4d12f0a4b1c2618"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b682f2ece6e37f7771be0a650da01299ebec51ff162d23babfdfb2c3923cd48c"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "34753f104249b6d663e0b5a5b7ab0684c7f3ad3b5e4b08ae9c3b4835b7c1e45a"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "ab014052a0de4a1876e16edd71c2d5bda72ff5c66bd1a1d31177f92e99cb497e"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "9f72d9276dc75c2dcb6722ccad11f1685a196768d3a772b6a546201abfade2a0"
+    sha256 cellar: :any_skip_relocation, sonoma:        "36d75eb3db25e252084272ae8b7b3fdcebfcb24545f0489b087122c3f6fc1dc1"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "677edcf7ac55887c859bee495f5ce8673b6adf9e5bcf103adeb8f5a9ba23a7bc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "01a489ab46e403cb4312710cfa5e0cd13474097f83c8f632fea8833fab8eb516"
   end
 
   depends_on "go" => :build

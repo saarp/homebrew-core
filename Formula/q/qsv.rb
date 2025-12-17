@@ -1,8 +1,8 @@
 class Qsv < Formula
   desc "Ultra-fast CSV data-wrangling toolkit"
   homepage "https://qsv.dathere.com/"
-  url "https://github.com/dathere/qsv/archive/refs/tags/6.0.1.tar.gz"
-  sha256 "d4a4dafad7cec344a927e92a1d42b4da210ea83061b9de8094da9d06f0d1427f"
+  url "https://github.com/dathere/qsv/archive/refs/tags/11.0.2.tar.gz"
+  sha256 "239838d64ed956be64004beb38d382af3282d2b76e19c6de15b669292be00ca2"
   license any_of: ["MIT", "Unlicense"]
   head "https://github.com/dathere/qsv.git", branch: "master"
 
@@ -15,13 +15,12 @@ class Qsv < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b19ac97495e9159af081ecdae9bf9cb22dfaede6621f27c8ce750e742a36475a"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "7f9953df792838a7b825257cee6f77c61b047ae704a4b168c1aa512d9f2d6064"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "9b2dbb689d8da8297dcff27c6ce7602c0505ebb95d08a5b81d7f2a021a8fbc90"
-    sha256 cellar: :any_skip_relocation, sonoma:        "bdede4883030e9a399a634a4247cce3a5210bdd1e8c38b9f7919d7dbabff77c7"
-    sha256 cellar: :any_skip_relocation, ventura:       "758d3cb4253ec497007f9023e13aad4ba00df910c5eea99285f1e25c9c389f11"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "69d5fdd79814150df5d04943a34ca82aa4261e251e0c9fa8d8e128f95a80eb3e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "89cc4719724f478534fec9c1571f69acdb93615bfe458db681947e934f8c8c6a"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f3ebe96c9e5d4297c0f931be29fa27625ee56ec9c19550b8e908b83e3332ca5b"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "22decbb51534105643e54cd9387863370933d0a7e54311ccac043de1ade72cd9"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "e9552d55793622929ee00a4c8698713e7523604fa0b49d567e5fa3f7e937268d"
+    sha256 cellar: :any_skip_relocation, sonoma:        "02e034dbf661af68a90b0894f98de2c9537c3d2280a11570a2e5cd0c5a0ac7bd"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "392b2dd3b8c42881ca5abd99f64d9ab685ebd32959906cbc3c56c7e16a41cef9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a4326aa8c1a8189569e5a4deaa81a08d01a8cf8cd938b2fdf87334e204ca4abd"
   end
 
   depends_on "cmake" => :build # for libz-ng-sys
@@ -35,7 +34,7 @@ class Qsv < Formula
   def install
     # Use explicit CPU target instead of "native" to avoid brittle behavior
     # see discussion at https://github.com/briansmith/ring/discussions/2528#discussioncomment-13196576
-    ENV["RUSTFLAGS"] = "-C target-cpu=apple-m1" if OS.mac? && Hardware::CPU.arm?
+    ENV.append_to_rustflags "-C target-cpu=apple-m1" if OS.mac? && Hardware::CPU.arm?
 
     system "cargo", "install", *std_cargo_args, "--features", "apply,lens,luau,feature_capable"
     bash_completion.install "contrib/completions/examples/qsv.bash" => "qsv"
@@ -47,9 +46,9 @@ class Qsv < Formula
   test do
     (testpath/"test.csv").write("first header,second header")
     assert_equal <<~EOS, shell_output("#{bin}/qsv stats test.csv")
-      field,type,is_ascii,sum,min,max,range,sort_order,sortiness,min_length,max_length,sum_length,avg_length,stddev_length,variance_length,cv_length,mean,sem,geometric_mean,harmonic_mean,stddev,variance,cv,nullcount,max_precision,sparsity
-      first header,NULL,,,,,,,,,,,,,,,,,,,,,,0,,
-      second header,NULL,,,,,,,,,,,,,,,,,,,,,,0,,
+      field,type,is_ascii,sum,min,max,range,sort_order,sortiness,min_length,max_length,sum_length,avg_length,stddev_length,variance_length,cv_length,mean,sem,geometric_mean,harmonic_mean,stddev,variance,cv,nullcount,n_negative,n_zero,n_positive,max_precision,sparsity
+      first header,NULL,,,,,,,,,,,,,,,,,,,,,,0,,,,,
+      second header,NULL,,,,,,,,,,,,,,,,,,,,,,0,,,,,
     EOS
   end
 end

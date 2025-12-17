@@ -1,18 +1,18 @@
 class Forcecli < Formula
   desc "Command-line interface to Force.com"
   homepage "https://force-cli.herokuapp.com/"
-  url "https://github.com/ForceCLI/force/archive/refs/tags/v1.1.1.tar.gz"
-  sha256 "a7dbb98ef80e2a94a0065e63a37115a025ba8f6b97a19a1ffb63c4264dc790bf"
+  url "https://github.com/ForceCLI/force/archive/refs/tags/v1.5.0.tar.gz"
+  sha256 "cabe517926c2d8a4ff6a3febb387c0953778611000cc39744b145ed7d8829bbc"
   license "MIT"
   head "https://github.com/ForceCLI/force.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "782c2f9066c57f9598d3aa9f17544a401732cc84f1284e70aeadb7b6b1cbb281"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "782c2f9066c57f9598d3aa9f17544a401732cc84f1284e70aeadb7b6b1cbb281"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "782c2f9066c57f9598d3aa9f17544a401732cc84f1284e70aeadb7b6b1cbb281"
-    sha256 cellar: :any_skip_relocation, sonoma:        "aac768af1f98d9d238cd99c817999eea72eb80293385df56f1f70154cde1e583"
-    sha256 cellar: :any_skip_relocation, ventura:       "aac768af1f98d9d238cd99c817999eea72eb80293385df56f1f70154cde1e583"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d89018ab68f977a6b4785f90cdd74a109a21163b45ad20ff55746fc20949e236"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "3e60a77fa6b93b645b4f3180eb7e7c6d2aaedcb0f7923dd10ca389f79b859a86"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "3e60a77fa6b93b645b4f3180eb7e7c6d2aaedcb0f7923dd10ca389f79b859a86"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3e60a77fa6b93b645b4f3180eb7e7c6d2aaedcb0f7923dd10ca389f79b859a86"
+    sha256 cellar: :any_skip_relocation, sonoma:        "4f78a475d5a845b6c25e65e355044822683a2d4e393ed948caf01a347777e260"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4aea5100928b4404cbedfae4ab8ca082047d0776d653f5402d3e0062c592c30d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2256911fb347c49deac84bdb2bdf77746c154633fd1785fd0ab762b1308485d0"
   end
 
   depends_on "go" => :build

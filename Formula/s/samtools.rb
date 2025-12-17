@@ -1,23 +1,23 @@
 class Samtools < Formula
   desc "Tools for manipulating next-generation sequencing data"
   homepage "https://www.htslib.org/"
-  url "https://github.com/samtools/samtools/releases/download/1.22/samtools-1.22.tar.bz2"
-  sha256 "4911d01720f246cb97855870b410bbe4d2c2fd7fbf823ea0f7daf0f32545819d"
+  url "https://github.com/samtools/samtools/releases/download/1.23/samtools-1.23.tar.bz2"
+  sha256 "f228db57d25b724ea26fe55c1c91529f084ef564888865fb190dd87bd04ee74c"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "220446fda87460adab2eb115c4544317ac4efbd4fde226b912910500953de9f1"
-    sha256 cellar: :any,                 arm64_sonoma:  "2e5e85e52f71cc46f3a13deb0f1846fb878f24aec58f820d92f0ceb7214b6a11"
-    sha256 cellar: :any,                 arm64_ventura: "e22d88a95b2c57696e3d044023e8361a88e318815b541303b9306a33fce8c5fc"
-    sha256 cellar: :any,                 sonoma:        "ac88a58eed05adb2d30fcaec291456cdcd4ec4389ce6849e010440447279dd3e"
-    sha256 cellar: :any,                 ventura:       "585ae2c4165a6eb58e5ae1743fb0b2d0cdac37f0d49ef90ff1dad7a401c0a95b"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "58b35560dde7b56963008cb3339d6636013058fc456b7bdb2115875675892a01"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cc61d5a65fc6f459e390a0b39bd2d3cb9b4d0fd8c074d7d0e059cd165d44ade4"
+    sha256 cellar: :any,                 arm64_tahoe:   "a7b121c38e13f45ad221f61f52a21243dddae63c2f80933f01e3fc9e62094452"
+    sha256 cellar: :any,                 arm64_sequoia: "7d054f88fc3038fbd0a5c1c43e0d386e6781ffb78ec938f908b850ac37574135"
+    sha256 cellar: :any,                 arm64_sonoma:  "7f7e7acea785a7083e4eeffdd322e56d199cc8a6b06d63b62af9722babb19606"
+    sha256 cellar: :any,                 sonoma:        "d4151c2b0ff6e00c02c1c6c2e29372005ec0d6bf125d9306704530ba7edbf53c"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "efc4caf278e7a0fd84e6b54f085037edf3d02cb574092e3893f1b4a92aa1a52e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "62e720eba3b3f4f44c3bcefe3ce0343da6eb40412eb54dad9011f2d636d12b44"
   end
 
   depends_on "htslib"
 
   uses_from_macos "ncurses"
+  uses_from_macos "zlib"
 
   def install
     system "./configure", "--prefix=#{prefix}",

@@ -1,18 +1,18 @@
 class Opentofu < Formula
   desc "Drop-in replacement for Terraform. Infrastructure as Code Tool"
   homepage "https://opentofu.org/"
-  url "https://github.com/opentofu/opentofu/archive/refs/tags/v1.10.3.tar.gz"
-  sha256 "2279dbe3823282b7646d321106b43842203606b4eeddc1a1d3b9de51cdf74953"
+  url "https://github.com/opentofu/opentofu/archive/refs/tags/v1.11.1.tar.gz"
+  sha256 "fa4927bd08be41775ad6a104414f3fc72ea297a04b80f5601d47479aabd32d3c"
   license "MPL-2.0"
   head "https://github.com/opentofu/opentofu.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8390b1dbccb5409c818f87c2d0ab8629d1c0e2ae1e4f813d3949f40919c595b4"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "8390b1dbccb5409c818f87c2d0ab8629d1c0e2ae1e4f813d3949f40919c595b4"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8390b1dbccb5409c818f87c2d0ab8629d1c0e2ae1e4f813d3949f40919c595b4"
-    sha256 cellar: :any_skip_relocation, sonoma:        "83a50649d70b32d092dd7301b1bd0ad9f11100dabe220d5a391c401e2121adce"
-    sha256 cellar: :any_skip_relocation, ventura:       "83a50649d70b32d092dd7301b1bd0ad9f11100dabe220d5a391c401e2121adce"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "35f2fd86ecc8ad204d5c68cd6e0e928933742e6f4e5ad4274f6516cc62142a68"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "6c55ee0d21333abece6ec201e923feb673e2677eb8eff08a859a7cfec8498726"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "437b1cb2a8992ec3440d1e902b12dfcfb857389bf856bd16d0ee51b143a4c8fc"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "24731c600d2a27cf7ab350477f40eb567db58b3336e1f937eb28162f8194d860"
+    sha256 cellar: :any_skip_relocation, sonoma:        "ef74bdedd5aea4634d53ae9b4a2595faac0a8ef29ab5fd966b61138e584b403d"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "2c6df5ce2ae9cb2f351d51b0c58531643caa8d2d7e99ccc5d73b647c667af92d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d821bae7e6a059f723210b80e86f4ec1c799a4e42f5a7dfcee90f22bce3c7f12"
   end
 
   depends_on "go" => :build
@@ -20,13 +20,13 @@ class Opentofu < Formula
   conflicts_with "tenv", "tofuenv", because: "both install tofu binary"
 
   def install
+    ENV["CGO_ENABLED"] = OS.mac? ? "1" : "0"
     ldflags = "-s -w -X github.com/opentofu/opentofu/version.dev=no"
     system "go", "build", *std_go_args(output: bin/"tofu", ldflags:), "./cmd/tofu"
   end
 
   test do
-    minimal = testpath/"minimal.tf"
-    minimal.write <<~HCL
+    (testpath/"minimal.tf").write <<~HCL
       variable "aws_region" {
         default = "us-west-2"
       }

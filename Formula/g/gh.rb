@@ -1,8 +1,8 @@
 class Gh < Formula
   desc "GitHub command-line tool"
   homepage "https://cli.github.com/"
-  url "https://github.com/cli/cli/archive/refs/tags/v2.76.1.tar.gz"
-  sha256 "9a247dbbf4079b29177ef58948a099b482efef7d2d7f2b934c175709ab8ea1b6"
+  url "https://github.com/cli/cli/archive/refs/tags/v2.83.2.tar.gz"
+  sha256 "c031ca887d3aaccb40402a224d901c366852f394f6b2b60d1158f20569e33c89"
   license "MIT"
   head "https://github.com/cli/cli.git", branch: "trunk"
 
@@ -11,15 +11,15 @@ class Gh < Formula
     strategy :github_latest
   end
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6219b5db171ef6b851d451292d487907908260a6d81ca32ce49515a26d931eb5"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6219b5db171ef6b851d451292d487907908260a6d81ca32ce49515a26d931eb5"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "6219b5db171ef6b851d451292d487907908260a6d81ca32ce49515a26d931eb5"
-    sha256 cellar: :any_skip_relocation, sonoma:        "63d0d9d73d9c40de6df81b85eec02d6a02fd250370ebcfa1a6e9c5338ccd0bed"
-    sha256 cellar: :any_skip_relocation, ventura:       "a51fff43f441ff97e66498bd1cd3c0b61c2fa46d95f2ca714022dfb10f414fee"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8755adbdeafc47479fe797e72de44961d8b23929a9da1993ac3f8e5e01b7028f"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "6b2e5af43deeb05946308605a6696110bd70c231f2407593794c64ad37a1e78b"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6b2e5af43deeb05946308605a6696110bd70c231f2407593794c64ad37a1e78b"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6b2e5af43deeb05946308605a6696110bd70c231f2407593794c64ad37a1e78b"
+    sha256 cellar: :any_skip_relocation, sonoma:        "75a0d198b8e8faf1bd6a82777ccbd05ba091296fccb9d3c34155d021767841cb"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "94e5e982468b5d4e6381a512928348fbdd3a3dc05d1cd0d9a1592b8862a5de54"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9911518b3e82e5a14d9b0ecd5b23fa7f7d47c61ebcaa46b6bd18240348168c3f"
   end
 
   depends_on "go" => :build
@@ -33,15 +33,17 @@ class Gh < Formula
       Utils.safe_popen_read("git", "describe", "--tags", "--dirty").chomp
     end
 
+    ldflags = %w[-s -w]
+
     with_env(
       "GH_VERSION"   => gh_version,
-      "GO_LDFLAGS"   => "-s -w",
+      "GO_LDFLAGS"   => ldflags.join(" "),
       "GO_BUILDTAGS" => "updateable",
     ) do
       system "make", "bin/gh", "manpages"
     end
     bin.install "bin/gh"
-    man1.install Dir["share/man/man1/gh*.1"]
+    man1.install buildpath.glob("share/man/man1/gh*.1")
     generate_completions_from_executable(bin/"gh", "completion", "-s")
   end
 

@@ -1,8 +1,8 @@
 class S2n < Formula
   desc "Implementation of the TLS/SSL protocols"
   homepage "https://github.com/aws/s2n-tls"
-  url "https://github.com/aws/s2n-tls/archive/refs/tags/v1.5.23.tar.gz"
-  sha256 "81961ea5ae9313c987edfa579306ad4500bedfbf10caf84d8a5dcfc42aaf591f"
+  url "https://github.com/aws/s2n-tls/archive/refs/tags/v1.6.3.tar.gz"
+  sha256 "84f52b3c841a110931442022d05b53b00353e64b03128dd24006438935e1cc32"
   license "Apache-2.0"
   head "https://github.com/aws/s2n-tls.git", branch: "main"
 
@@ -12,13 +12,12 @@ class S2n < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "934ec28b19a204d7d2333a0856170141972a9d6c460d068f76130c1d1971c93d"
-    sha256 cellar: :any,                 arm64_sonoma:  "617e270f81c8326fde776e4906164caf9b05e398c554a9ba49f29877573e7728"
-    sha256 cellar: :any,                 arm64_ventura: "0068665ad5a174d91d7b91544d4338bd7b206ecac2101616cc218fdfeb0dc29d"
-    sha256 cellar: :any,                 sonoma:        "d3d8be230226fc065de8686b492448c8038a15a5c419a202172314e3e7915363"
-    sha256 cellar: :any,                 ventura:       "3baf3afd9863e267564d9c2731074bf02d8ad3781e7b40340c5473f4335d08f3"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "2fb7504893622835d724ad8a778c03d0c30d1c653ddd7cb4fa968d003af66f29"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e6e116b08b6d013c0972c8c27502fe5074b0dfb66f9e389dddfb5a69f2fdc56"
+    sha256 cellar: :any,                 arm64_tahoe:   "c13da12b87edbcaa6d5d5c9b92c913bbe6297555b0dbcb7fb9cb78aa03f93cd4"
+    sha256 cellar: :any,                 arm64_sequoia: "703a0a45cb970e15233bd1508238f6f98bfaead5bef959adf07cc2fb819dc936"
+    sha256 cellar: :any,                 arm64_sonoma:  "9052b65b8657702b2ca87d864dd83c08dec201a60ed207c36ba4510ed62bcead"
+    sha256 cellar: :any,                 sonoma:        "6466c38d78ea68bf2d57adc701a038d01550133ad719c67e2f5ebb3a80d9f020"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "2404be5cb3b0e2223b9c26fa0d4e526159a4f583820e3c18e18c1602175fcc46"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6e44a20056cdd8fda960b9e0fa14690cc00e3086bb96b359cc2691601863c121"
   end
 
   depends_on "cmake" => :build

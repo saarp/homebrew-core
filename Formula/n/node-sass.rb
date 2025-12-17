@@ -1,18 +1,17 @@
 class NodeSass < Formula
   desc "JavaScript implementation of a Sass compiler"
   homepage "https://github.com/sass/dart-sass"
-  url "https://registry.npmjs.org/sass/-/sass-1.89.2.tgz"
-  sha256 "544ff289e63002671a2a782e52619040fdf001ed3878b0b20b567cd1a09cf98b"
+  url "https://registry.npmjs.org/sass/-/sass-1.97.0.tgz"
+  sha256 "3464d18791528f0599d1aaa6fe33521fa2df06cb28ce5eccf7c5c8d41bf91035"
   license "MIT"
 
   bottle do
-    sha256                               arm64_sequoia: "ca237a855d49e43221fa1b6d7aa40864284aef701e3329c919b5842c9ada1908"
-    sha256                               arm64_sonoma:  "ff061889cb947f5fb9f84cea73fbf96995474fe9ed4dd577a428ab5e4a9576ab"
-    sha256                               arm64_ventura: "6a8fd3054cbbc19409776877648073c9c2d72a7f1f14c07d3bb98924f6d16df2"
-    sha256                               sonoma:        "d0ee88d76110fdf2728a9dfb2dd17bd2bf426c5486164d208d04daaf3e76f2a9"
-    sha256                               ventura:       "b8e7789b7dea5c7d890299940a70271e8d319f96318825877f2abb0d18a90ae7"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "649e4cfb63dedbd0518569f89524dde2b43ae454c11e8fe31a32564de06d8b39"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5215a36b5b01f0c3bed4770242f5225edf3da02b7efb805e5832ed3eaf4b08e2"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "11f773bf45854e9d856c71a3b5f9ec81c9f67d252f561f69d8d963d1b0f14f83"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "11f773bf45854e9d856c71a3b5f9ec81c9f67d252f561f69d8d963d1b0f14f83"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "11f773bf45854e9d856c71a3b5f9ec81c9f67d252f561f69d8d963d1b0f14f83"
+    sha256 cellar: :any_skip_relocation, sonoma:        "013202a7130cc3eca52dbcb00a52e59fa8fdbc411f85b0f2c2445bf161665419"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "5ef951b9fd35a1e5e11d7063869875e90fe631c5f67818c1aaa5136844af9e2e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8ea3225dfbfa72746ce60fb894a4d0e99763e35fd40bc838e4c8bda1a0e5e643"
   end
 
   depends_on "node"

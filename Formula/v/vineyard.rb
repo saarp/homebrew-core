@@ -4,22 +4,22 @@ class Vineyard < Formula
   url "https://github.com/v6d-io/v6d/releases/download/v0.24.4/v6d-0.24.4.tar.gz"
   sha256 "055bab09ca67542ccb13229de8c176b7875b4ba8c8a818e942218dccc32a6bae"
   license "Apache-2.0"
+  revision 6
 
   bottle do
-    sha256                               arm64_sequoia: "cd5bf36444473363f44ea567a7e178ef3013a4c7715481acd1aa96c90ed1a23c"
-    sha256                               arm64_sonoma:  "b1b5c1ca2c31325af6cb6cd771cc45102ac71424bf74661645bd8e6f8812c4eb"
-    sha256                               arm64_ventura: "0718444b2b46755636720fb782b73a0ae08835527fd43f2591c225f069bd9bc7"
-    sha256                               sonoma:        "0d527f839364622ece01c6ef889e7bd54d313202b0719abe04a10821a07fc097"
-    sha256                               ventura:       "329d17e1521556ff3f05840f4675e08d6cca4408d5a11d128b1a8d86f45a384c"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "f42269ec1874a5ce259b16b63245c2556983423f10c54b281c2062b1a7a6737c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e0392d370be2d96bcd84d5bdee36c1487103841c5bdd6ff149c673df3b9bbee5"
+    sha256                               arm64_tahoe:   "bfbacaa6393ca506532de08d2c19a3ac7639ff0290135397921de09bdec5569a"
+    sha256                               arm64_sequoia: "3c27137f41f0981ccd6e5d43b92260031b2a05a778508fa6e5c4328575dfcbd7"
+    sha256                               arm64_sonoma:  "786588b755cc7d01885442c36ee261a56581828b7e0690380235e387b9dcc94e"
+    sha256                               sonoma:        "a3261369bd7841a2b2fe9c73cfbc13005f082a30c13566348c77db58dd371f90"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "3e0365a943bed3bad23faab6b7d3ddf6316ba2cd430a2c7b5fd96399ee5eb068"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "35c9e76f776a1fcbf55036ed8af65f6c097cdf8f26098b8ce445282170a17480"
   end
 
   depends_on "cmake" => [:build, :test]
   depends_on "llvm" => :build # for clang Python bindings
   depends_on "openssl@3" => :build # indirect (not linked) but CMakeLists.txt checks for it
   depends_on "python-setuptools" => :build
-  depends_on "python@3.13" => :build
+  depends_on "python@3.14" => :build
   depends_on "apache-arrow"
   depends_on "boost"
   depends_on "cpprestsdk"
@@ -30,13 +30,30 @@ class Vineyard < Formula
   depends_on "libgrape-lite"
   depends_on "open-mpi"
 
+  on_tahoe do
+    fails_with :clang do
+      build 1700
+      cause "https://github.com/llvm/llvm-project/issues/142118"
+    end
+  end
+
   on_linux do
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
 
+  # apache-arrow 21.0.0 support
+  # https://github.com/v6d-io/v6d/pull/2052
+  patch do
+    url "https://github.com/v6d-io/v6d/commit/cab3ed986e15464d6b544a98bac4db38d0e89e3a.patch?full_index=1"
+    sha256 "ce1325c893f210a3eae9ff29a8ab6cfa377d6672ab260db58de8522857856206"
+  end
+
   def install
+    # TODO: Remove after https://github.com/Homebrew/brew/pull/20696
+    ENV.llvm_clang if OS.mac? && MacOS.version == :tahoe && DevelopmentTools.clang_build_version == 1700
+
     # Workaround to support Boost 1.87.0+ until upstream fix for https://github.com/v6d-io/v6d/issues/2041
     boost_asio_post_files = %w[
       src/server/async/socket_server.cc
@@ -66,7 +83,7 @@ class Vineyard < Formula
     headers = %w[args async child env environment io search_path]
     headers.each { |header| ENV.append "CXXFLAGS", "-include boost/process/v1/#{header}.hpp" }
 
-    python3 = "python3.13"
+    python3 = "python3.14"
     # LLVM is keg-only.
     llvm = deps.map(&:to_formula).find { |f| f.name.match?(/^llvm(@\d+)?$/) }
     ENV.prepend_path "PYTHONPATH", llvm.opt_prefix/Language::Python.site_packages(python3)
@@ -136,16 +153,17 @@ class Vineyard < Formula
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
     system "cmake", "--build", "build"
 
+    vineyard_sock = testpath/"vineyard.sock"
     # prepare vineyardd
     vineyardd_pid = spawn bin/"vineyardd", "--norpc",
                                            "--meta=local",
-                                           "--socket=#{testpath}/vineyard.sock"
+                                           "--socket=#{vineyard_sock}"
 
     # sleep to let vineyardd get its wits about it
-    sleep 10
+    sleep 10 until vineyard_sock.exist? && vineyard_sock.socket?
 
     assert_equal("vineyard instance is: 0\n",
-                 shell_output("#{testpath}/build/vineyard-test #{testpath}/vineyard.sock"))
+                 shell_output("#{testpath}/build/vineyard-test #{vineyard_sock}"))
   ensure
     # clean up the vineyardd process before we leave
     Process.kill("HUP", vineyardd_pid)

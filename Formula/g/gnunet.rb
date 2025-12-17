@@ -1,19 +1,18 @@
 class Gnunet < Formula
   desc "Framework for distributed, secure and privacy-preserving applications"
   homepage "https://gnunet.org/"
-  url "https://ftp.gnu.org/gnu/gnunet/gnunet-0.24.3.tar.gz"
-  mirror "https://ftpmirror.gnu.org/gnunet/gnunet-0.24.3.tar.gz"
-  sha256 "5b06897b0e84489bbb438278ec73e4362442b2e05a63e40023ec1d0cccc6c576"
+  url "https://ftpmirror.gnu.org/gnu/gnunet/gnunet-0.26.1.tar.gz"
+  mirror "https://ftp.gnu.org/gnu/gnunet/gnunet-0.26.1.tar.gz"
+  sha256 "edd293be045649ac06227b019d5105cac677fc7caacafc951444c15cb2ba4c45"
   license "AGPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, arm64_sequoia: "3670a3c8f1f1e082dfd57a4d85f8daed5c1cbce813313dfc38eff91f02659910"
-    sha256 cellar: :any, arm64_sonoma:  "830722db294712776ea4c81401bfccbd93f81e644c60f6276d00023576f7ff3c"
-    sha256 cellar: :any, arm64_ventura: "34e55212d8190c3bbda7b025b348e73ecf256c13a5df189f192118ad5f870796"
-    sha256 cellar: :any, sonoma:        "a33540c79e7a183871d70981c2a2acff5526cc888d82908931f1a88ff393c7f4"
-    sha256 cellar: :any, ventura:       "ef3cf79a29c5e136107d0fe21c13b4d84faa5002e4f42668816089c44b5d563e"
-    sha256               arm64_linux:   "f1bc3a03e892b24b9f6cd34aaf887f48b3ed19140a682e47bad9bd4fc5c88690"
-    sha256               x86_64_linux:  "0255f6921844a49dde817c77d5048dfa556d829aa0e7e0d0107c416dbae19d71"
+    sha256 cellar: :any, arm64_tahoe:   "8ff9f7e9a7ec50cfd65ca12bb71188682b3c022193fb2db01999abe6fe17dcaf"
+    sha256 cellar: :any, arm64_sequoia: "da248b311db3dc20b9912f0a65a80cef29be3ea1e2ecbc677de34e2f6857d559"
+    sha256 cellar: :any, arm64_sonoma:  "56d0ca65c4a56a5866cfebd72b402788f689f8b17c159461d7e6b32780843064"
+    sha256 cellar: :any, sonoma:        "fb7f676c3f75cd7aad9abf8836069b0011c656f2c449f0a6f87e410b75f01cdd"
+    sha256               arm64_linux:   "8f78c3453e75ce0ee17ef5a1be8905ab5a63554e00e1a5cca3224b4fae6c0032"
+    sha256               x86_64_linux:  "de4ea0a6b646c1eefcd75cd77226260b591d29e7cf823fef0404236eb9e2adba"
   end
 
   depends_on "meson" => :build
@@ -40,6 +39,10 @@ class Gnunet < Formula
   end
 
   def install
+    # Workaround for htobe64 added to macOS 26 SDK until upstream updates
+    # https://git.gnunet.org/gnunet.git/plain/src/include/gnunet_common.h
+    ENV.append_to_cflags "-include sys/endian.h" if OS.mac? && MacOS.version >= :tahoe
+
     system "meson", "setup", "build", *std_meson_args
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"

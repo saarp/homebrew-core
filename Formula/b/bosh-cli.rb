@@ -1,18 +1,18 @@
 class BoshCli < Formula
   desc "Cloud Foundry BOSH CLI v2"
   homepage "https://bosh.io/docs/cli-v2/"
-  url "https://github.com/cloudfoundry/bosh-cli/archive/refs/tags/v7.9.7.tar.gz"
-  sha256 "184d8166aa8bda7fc3b12a35e7e4432e1043d10340f78229a8a4eaf3e55fe7a7"
+  url "https://github.com/cloudfoundry/bosh-cli/archive/refs/tags/v7.9.15.tar.gz"
+  sha256 "27461ec214e6d3ffef5c5b7b471f61a9fef9e866248726f9450bb78abe7fa22e"
   license "Apache-2.0"
   head "https://github.com/cloudfoundry/bosh-cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "199a2b88e9d6132d528ba6a99b61e6fb73817d49ad396229f799f4c7f8fa1374"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "199a2b88e9d6132d528ba6a99b61e6fb73817d49ad396229f799f4c7f8fa1374"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "199a2b88e9d6132d528ba6a99b61e6fb73817d49ad396229f799f4c7f8fa1374"
-    sha256 cellar: :any_skip_relocation, sonoma:        "8b6b38a9c6587d1608fe98d72f83f07c026a46b7e283fbe74c0777f525cc8e99"
-    sha256 cellar: :any_skip_relocation, ventura:       "8b6b38a9c6587d1608fe98d72f83f07c026a46b7e283fbe74c0777f525cc8e99"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "286f6ffc88c79d25dbbb4bc10a68c3269240a5e9d8adf64d5706404c7098668c"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "1d5f451ac438be439e3dba7ccb5e8d621b40cd661d52d9d200f4ceb6c5e5f77a"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1d5f451ac438be439e3dba7ccb5e8d621b40cd661d52d9d200f4ceb6c5e5f77a"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "1d5f451ac438be439e3dba7ccb5e8d621b40cd661d52d9d200f4ceb6c5e5f77a"
+    sha256 cellar: :any_skip_relocation, sonoma:        "388b7c2711bac3adb49ddc6e382f82f869f949f3bb11a3bf0c5e3038a396238e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "146f6a1da2778e58c8b795fa02f75a005a26ddaf754903d56a9422dcb1c29b99"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1f479ba67f7ccb20e0a75a9dadd7b0ea7993d0ce18bbdf8754269f49a06d3631"
   end
 
   depends_on "go" => :build
@@ -21,6 +21,8 @@ class BoshCli < Formula
     # https://github.com/cloudfoundry/bosh-cli/blob/master/ci/tasks/build.sh#L23-L24
     inreplace "cmd/version.go", "[DEV BUILD]", "#{version}-#{tap.user}-#{time.iso8601}"
     system "go", "build", *std_go_args(ldflags: "-s -w")
+
+    generate_completions_from_executable(bin/"bosh-cli", "completion", shells: [:bash, :zsh, :fish, :pwsh])
   end
 
   test do

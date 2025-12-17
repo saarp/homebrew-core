@@ -1,8 +1,8 @@
 class Qmmp < Formula
   desc "Qt-based Multimedia Player"
   homepage "https://qmmp.ylsoftware.com/"
-  url "https://qmmp.ylsoftware.com/files/qmmp/2.2/qmmp-2.2.7.tar.bz2"
-  sha256 "ddcff0b618f4790802f6d52d9a796b5f32cb7d0f23c99181b804f614fab5fbb2"
+  url "https://qmmp.ylsoftware.com/files/qmmp/2.3/qmmp-2.3.0.tar.bz2"
+  sha256 "01c3e30367c885178cd115594d20f694a47a352fd7e65fcf5722e12ac8333063"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,15 +11,17 @@ class Qmmp < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "abcc65eae24b680c092b937273b23f2f17772539fa8e095e4f2a318b3e75a543"
-    sha256 cellar: :any,                 arm64_ventura: "b30e8b46156f3384de8fdc52c6d61015dd1208c1e014596c30624a5a9e65a659"
-    sha256 cellar: :any,                 sonoma:        "3f1da239e10fabaca7411b091a4ac61ed21f30db9dd1d97475995f67ce4fab2d"
-    sha256 cellar: :any,                 ventura:       "81073358ef7aaed49ea386e60910c4897f3024ec32de371e79d10dcbcec895d7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7d349f25c802a8bb03b32bf197e63ca44b69b0b291d6a282c3b342bf12f92f02"
+    sha256 cellar: :any,                 arm64_tahoe:   "e6da5eb38b48ffe1d8f40676be1444e840c833c3311f7a631ca9762694e81aad"
+    sha256 cellar: :any,                 arm64_sequoia: "7fa781c7162c07690e998ab6c9d598f24115ceedca718bd12528c15b96d243ed"
+    sha256 cellar: :any,                 arm64_sonoma:  "3fc459eb502ada770aa7fbfcc3e0e311bdea4f39d6ff4d4b341453b01ba4a948"
+    sha256 cellar: :any,                 sonoma:        "0a74c8a1511f9c9347723a0d6a478fb0d9a93604649804f5011310ea4a5b4a2b"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "0fe28066049c5fc79e28a19dd8aced21f78deaa12fecfbfb017a827a7aba2e3e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a643156b0ee13bbeb993e38550a14fe2c367de12828fa8a18cf7db7e5e083531"
   end
 
   depends_on "cmake" => :build
   depends_on "pkgconf" => :build
+  depends_on "qttools" => :build
 
   # TODO: on linux: pipewire
   depends_on "faad2"
@@ -49,7 +51,8 @@ class Qmmp < Formula
   depends_on "opusfile"
   depends_on "projectm"
   depends_on "pulseaudio"
-  depends_on "qt"
+  depends_on "qtbase"
+  depends_on "qtmultimedia"
   depends_on "taglib"
   depends_on "wavpack"
   depends_on "wildmidi"
@@ -68,8 +71,8 @@ class Qmmp < Formula
   end
 
   resource "qmmp-plugin-pack" do
-    url "https://qmmp.ylsoftware.com/files/qmmp-plugin-pack/2.2/qmmp-plugin-pack-2.2.2.tar.bz2"
-    sha256 "0e85c8290b49aceddb7a52f9452d9c0c008539b6fba4ab2296b59a67d0b0846b"
+    url "https://qmmp.ylsoftware.com/files/qmmp-plugin-pack/2.3/qmmp-plugin-pack-2.3.0.tar.bz2"
+    sha256 "a23c202f90faaf6aebb97a9c02ee21fb3c8164b07755514349ccb3e1acb81ab5"
 
     livecheck do
       url "https://qmmp.ylsoftware.com/plugins.php"

@@ -1,26 +1,25 @@
 class Asyncapi < Formula
   desc "All in one CLI for all AsyncAPI tools"
   homepage "https://github.com/asyncapi/cli"
-  url "https://registry.npmjs.org/@asyncapi/cli/-/cli-3.2.0.tgz"
-  sha256 "e8a9f2f2939362db86b8117ae8665ae7b4808490385d614580285900486cbd9f"
+  url "https://registry.npmjs.org/@asyncapi/cli/-/cli-4.1.1.tgz"
+  sha256 "2f4d12597d6fc30615b6dd27fdac2c63222726005d50f62300d1f6a257f6cf61"
   license "Apache-2.0"
-
-  no_autobump! because: :bumped_by_upstream
+  version_scheme 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "d9ec6cb315aa2a5c5adf745642f0f21c17ad2c9c93fe3856332e867e55c91d20"
-    sha256 cellar: :any,                 arm64_sonoma:  "d9ec6cb315aa2a5c5adf745642f0f21c17ad2c9c93fe3856332e867e55c91d20"
-    sha256 cellar: :any,                 arm64_ventura: "d9ec6cb315aa2a5c5adf745642f0f21c17ad2c9c93fe3856332e867e55c91d20"
-    sha256                               sonoma:        "eebcd8f05d19ba0ccac1c3b3a0a96e158a747bc00b1caa40e090b0033759ac6a"
-    sha256                               ventura:       "eebcd8f05d19ba0ccac1c3b3a0a96e158a747bc00b1caa40e090b0033759ac6a"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "fdcfdca7796c80831cda900197d035f72e67459fb0003a503e3a1274b5fa3495"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "01dec2447f8b12e1f10c0dd1bb9f5e81ba6f90469c85aaa8f7482c041f652e93"
+    rebuild 1
+    sha256 cellar: :any,                 arm64_tahoe:   "e2727dfcfcf5cbf72a8d4042b91ff91d48141dc5129a78872361b1c3883caa2e"
+    sha256 cellar: :any,                 arm64_sequoia: "33c0d8ad34cce095409e61751a59f1752b3aa3eefb5f87e700b81aa353b84b64"
+    sha256 cellar: :any,                 arm64_sonoma:  "33c0d8ad34cce095409e61751a59f1752b3aa3eefb5f87e700b81aa353b84b64"
+    sha256 cellar: :any,                 sonoma:        "588f576b6911b914ab77aa9dffb16ca16094896159d0ac682f47f7602b706ed5"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "7a498282a790afaf15d4f21b16738d0d9de4e3324641d798075dca97c1a72208"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6cba57e348287507ec7aab8824ce25e79de1828ca504d22de3d80fd4ef1b1114"
   end
 
   depends_on "node"
 
   def install
-    system "npm", "install", "--ignore-scripts", *std_npm_args
+    system "npm", "install", *std_npm_args
     bin.install_symlink Dir["#{libexec}/bin/*"]
 
     # Cleanup .pnpm folder

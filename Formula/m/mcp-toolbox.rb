@@ -1,20 +1,22 @@
 class McpToolbox < Formula
   desc "MCP server for databases"
   homepage "https://github.com/googleapis/genai-toolbox"
-  url "https://github.com/googleapis/genai-toolbox/archive/refs/tags/v0.10.0.tar.gz"
-  sha256 "c6a02e06ea1c052897a826c8da0c7fbd960760c99a565cc530dbe89900b0e527"
+  url "https://github.com/googleapis/genai-toolbox/archive/refs/tags/v0.23.0.tar.gz"
+  sha256 "be4c779101b23c0ba373f89eaf15b791acb692ccbcd913c74a9653e583382002"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1d03a734457c0a8ff06b9a59b56e29003b405256f20589cba559660ae92b1ad5"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "1d03a734457c0a8ff06b9a59b56e29003b405256f20589cba559660ae92b1ad5"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "1d03a734457c0a8ff06b9a59b56e29003b405256f20589cba559660ae92b1ad5"
-    sha256 cellar: :any_skip_relocation, sonoma:        "43653db3dd9db0236f7c09213ea0b9ea58d5c8e8739a56e5e68d147fdb31addf"
-    sha256 cellar: :any_skip_relocation, ventura:       "43653db3dd9db0236f7c09213ea0b9ea58d5c8e8739a56e5e68d147fdb31addf"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9b2bc28569ebb547378c4888f4a3acdd22dcdbc6631634461979b5cc003603b0"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "d7a76a392cbf19febc235436bd7c38b311a4709e7cc8d5a44fb8328c1396b971"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d7a76a392cbf19febc235436bd7c38b311a4709e7cc8d5a44fb8328c1396b971"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "d7a76a392cbf19febc235436bd7c38b311a4709e7cc8d5a44fb8328c1396b971"
+    sha256 cellar: :any_skip_relocation, sonoma:        "93ac1ef03b6010c6c90302251bf7e3e1529eeb62f0c5eab2aecdb5f927ff1c0f"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "498116f25ed64232430987c330d9256f819219a07bd6b28589dda1eaa8277e4e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5026749d97630b25f719d84b2d26d9dbdf629fc7444abe204ab8b19b57ad8d92"
   end
 
   depends_on "go" => :build
+
+  conflicts_with "kahip", because: "both install `toolbox` binaries"
 
   def install
     ldflags = %W[

@@ -1,8 +1,8 @@
 class LandoCli < Formula
   desc "Cli part of Lando"
   homepage "https://docs.lando.dev/cli"
-  url "https://github.com/lando/core/archive/refs/tags/v3.25.3.tar.gz"
-  sha256 "63de05a1ba1b7eeb93396b8fd343ae2bfb5c83141a5c1dedc08abb4022e23675"
+  url "https://github.com/lando/core/archive/refs/tags/v3.26.0.tar.gz"
+  sha256 "b9b3cb2fc3e7a941f944f25dfeb7cdf8d02bb3fd164997acf22864dab8d4017b"
   license "MIT"
   head "https://github.com/lando/core.git", branch: "main"
 
@@ -12,13 +12,12 @@ class LandoCli < Formula
   end
 
   bottle do
-    sha256                               arm64_sequoia: "dca994a5900c55f2cd8700dbcc841b7757892603c986818d2799e31f7449319b"
-    sha256                               arm64_sonoma:  "eb6b24bbb68130d563a3c1c3081ed4ad4b28e05435f030a3d1a90e0f062c80a0"
-    sha256                               arm64_ventura: "fdf7fce52cb5a623c9ee4ee3eace9781556f38a3b75c911225f03997e90536a1"
-    sha256                               sonoma:        "a259d6c4772088eb2838c64a40ab2d26aeef0cdbfce33eedad5b07d02a31b219"
-    sha256                               ventura:       "87b9abb2295ce83977ca950eaff7b46339022679704a96067e76707d6e762648"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "b5202e6605ef2991cc6b2580e6b0f7391d3c026597ba0ee7bd03152793e452c6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b5202e6605ef2991cc6b2580e6b0f7391d3c026597ba0ee7bd03152793e452c6"
+    sha256                               arm64_tahoe:   "5042548556cc4c290eb5bac07e300e3f26b01e3371c484e8ad21eb7ca6788181"
+    sha256                               arm64_sequoia: "b9a8e2afce5a1a7d3bd6fcbbfc7d0c5d55e65e0022cba468eb91ad835c88dc8b"
+    sha256                               arm64_sonoma:  "022a58faace19fa7e3f7d86d843be9ef428637f7901d0164defb371869c78cdd"
+    sha256                               sonoma:        "78b51db437725478d963d89911bf6b2c227296d682dd17ff26c7b0079140910b"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "e91b3e3ab9dc9cf9a16ec784a84dc469996adf887ffc771ed2c9dbc5878a81bc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e91b3e3ab9dc9cf9a16ec784a84dc469996adf887ffc771ed2c9dbc5878a81bc"
   end
 
   depends_on "node"

@@ -1,8 +1,8 @@
 class Scw < Formula
   desc "Command-line Interface for Scaleway"
   homepage "https://www.scaleway.com/en/cli/"
-  url "https://github.com/scaleway/scaleway-cli/archive/refs/tags/v2.42.0.tar.gz"
-  sha256 "40cafbdedc8b956a4b7da331bae7c6ec26f891a40e789348d36bcddea9c88ee3"
+  url "https://github.com/scaleway/scaleway-cli/archive/refs/tags/v2.48.0.tar.gz"
+  sha256 "65567cfb171d778320bfd7be77c7e9d716d4fa65ca6d528eb617767335876864"
   license "Apache-2.0"
 
   livecheck do
@@ -11,12 +11,12 @@ class Scw < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6dc79e30247d27ba01f9e05df2eb24e87b0b5d912e90fc5fb5c99dc4291dc937"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6dc79e30247d27ba01f9e05df2eb24e87b0b5d912e90fc5fb5c99dc4291dc937"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "6dc79e30247d27ba01f9e05df2eb24e87b0b5d912e90fc5fb5c99dc4291dc937"
-    sha256 cellar: :any_skip_relocation, sonoma:        "83199586064565fe25826b78a51a017516fdc58d00c295bd5b20d10b65b73c57"
-    sha256 cellar: :any_skip_relocation, ventura:       "83199586064565fe25826b78a51a017516fdc58d00c295bd5b20d10b65b73c57"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "43d401dab22332e8e8aee3559b9c8615aab80bf726f1bfb43dbd7f5b3a61935c"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "a8ee7553ca52addc6b13e3f90f6be87474a1eb337d6aa484dc799074be862761"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "ca54b24d77321fedd273c0cd86666c77e1a6f7edd88d12776f834d8615b3d855"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "51b0c9cdef6823dca98ca309596b0794814dd10e5959e8d27adcfc91699cfce4"
+    sha256 cellar: :any_skip_relocation, sonoma:        "7b1652fb808984a8be7c4db4c36be4c46b11a9415025b2f955bfe2ab799923cd"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "2f0dd3fb9a6f31b55caf3b1e0b6e867fa8d76ab05fca58e6d9528538e9ab3572"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1fc2b9be8a021232c94e8fab71f8b5e422690b4715465261e0156add86a67219"
   end
 
   depends_on "go" => :build
@@ -29,7 +29,7 @@ class Scw < Formula
 
   test do
     (testpath/"config.yaml").write ""
-    output = shell_output(bin/"scw -c config.yaml config set access-key=SCWXXXXXXXXXXXXXXXXX")
+    output = shell_output("#{bin}/scw -c config.yaml config set access-key=SCWXXXXXXXXXXXXXXXXX")
     assert_match "✅ Successfully update config.", output
     assert_match "access_key: SCWXXXXXXXXXXXXXXXXX", File.read(testpath/"config.yaml")
   end

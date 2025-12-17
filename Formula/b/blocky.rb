@@ -1,18 +1,19 @@
 class Blocky < Formula
   desc "Fast and lightweight DNS proxy as ad-blocker for local network"
   homepage "https://0xerr0r.github.io/blocky/"
-  url "https://github.com/0xerr0r/blocky/archive/refs/tags/v0.26.2.tar.gz"
-  sha256 "b6aadd53253fe51d1bd41a1c19911091b944657fd034cd3dfad8c139ac5870b3"
+  url "https://github.com/0xerr0r/blocky/archive/refs/tags/v0.28.2.tar.gz"
+  sha256 "de4d677f2c3c718577124c3f6670bf209789b6be657138beb71a1fd1b991fced"
   license "Apache-2.0"
   head "https://github.com/0xerr0r/blocky.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "98de841022b35ce277c2b1193bb5989061cc65a4aee83ea5f87f5bd067640c03"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "883392b4a72e8036338af0ba00278c38dc81447f26c50b72039773e1993845f2"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "31fd03e5e27134526e51d1a46e5a8c49b876a05b55fd5465cd692c26946a588f"
-    sha256 cellar: :any_skip_relocation, sonoma:        "442b143495141b70f31ac4371fd6b14490417aeb6c216bc9ccc971a557e42ef6"
-    sha256 cellar: :any_skip_relocation, ventura:       "5460f7ce1fdb2f0c2a6b38df5d99078c725548ff2c6ca54bd39bb8da7bc5cf18"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5a2f4857199ef4cdbc53feee624a863b306c50b2fbf4f9d5b4d87f3f943943a1"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "309e2d8749d30325c0e508ddf3cbb00343e30aa4b2d5090efdbf3fd5b8d5b95d"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "ca936cc535d201aba1636bf6cd788f02aba20cee10d703aa0fbc3227f3459c80"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "5974a6e8caf3160f6f886baea38518b0961259772c65fdb0f4c04f535744dd87"
+    sha256 cellar: :any_skip_relocation, sonoma:        "66b729058448bce9feb3c424c71e9ef54bed67da2ca4a759936a81c6f928d4a4"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "02956f488437ab657367f5856257ea8d5e63855a21816184871e3bbef8fcc5fd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2a27d7241a1a6b683b59feaa7593d9c8de5bd3d0d5767c6f9fd29c40f3cfe905"
   end
 
   depends_on "go" => :build
@@ -26,6 +27,8 @@ class Blocky < Formula
     system "go", "build", *std_go_args(ldflags:, output: sbin/"blocky")
 
     pkgetc.install "docs/config.yml"
+
+    generate_completions_from_executable(sbin/"blocky", "completion", shells: [:bash, :zsh, :fish, :pwsh])
   end
 
   service do

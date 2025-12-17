@@ -1,18 +1,17 @@
 class Vite < Formula
   desc "Next generation frontend tooling. It's fast!"
   homepage "https://vitejs.dev/"
-  url "https://registry.npmjs.org/vite/-/vite-7.0.6.tgz"
-  sha256 "88ad6fa9481720919e429c10081e102f6b6df0b2257be1c85869d6a96c36cfcc"
+  url "https://registry.npmjs.org/vite/-/vite-7.3.0.tgz"
+  sha256 "c64337942bc1d37044628ccb2c080a175553f1ca12c8be05865ac96c383a604e"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "72f96dc36f20ef65bea9f5f1a25cbd76e1fd9e22b59b13b2aa2addb61f00ca1c"
-    sha256 cellar: :any,                 arm64_sonoma:  "72f96dc36f20ef65bea9f5f1a25cbd76e1fd9e22b59b13b2aa2addb61f00ca1c"
-    sha256 cellar: :any,                 arm64_ventura: "72f96dc36f20ef65bea9f5f1a25cbd76e1fd9e22b59b13b2aa2addb61f00ca1c"
-    sha256 cellar: :any,                 sonoma:        "2d1ee67faa9c6da43358b5b2112df84b4deb7cb85deadc914bda8534bc7698d3"
-    sha256 cellar: :any,                 ventura:       "2d1ee67faa9c6da43358b5b2112df84b4deb7cb85deadc914bda8534bc7698d3"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "db47fe5cea6cc9771119ecc65483ee7a679c143b0717e875be04afb37c39bd77"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3561e1a9eb8c0d74cb85a703ed56c5cdc337ee62199ea6215994a99d5ebc7705"
+    sha256 cellar: :any,                 arm64_tahoe:   "91a292266e5bddc172628492f0686030ed9da96c00a3524660b5d8437d2c747d"
+    sha256 cellar: :any,                 arm64_sequoia: "54cc8608bb51505feaa344faf07b77df6d420cb2947500217576a0a2dab847bf"
+    sha256 cellar: :any,                 arm64_sonoma:  "54cc8608bb51505feaa344faf07b77df6d420cb2947500217576a0a2dab847bf"
+    sha256 cellar: :any,                 sonoma:        "ba3bb90a066eda831a01b0d1bb0dbafbc0c45b33ac63a8a1acfcee880e9f34c3"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "e170f7c676413a49d7b52633cf662d8f8b2cd0d55dd0dee390c41bffbae94a16"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "91da9a9019526594b614f11d698d8a0223654b79da7539ad14228a2cdfe201d1"
   end
 
   depends_on "node"
@@ -20,6 +19,9 @@ class Vite < Formula
   def install
     system "npm", "install", *std_npm_args
     bin.install_symlink Dir["#{libexec}/bin/*"]
+
+    node_modules = libexec/"lib/node_modules/vite/node_modules"
+    deuniversalize_machos node_modules/"fsevents/fsevents.node" if OS.mac?
   end
 
   test do

@@ -1,25 +1,26 @@
 class Cryptol < Formula
   desc "Domain-specific language for specifying cryptographic algorithms"
-  homepage "https://www.cryptol.net/"
-  url "https://hackage.haskell.org/package/cryptol-3.3.0/cryptol-3.3.0.tar.gz"
-  sha256 "3ba3d1083c3aacd6c5ad5bbe4fddb9d9519717af4d3c6fe05d9c0c698fb737b0"
+  homepage "https://galoisinc.github.io/cryptol/master/RefMan.html"
+  url "https://hackage.haskell.org/package/cryptol-3.4.0/cryptol-3.4.0.tar.gz"
+  sha256 "5973570dfd307c0a27251bb8edcfd554034549b21dfba7b69f21963d3361a388"
   license "BSD-3-Clause"
   head "https://github.com/GaloisInc/cryptol.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "036f1699ef23e07d214b12ecd13e2a3f874e8546150628e03ab09d1cc4cdecfe"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "29d817b9266776e61b772285651066d2ac1d4c7184b7361abce9a383eeaa7bb6"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "9035c6aa3b4bbc1e9f9731f92db90843d1e74dbb59d99930c737cc8510dccf59"
-    sha256 cellar: :any_skip_relocation, sonoma:        "f26c5cc0f8e1d29455ffdf7d0875a1014b8b08929c62cbf6979e54eb24d1f816"
-    sha256 cellar: :any_skip_relocation, ventura:       "9d37ae517d04c7def64d26f0451d8ac964c41e7d025dc204a01c68069920b386"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ab55afae719399479d3b8f9ca9499f9fa7d26a5c8e5c985484d287d9234165b8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7d20522798fa5c6f11bc1bfab9506e4805bcc6b0eb675ccdc6e310c975809257"
+    sha256 cellar: :any,                 arm64_tahoe:   "07bac4c0cbc02e26d1dd4b2604a3f2904f340b022b1ad812af3af37de9d640ee"
+    sha256 cellar: :any,                 arm64_sequoia: "b6e78da5494caa934c0e80fdb21d6981935406e912b4568aa97f5ee132f561df"
+    sha256 cellar: :any,                 arm64_sonoma:  "9bea8476f6309d861c0b1d224f49e20ce28d7dc2d159f7926f48fd90126aae74"
+    sha256 cellar: :any,                 sonoma:        "fc050c33e3790a174136ccdbbb943afaa4034b947f38e1062590f660d4c81ed4"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9d95ecef567af42b2ba1fde9260291650e4f987c06db9f6decb206f53a11c584"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7b44668d086f298d344b2036a7cd0722e7825571bcc32d2b42b45b50a326cbdd"
   end
 
   depends_on "cabal-install" => :build
-  depends_on "ghc@9.10" => :build
+  depends_on "ghc" => :build
+  depends_on "gmp"
   depends_on "z3"
 
+  uses_from_macos "libffi"
   uses_from_macos "ncurses"
   uses_from_macos "zlib"
 

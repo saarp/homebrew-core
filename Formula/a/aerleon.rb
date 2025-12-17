@@ -3,29 +3,28 @@ class Aerleon < Formula
 
   desc "Generate firewall configs for multiple firewall platforms"
   homepage "https://aerleon.readthedocs.io/en/latest/"
-  url "https://files.pythonhosted.org/packages/ff/b1/5d996fe14f8f36597c1bec2d400166f63d5bf09e4af7876f9707c0f7830c/aerleon-1.10.0.tar.gz"
-  sha256 "e36f2969bdf6c3d2785f68044cdb4007ff171241b7a2dbef0b07b9be212cdcd1"
+  url "https://files.pythonhosted.org/packages/07/f7/25b8ed9c98060d0aaf9280bcae867bd1a6189bf2306f6d2d7edb083cb798/aerleon-1.12.1.tar.gz"
+  sha256 "78c94c8ac3e5c563e212b647420cb94e3ed5b72a860f5de0b927d2a5500dc82c"
   license "Apache-2.0"
   head "https://github.com/aerleon/aerleon.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "9a0ce912cd094bb361a61ad6e74ed7c19588c07a2bbf30e976bc1924dc013a41"
-    sha256 cellar: :any,                 arm64_sonoma:  "40c9f1fa8de67228d7e21c15377c4f6bf6d2718fb91baf9132e171090c1b9502"
-    sha256 cellar: :any,                 arm64_ventura: "aba5f9c3d128f254ffcda39e935c7f28a0c36ae64b5d54ffd73cc1783e4a5cc5"
-    sha256 cellar: :any,                 sonoma:        "09f5bf01a88afa1ef1592079f6f93e80035233d5bfb0677c6f7e20d6171bac68"
-    sha256 cellar: :any,                 ventura:       "b7a17da4ed5ae27d30d3d3a9107e3f343a9e740ec3f807d22fedeb7d90d548d7"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "b9406804bd917c6d2af99909f2eab61bfc38e101fe32f4334c8fb447c972f580"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4107ba183dc15fc6c92b31f22de1542d6564f6196a7be214fa13ff2b9b99ba5d"
+    sha256 cellar: :any,                 arm64_tahoe:   "0cfab02376392b29109517151a8e1a23c3ad79ee8cd53466469afc9c1c0a7d39"
+    sha256 cellar: :any,                 arm64_sequoia: "4de287892fb060f2250d1b6e63d98e380ec86bb671c649e3ceb0b804ce0fc279"
+    sha256 cellar: :any,                 arm64_sonoma:  "5044574664f3ba214597b0a649b0612400b06ae4486707ce28d6d0ec650bb446"
+    sha256 cellar: :any,                 sonoma:        "7885a12ec2320fd10ae943864df6f9f160ba1dd02dc20fd0f0380bcf3c96980e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "e5d9909b9b0f83cda9e8706945cb84004fa535e9256e5b009f99f36b85d12780"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "019db29d1a8cdad6503e655bce46034fc4160052c54f300d2c8e0961521e1a3a"
   end
 
   depends_on "libyaml"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   conflicts_with "cgrep", because: "both install `cgrep` binaries"
 
   resource "absl-py" do
-    url "https://files.pythonhosted.org/packages/79/c9/45ecff8055b0ce2ad2bfbf1f438b5b8605873704d50610eda05771b865a0/absl-py-1.4.0.tar.gz"
-    sha256 "d2c244d01048ba476e7c080bd2c6df5e141d211de80223460d5b3b8a2a58433d"
+    url "https://files.pythonhosted.org/packages/10/2a/c93173ffa1b39c1d0395b7e842bbdc62e556ca9d8d3b5572926f3e4ca752/absl_py-2.3.1.tar.gz"
+    sha256 "a97820526f7fbfd2ec1bce83f3f25e3a14840dac0d8e02a0b71cd75db3f77fc9"
   end
 
   resource "ply" do
@@ -34,16 +33,20 @@ class Aerleon < Formula
   end
 
   resource "pyyaml" do
-    url "https://files.pythonhosted.org/packages/54/ed/79a089b6be93607fa5cdaedf301d7dfb23af5f25c398d5ead2525b063e17/pyyaml-6.0.2.tar.gz"
-    sha256 "d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e"
+    url "https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz"
+    sha256 "d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f"
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/d1/bc/51647cd02527e87d05cb083ccc402f93e441606ff1f01739a62c8ad09ba5/typing_extensions-4.14.0.tar.gz"
-    sha256 "8676b788e32f02ab42d9e7c61324048ae4c6d844a399eebace3d4979d75ceef4"
+    url "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz"
+    sha256 "0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"
   end
 
   def install
+    # hatch does not support a SOURCE_DATE_EPOCH before 1980.
+    # Remove after https://github.com/pypa/hatch/pull/1999 is released.
+    ENV["SOURCE_DATE_EPOCH"] = "1451574000"
+
     virtualenv_install_with_resources
   end
 

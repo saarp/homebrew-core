@@ -1,18 +1,18 @@
 class Cue < Formula
   desc "Validate and define text-based and dynamic configuration"
   homepage "https://cuelang.org/"
-  url "https://github.com/cue-lang/cue/archive/refs/tags/v0.13.2.tar.gz"
-  sha256 "3ed53c0b32e44491b3871fd22dd0cf2577a6b2ee9036c76801c261b75c4e44ee"
+  url "https://github.com/cue-lang/cue/archive/refs/tags/v0.15.1.tar.gz"
+  sha256 "d1bd4fe4fe39febdc07819e6feac8f8be9fc374202744d464ab540569855c7d8"
   license "Apache-2.0"
   head "https://github.com/cue-lang/cue.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a4d1ac6e1d54df0f77f9968fb71a11b51e64dedd27ba5dd191d91cf6b59fe729"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a4d1ac6e1d54df0f77f9968fb71a11b51e64dedd27ba5dd191d91cf6b59fe729"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a4d1ac6e1d54df0f77f9968fb71a11b51e64dedd27ba5dd191d91cf6b59fe729"
-    sha256 cellar: :any_skip_relocation, sonoma:        "3964fbfd086c4b4be3a8aa5dbb4604589e59ac56a53fcffee361f7a2967e27f6"
-    sha256 cellar: :any_skip_relocation, ventura:       "3964fbfd086c4b4be3a8aa5dbb4604589e59ac56a53fcffee361f7a2967e27f6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5704841dfc91122211cb7c28e669cad12832075201c6570a850c563002922597"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "fc2e60cd8e2d9206fbdf041242792f3c172a3808bab0d404ea547c3eb70e46f0"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "fc2e60cd8e2d9206fbdf041242792f3c172a3808bab0d404ea547c3eb70e46f0"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "fc2e60cd8e2d9206fbdf041242792f3c172a3808bab0d404ea547c3eb70e46f0"
+    sha256 cellar: :any_skip_relocation, sonoma:        "49908dfd95a49f28c82dc6dc0bafc4d05b86d08affcd06351180e5e493ed1840"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f2c275509c6de23906af38b5a85365609b3d11259d8e5c331897d4def4ead772"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "72df844309135e9f5bfef9fcf644512f5e405cca81f91e7a39ce43f901e30b5c"
   end
 
   depends_on "go" => :build
@@ -43,8 +43,8 @@ class Cue < Formula
           ./ranges.yml:5:6
     EOS
 
-    assert_equal expected, shell_output(bin/"cue vet ranges.yml check.cue 2>&1", 1)
+    assert_equal expected, shell_output("#{bin}/cue vet ranges.yml check.cue 2>&1", 1)
 
-    assert_match version.to_s, shell_output(bin/"cue version")
+    assert_match version.to_s, shell_output("#{bin}/cue version")
   end
 end

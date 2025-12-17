@@ -1,18 +1,17 @@
 class MermaidCli < Formula
   desc "CLI for Mermaid library"
   homepage "https://github.com/mermaid-js/mermaid-cli"
-  url "https://registry.npmjs.org/@mermaid-js/mermaid-cli/-/mermaid-cli-11.6.0.tgz"
-  sha256 "931a41e109b7d33d0da4881a4cef673f6d77b30219543f7496c5c003c64866df"
+  url "https://registry.npmjs.org/@mermaid-js/mermaid-cli/-/mermaid-cli-11.12.0.tgz"
+  sha256 "c59e2b7ec010d7a27a45b4addcde97978c644b1e996609e39714ea52d8926837"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "1554c8ebf97a5d2c57a5bfee58f0033bdd376d68fe6f0d75c25471b08dc39edc"
-    sha256 cellar: :any,                 arm64_sonoma:  "1554c8ebf97a5d2c57a5bfee58f0033bdd376d68fe6f0d75c25471b08dc39edc"
-    sha256 cellar: :any,                 arm64_ventura: "1554c8ebf97a5d2c57a5bfee58f0033bdd376d68fe6f0d75c25471b08dc39edc"
-    sha256 cellar: :any,                 sonoma:        "e1c98aa4a1f5a240c0fd1ff09b3a223922f8e7a533e01f83d1a9db2570b00145"
-    sha256 cellar: :any,                 ventura:       "e1c98aa4a1f5a240c0fd1ff09b3a223922f8e7a533e01f83d1a9db2570b00145"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "71ed2b6ad6cc7c83ffa85b349b30bbe326cfe61afee8988ff27b601dec1a4c7a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "141bd60ec8618342e391e70117ee014da0fbc36c6c56f26b52aaa9310e0302aa"
+    sha256 cellar: :any,                 arm64_tahoe:   "7585648a49d157ad32707c73aa4dff41b4d06a38261d8df4909c5a09c282c581"
+    sha256 cellar: :any,                 arm64_sequoia: "c6fbf4fbb0ccd2a1e4d2c13a1ffadeb5e5a8f5c49a9665f1e5a9e8248082e309"
+    sha256 cellar: :any,                 arm64_sonoma:  "c6fbf4fbb0ccd2a1e4d2c13a1ffadeb5e5a8f5c49a9665f1e5a9e8248082e309"
+    sha256 cellar: :any,                 sonoma:        "b2fb3aa586d4644029bf858d189adf7ff879c8383b396a6ac2cc7fd8cb9ab9c0"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f139c590db72914dd6bb29ccbc38caeba011433dbbd0048b91c601f1f449d7bc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "32ef5ace7620a06092136d9900497f2fe55a15693d28a3b50bb2ce62af7b68af"
   end
 
   depends_on "node"
@@ -23,10 +22,10 @@ class MermaidCli < Formula
 
     node_modules = libexec/"lib/node_modules/@mermaid-js/mermaid-cli/node_modules"
 
-    # Remove incompatible pre-built `bare-fs`/`bare-os` binaries
+    # Remove incompatible pre-built `bare-fs`/`bare-os`/`bare-url` binaries
     os = OS.kernel_name.downcase
     arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
-    node_modules.glob("{bare-fs,bare-os}/prebuilds/*")
+    node_modules.glob("{bare-fs,bare-os,bare-url}/prebuilds/*")
                 .each { |dir| rm_r(dir) if dir.basename.to_s != "#{os}-#{arch}" }
   end
 

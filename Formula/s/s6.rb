@@ -4,14 +4,11 @@ class S6 < Formula
   url "https://skarnet.org/software/s6/s6-2.13.2.0.tar.gz"
   sha256 "c5114b8042716bb70691406931acb0e2796d83b41cbfb5c8068dce7a02f99a45"
   license "ISC"
-
-  livecheck do
-    url :homepage
-    regex(/href=.*?s6[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
+  head "git://git.skarnet.org/s6.git", branch: "main"
 
   bottle do
     rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "92ca9064a5fa950d6f77bd56dd55024b381f4458d4df539d859f384a60e3b28c"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "88fb583281e696ad18a4dab7b34ec8794d1c58dfa48c40a4b6a020138f26b0d5"
     sha256 cellar: :any_skip_relocation, arm64_sonoma:  "105a08c0079ab7fb9fd049443a888ec673c2f3e4e241d4a7cd52065403881b8a"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "de13a9f0b0d00175ce1365152621f160759d3de1d8344f520d19ff29418d5c38"

@@ -1,19 +1,18 @@
 class Nixfmt < Formula
   desc "Command-line tool to format Nix language code"
   homepage "https://github.com/NixOS/nixfmt"
-  url "https://github.com/NixOS/nixfmt/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "3f4b16e33dbe58402a7e34b93ded4e55defcf06f349b2832ca65199a15ecfd32"
+  url "https://github.com/NixOS/nixfmt/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "7feef8f70f2f565c5fae54fa5ca99ca9dcc80603d593386885117b78ee6e04a3"
   license "MPL-2.0"
   head "https://github.com/NixOS/nixfmt.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "a567dd22a8efbdc8b1f4f630cf2136fa483178d50a05b9ee514f87e2c56cafa4"
-    sha256 cellar: :any,                 arm64_sonoma:  "2b3d63bdd233c9bbcd48af30dd461e3a295d6e537690f27fa048730aa5550dcb"
-    sha256 cellar: :any,                 arm64_ventura: "0c59ac82a04449e01a61ea4e7023beb51d7ad05c5b5e24148efdc2c4141efda4"
-    sha256 cellar: :any,                 sonoma:        "44c8e8e19e4a38cde001adbf0c6d5c89c87528f5f95fbb59dd6a352403f2a173"
-    sha256 cellar: :any,                 ventura:       "5cf5df5111472befdc3589aa20c700219575fe81433ae26ed6f7ac52a0902ea1"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "438de159b30484830799d5a02539e62ae9c8f78337d59e6463462c338e825768"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4cbd063abc7c0dfbbbcf327135cc7dad0594470fa19c27542fdb1aae789d4f9f"
+    sha256 cellar: :any,                 arm64_tahoe:   "d373613d9e5347e722ee05880bcb062bfdaae1bc6ec8c7801ece89bd192764ee"
+    sha256 cellar: :any,                 arm64_sequoia: "77aacbc49e2be610768d8dfdba87e3eb0e2b72ce0ad9e1bed50b401e1ef66632"
+    sha256 cellar: :any,                 arm64_sonoma:  "f9022748f44c472d48cf51e18e9c5c9d1dad9a0d74fdbe1b4bfb06b96abe3fbf"
+    sha256 cellar: :any,                 sonoma:        "4a0bfdf2df6b2bdbe2c8219bd96a7ece1f797ebe18f405b8b377adbc711eeb2b"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "b3882c4283b966bc4bf7ce4c2a2513ebc602d800fcf04cd7b5ef9370d0f58aa7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b57857acee4f03b8ee5be8499bd2c465b0eac166ddb08029628aa2e9ab070b32"
   end
 
   depends_on "cabal-install" => :build

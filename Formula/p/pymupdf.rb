@@ -1,28 +1,27 @@
 class Pymupdf < Formula
   desc "Python bindings for the PDF toolkit and renderer MuPDF"
   homepage "https://pymupdf.readthedocs.io/en/latest/"
-  url "https://files.pythonhosted.org/packages/6d/d4/70a265e4bcd43e97480ae62da69396ef4507c8f9cfd179005ee731c92a04/pymupdf-1.26.3.tar.gz"
-  sha256 "b7d2c3ffa9870e1e4416d18862f5ccd356af5fe337b4511093bbbce2ca73b7e5"
+  url "https://files.pythonhosted.org/packages/48/d6/09b28f027b510838559f7748807192149c419b30cb90e6d5f0cf916dc9dc/pymupdf-1.26.7.tar.gz"
+  sha256 "71add8bdc8eb1aaa207c69a13400693f06ad9b927bea976f5d5ab9df0bb489c3"
   license "AGPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "a5ecdcb5988746bce6a5d6ca8dfc04bae4dc58550988aab7aa3566ec9943d5a1"
-    sha256 cellar: :any,                 arm64_sonoma:  "591c6ee345fe0698d7257a16cf7be042e8c1b8e1ade3b1a013a602d1ac3758bc"
-    sha256 cellar: :any,                 arm64_ventura: "9e3e72739d5b7095fbf47db261945652dfc0ab6433d85112f98bb3ac98ba2305"
-    sha256 cellar: :any,                 sonoma:        "56538455efcc871d4cabd0eebf4df3eaca5dc344764e7d253fb20c4f91adecc3"
-    sha256 cellar: :any,                 ventura:       "b2db104a04f441630ac907ab3031a33957b0416bfa41ce587637b86e9a4568cb"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "8d1a193cfd1192bb175e06dffb1061e03d62fd80214ca00ad5b36f103ca50605"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4daea4b100ff01c626355d937d3607bcc91757f656c82fdf993f4f618f13d7c8"
+    sha256 cellar: :any,                 arm64_tahoe:   "0111cd0136789c1d0dc81f8c0c955213299fd080dfccf60872215117073909b8"
+    sha256 cellar: :any,                 arm64_sequoia: "5fe46d87df57b9ae1aa0816514de07a904c32820e16f1164128508fc75a8d689"
+    sha256 cellar: :any,                 arm64_sonoma:  "b2be496d683ee29c0f56c3be754e05080424ff0bac33a508ab8a7eb25f1c11ae"
+    sha256 cellar: :any,                 sonoma:        "699c7a839e15f6af61f3b05cb5a61c54e2b6f3e154ff99e07c522f6b2626cbbd"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "76b5f7510652546e6616ce3fd2c4bdda19b33e20a74157bc40c51df8523a3e4a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "aa8850f29fab7568822eee03aff9983a56c025131365d552633dad75a13a480e"
   end
 
   depends_on "freetype" => :build
   depends_on "python-setuptools" => :build
   depends_on "swig" => :build
   depends_on "mupdf"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def install

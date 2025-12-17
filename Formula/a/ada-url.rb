@@ -1,22 +1,24 @@
 class AdaUrl < Formula
   desc "WHATWG-compliant and fast URL parser written in modern C++"
   homepage "https://github.com/ada-url/ada"
-  url "https://github.com/ada-url/ada/archive/refs/tags/v3.2.6.tar.gz"
-  sha256 "2e0b0c464ae9b5d97bc99fbec37878dde4a436fa0a34127f5755a0dfeb2c84a0"
+  url "https://github.com/ada-url/ada/archive/refs/tags/v3.3.0.tar.gz"
+  sha256 "75565e2d4cc8e3ce2dd7927f5c75cc5ebbd3b620468cb0226501dae68d8fe1cd"
   license any_of: ["Apache-2.0", "MIT"]
+  revision 1
   head "https://github.com/ada-url/ada.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "3bb7077ce7866a336ac40cb45959c51feee7f0c68c79fb8e90ea3c394695493f"
-    sha256 cellar: :any,                 arm64_sonoma:  "4ddddeea6b7dff766c1bbe89bd27a615dcb715dead135541826bd2a8c4a52007"
-    sha256 cellar: :any,                 arm64_ventura: "90a53c74cda428539d8b73aa8bbc433db40712e3b31b3c3a3022e0a4a0e9b324"
-    sha256 cellar: :any,                 sonoma:        "edc06d7b7bd2d46704146362f36a150d43fbd37628ac85a9ad01225391ba5fe4"
-    sha256 cellar: :any,                 ventura:       "c9d7a8bc5030750969e0b202fdadd3980769c60c0e6605ea49aee2dcf03c0e26"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "10273cd26d07039bea902435321d6a9218be651218db60401040bca9e330c20e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a212d9cde2aa517ddb0c1109fea662e63d24e124b5c3fc467dd488b6408e09ea"
+    sha256 cellar: :any,                 arm64_tahoe:   "50d62e0af3952214f33d8db467c5f0c4680786980d943ce244fafd0d4f7ede67"
+    sha256 cellar: :any,                 arm64_sequoia: "2801164edd3675e14fa2bebaa2e34c285153d7c96eb71ab52780689bd464c5f5"
+    sha256 cellar: :any,                 arm64_sonoma:  "8c32ecf2d524b6ebb3adf0ec91785c093b78452cc79c299ea7ba20b098a42d2e"
+    sha256 cellar: :any,                 sonoma:        "0b11b09bc97b8a30ecb3f0fa016c52ec604959381b6635b96f76e290cb1f9785"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "533d50e0ca2539bc06e6de76a2c1577de99a71b5858dc93a9fe6dc643d8af4c6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "688ad78d321118be7aab51c1eccb86540044e4ee83a9eae780d53e9c19f8f26d"
   end
 
   depends_on "cmake" => :build
+  depends_on "cxxopts" => :build
+  depends_on "fmt"
 
   uses_from_macos "python" => :build
 
@@ -35,17 +37,27 @@ class AdaUrl < Formula
   end
 
   def install
-    ENV.llvm_clang if OS.mac? && DevelopmentTools.clang_build_version <= 1500
+    # ld: unknown options: --gc-sections
+    if OS.mac? && DevelopmentTools.clang_build_version <= 1500
+      inreplace "tools/cli/CMakeLists.txt", 'target_link_options(adaparse PRIVATE "-Wl,--gc-sections")', ""
+    end
+    # Do not statically link to libstdc++
+    inreplace "tools/cli/CMakeLists.txt", 'target_link_options(adaparse PRIVATE "-static-libstdc++")', "" if OS.linux?
 
-    system "cmake", "-S", ".", "-B", "build", "-DBUILD_SHARED_LIBS=ON", *std_cmake_args
+    args = %W[
+      -DCMAKE_INSTALL_RPATH=#{rpath}
+      -DBUILD_SHARED_LIBS=ON
+      -DADA_TOOLS=ON
+      -DCPM_LOCAL_PACKAGES_ONLY=ON
+      -DFETCHCONTENT_FULLY_DISCONNECTED=ON
+    ]
+
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end
 
   test do
-    ENV["CXX"] = Formula["llvm"].opt_bin/"clang++" if OS.mac? && DevelopmentTools.clang_build_version <= 1500
-    ENV.prepend_path "PATH", Formula["binutils"].opt_bin if OS.linux?
-
     (testpath/"test.cpp").write <<~CPP
       #include "ada.h"
       #include <iostream>
@@ -58,8 +70,18 @@ class AdaUrl < Formula
       }
     CPP
 
-    system ENV.cxx, "test.cpp", "-std=c++20",
-           "-I#{include}", "-L#{lib}", "-lada", "-o", "test"
+    system ENV.cxx, "test.cpp", "-std=c++20", "-I#{include}", "-L#{lib}", "-lada", "-o", "test"
     assert_equal "http:", shell_output("./test").chomp
+
+    if OS.mac?
+      output = shell_output("#{bin}/adaparse -d http://www.google.com/bal?a==11#fddfds")
+    else
+      require "pty"
+      PTY.spawn(bin/"adaparse", "-d", "http://www.google.com/bal?a==11#fddfds") do |r, _w, pid|
+        Process.wait(pid)
+        output = r.read_nonblock(1024)
+      end
+    end
+    assert_match "search_start 25", output
   end
 end

@@ -1,19 +1,20 @@
 class Kuzu < Formula
   desc "Embeddable graph database management system built for query speed & scalability"
   homepage "https://kuzudb.com/"
-  url "https://github.com/kuzudb/kuzu/archive/refs/tags/v0.11.0.tar.gz"
-  sha256 "445872031fd41153dd5a35a3d471354f1a98f853df5aad45a0a47154c69eaf2f"
+  url "https://github.com/kuzudb/kuzu/archive/refs/tags/v0.11.2.tar.gz"
+  sha256 "9340f1151ea6c9f35c007f122d6e08ec119b5c1db743f0303d40ac8a8e2a5d55"
   license "MIT"
   head "https://github.com/kuzudb/kuzu.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "e0408f5e2309ed34472e5c21d8676a3c885840e8d99361722bc6989035b607a2"
-    sha256 cellar: :any,                 arm64_sonoma:  "2b7f0e5c7b5c64a5260bb53f68adbaf55dd9cd583ad32f319d8b21d48697c851"
-    sha256 cellar: :any,                 arm64_ventura: "4eac4c3186998375e47d7ea5ce73e42f93ec29f0e0d7f6ea769cc134003f7861"
-    sha256 cellar: :any,                 sonoma:        "531d4d3f3d9d9f537211938787659f7100455603b23708f8908570483901edfc"
-    sha256 cellar: :any,                 ventura:       "92f1cb902c671432940d4a7ac13297d0661b7840cd91aea22f653ed75c99f3f1"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "af7c73032fc17a5283d678b11653d31ae591c1b052da1ceebe90d998ba29a9a4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "54f3472c5ff2ac7fa69e362434ad0044b23de935627ff01238fb28bf5f2388ce"
+    sha256 cellar: :any,                 arm64_tahoe:   "b75a9039e2a33b9609789ec82f878efa1789c5df1c19e9fd9f36988aae01179a"
+    sha256 cellar: :any,                 arm64_sequoia: "573aa3e28749eff8792dc8bf930ad699a835a869b995a05d5297823b67cecb8b"
+    sha256 cellar: :any,                 arm64_sonoma:  "a1fec350a28857a60825eb473d02361ed5b1485b15ee1349636e7da69650682b"
+    sha256 cellar: :any,                 arm64_ventura: "a0b3a51491ad3b6ba266315954cb0cf1ab8666572f49d2318352f1e3d7151257"
+    sha256 cellar: :any,                 sonoma:        "41a84c0407b44907bc9d3599e1817e04d5d37e71fde044ae7a566ed526d2c10d"
+    sha256 cellar: :any,                 ventura:       "1e85a9fb583f56bfdb09cc0661f6dbe8615393483e0f3a99f5a019edcdfea38a"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "39ed6f96904850e2a5d059ef6c60a56b350674382adbd8f391e4d8c19bf6d85b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "781859e1e45d567ed5cb6f880362b3f0ef12a1250367a7709afa589ef4f38921"
   end
 
   depends_on "cmake" => :build
@@ -21,11 +22,14 @@ class Kuzu < Formula
   uses_from_macos "python" => :build
 
   on_macos do
-    depends_on "llvm" if DevelopmentTools.clang_build_version <= 1400
+    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1400
   end
 
-  on_linux do
-    depends_on "gcc@12" if DevelopmentTools.gcc_version("/usr/bin/gcc") < 12
+  on_intel do
+    fails_with :gcc do
+      version "11"
+      cause "error: unknown type name '__m512h'"
+    end
   end
 
   fails_with :clang do
@@ -34,20 +38,11 @@ class Kuzu < Formula
   end
 
   fails_with :gcc do
-    version "11"
-    cause "needs GCC 12 or newer"
+    version "10"
+    cause "Requires C++20"
   end
 
   def install
-    if OS.mac? && DevelopmentTools.clang_build_version <= 1400
-      ENV.llvm_clang
-      # Work around failure mixing newer `llvm` headers with older Xcode's libc++:
-      # Undefined symbols for architecture arm64:
-      #   "std::exception_ptr::__from_native_exception_pointer(void*)", referenced from:
-      #       std::exception_ptr std::make_exception_ptr[abi:ne180100]<antlr4::NoViableAltException>...
-      ENV.prepend_path "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib/"c++"
-    end
-
     args = %w[
       -DAUTO_UPDATE_GRAMMAR=0
     ]

@@ -2,21 +2,20 @@ class Glab < Formula
   desc "Open-source GitLab command-line tool"
   homepage "https://gitlab.com/gitlab-org/cli"
   url "https://gitlab.com/gitlab-org/cli.git",
-    tag:      "v1.64.0",
-    revision: "fe60bcf75bfb58801f5a429a52a3461ef62b0f6e"
+    tag:      "v1.79.0",
+    revision: "19f580807f390d5725a2c972bd2026b3dd24a50c"
   license "MIT"
   head "https://gitlab.com/gitlab-org/cli.git", branch: "main"
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8a54df16899adceca1da50cad18d9c877b5397e2f08dd32b4e2482d7b3228eac"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "8a54df16899adceca1da50cad18d9c877b5397e2f08dd32b4e2482d7b3228eac"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8a54df16899adceca1da50cad18d9c877b5397e2f08dd32b4e2482d7b3228eac"
-    sha256 cellar: :any_skip_relocation, sonoma:        "43b5926b28b14d5d7271bd062b4aabaf3af71be4b4471d49d2145f40ef83a2f3"
-    sha256 cellar: :any_skip_relocation, ventura:       "43b5926b28b14d5d7271bd062b4aabaf3af71be4b4471d49d2145f40ef83a2f3"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "25c98d07d80d1260c8cd010a96d7377c5283d9d169da89774289f413f4a758c3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c3e58960c90776f4656b612b02f74b192176e45488dfeae9e74037f705c5a270"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "6f9c352b43577d09a9a4ee9460de6b98a39a5de627bcb0a8b667b1c05947f241"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6f9c352b43577d09a9a4ee9460de6b98a39a5de627bcb0a8b667b1c05947f241"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6f9c352b43577d09a9a4ee9460de6b98a39a5de627bcb0a8b667b1c05947f241"
+    sha256 cellar: :any_skip_relocation, sonoma:        "ce87e93d4330ec359a520976a47f48695c178abd2cce4372e3ae085508cb6102"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "055e3c4ef62e64e41ac848d14b29616d0bd87633cbbded2091c9293bc613e40b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "baf565f2f85dd3781e84a3d6eda2b4c20fc16c5c0cd0e3fa9697ea09221dcaca"
   end
 
   depends_on "go" => :build

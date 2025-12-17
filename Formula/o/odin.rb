@@ -2,25 +2,22 @@ class Odin < Formula
   desc "Programming language with focus on simplicity, performance and modern systems"
   homepage "https://odin-lang.org/"
   url "https://github.com/odin-lang/Odin.git",
-      tag:      "dev-2025-07",
-      revision: "090cac62f9cc30f759cba086298b4bdb8c7c62b3"
-  version "2025-07"
-  license "BSD-3-Clause"
+      tag:      "dev-2025-12a",
+      revision: "6ef91e26588fb3985eaa521c86d2ce2dcb2eabf1"
+  version "2025-12a"
+  license "Zlib"
   head "https://github.com/odin-lang/Odin.git", branch: "master"
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256                               arm64_sequoia: "da6510863b17aa834d06a77400e65d3b89bdc3a5fbc163cc68234108ca03acb3"
-    sha256                               arm64_sonoma:  "48c6453b302a492faa3db363a6424406249b7c04ccaa58ee0fb2cade778c53bd"
-    sha256                               arm64_ventura: "ec99ee57ebf5a19874b5dfb66346da3e8a991b7176e426f8a99098c714b15bec"
-    sha256 cellar: :any,                 sonoma:        "0121a93037d84c418cca0e932453ac009a6f6f0dcf5c38bf8fc185e325e93314"
-    sha256 cellar: :any,                 ventura:       "c328ac6346b9517149b0df6be070973b5e3ff466e33c380d638b9dc37734d087"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "923bdbd52710ff706537861ceba951c89f74a01a699ffa3c3f69c96e8207ca5d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6c79709b204a5168a71d5d99db6d9cde166f453bd142279213ae94437a42c643"
+    sha256                               arm64_tahoe:   "44596f2d6f25fed8a99f2287059346eb9068867586a010d50ee7d427b8083d41"
+    sha256                               arm64_sequoia: "39480c8e09a6a15c25ab02a5764c42e5c125f4b21998483ed6e7b1fbd74d5b0e"
+    sha256                               arm64_sonoma:  "1cf13f1a11d8bfb35aa84554d5de58cf948846c8c5b99dfccc33e082c8cf8b17"
+    sha256 cellar: :any,                 sonoma:        "745a3344c84e551aeb02d0119dc45f4c00f5075d0e9e3c8496d411b4d1542e34"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "461935fa9aaba786339c2bd6c1daa174ff7c5ce734bbaf628d8e4b7db97c70ba"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "71353c00bd07488b6c4fdb71c1ba086ef11682686b29316eaffd3d13713b42a4"
   end
 
-  depends_on "glfw"
+  depends_on "glfw" => :no_linkage
   depends_on "lld"
   depends_on "llvm"
   depends_on "raylib"
@@ -112,13 +109,13 @@ class Odin < Formula
 
     # Keep version number consistent and reproducible for tagged releases.
     args = []
-    args << "ODIN_VERSION=dev-#{version}" unless build.head?
+    args << "ODIN_VERSION=dev-#{version}" if build.stable?
     system "make", "release", *args
     libexec.install "odin", "core", "shared", "base", "vendor"
     (bin/"odin").write <<~BASH
       #!/bin/bash
       export PATH="#{llvm.opt_bin}:$PATH"
-      exec -a odin "#{libexec}/odin" "$@"
+      exec -a "${0}" "#{libexec}/odin" "${@}"
     BASH
     pkgshare.install "examples"
   end

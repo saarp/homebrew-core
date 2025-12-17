@@ -3,15 +3,15 @@ class GitMachete < Formula
 
   desc "Git repository organizer & rebase workflow automation tool"
   homepage "https://github.com/VirtusLab/git-machete"
-  url "https://files.pythonhosted.org/packages/22/a6/8f2a5966e4c6a33d0e6142f58984e2c0e73988e9267b1399f0946baf0ac2/git_machete-3.36.3.tar.gz"
-  sha256 "da5b8e7b73236f632471baca786b37d541d83b955e20398e546188fff9c54982"
+  url "https://files.pythonhosted.org/packages/b9/c9/8f9f9c968fa8d05b6fe6ad21ad1e034df0ab0f3a1d96cdadae167ea80065/git_machete-3.38.0.tar.gz"
+  sha256 "0960537e7fac61c0bc26a837733299171ae3f68a6a5d027862ae5dcc73182837"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "34e0ac49edb51d1e4f073b5cbdd8b56f958472fce1dfc8a4648e0d7bc47276fd"
+    sha256 cellar: :any_skip_relocation, all: "574fa0c801112b19cd8a10c6818f3a6316d6b12d46d14301610b1d0381ae362b"
   end
 
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   def install
     virtualenv_install_with_resources

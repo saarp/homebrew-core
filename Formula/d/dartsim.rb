@@ -1,22 +1,20 @@
 class Dartsim < Formula
   desc "Dynamic Animation and Robotics Toolkit"
   homepage "https://dartsim.github.io/"
-  url "https://github.com/dartsim/dart/archive/refs/tags/v6.15.0.tar.gz"
-  sha256 "bbf954e283f464f6d0a8a5ab43ce92fd49ced357ccdd986c7cb4c29152df8692"
+  url "https://github.com/dartsim/dart/archive/refs/tags/v6.16.1.tar.gz"
+  sha256 "aa500b222d9ebc7cf98eae2e6531dd82b4f1fa6ae09be09fb7205795bedd4db5"
   license "BSD-2-Clause"
-  revision 4
 
   bottle do
-    sha256                               arm64_sequoia: "d7bb03b21df47b7c82dc110473010e3592b794311c6b27c895a46336df6767b9"
-    sha256                               arm64_sonoma:  "1ff1a87676c0e646c7055f2256b1f47a357edbff277bd203332802d16e483102"
-    sha256                               arm64_ventura: "e40b43ea43bf4059fd20c83e4ef0eb36cf8e34b96cc567dfa8ad83e3ee4e935b"
-    sha256                               sonoma:        "e63fca29193eb227342f574bd8d74bcee5c1571de4b4424c6bb99f071a0f9560"
-    sha256                               ventura:       "439816ee6c2523471b8028f3a141937469be4b97da2944f02df498e81be4266b"
-    sha256                               arm64_linux:   "415d26ebb6c18b207ed9679eb5dd505f5730dcda3e679f549114b2558bd363db"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "054d6527d4c3ae7fd52faa33a3360edff331a66d21fdc5a4404bcadb747c6184"
+    sha256                               arm64_tahoe:   "cbd2f412fb82b0181752f5368eef15ba9c8528cdc4ad623ff3d6269ef9e628db"
+    sha256                               arm64_sequoia: "254f90a5b51c584d38fc73b92459b1309faf008faa69b6cc498b985a1e702fba"
+    sha256                               arm64_sonoma:  "9a1b2bf33728c2137274edbb37d0a743a11e863ad6ecd99ac0922564d8dc2eac"
+    sha256                               sonoma:        "bbacdd785e276cfb4c7d0c94d19f08b111173cb4759aa53701158500d2575021"
+    sha256                               arm64_linux:   "c9fc599208209889e72c7f34a9c1b018db38ad95b873f641d7700ffb528fbdb7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "959e6e9fc982c885b0afba694132a5a53b04d98a9c9a416e3a1e58c17347ce62"
   end
 
-  depends_on "cmake" => :build
+  depends_on "cmake" => [:build, :test]
   depends_on "pkgconf" => :build
 
   depends_on "assimp"
@@ -71,6 +69,12 @@ class Dartsim < Formula
         return 0;
       }
     CPP
+    (testpath/"CMakeLists.txt").write <<-CMAKE
+      cmake_minimum_required(VERSION 3.22.1 FATAL_ERROR)
+      find_package(DART QUIET REQUIRED CONFIG)
+      add_executable(test_cmake test.cpp)
+      target_link_libraries(test_cmake dart)
+    CMAKE
     system ENV.cxx, "test.cpp", "-I#{Formula["eigen"].include}/eigen3",
                     "-I#{include}", "-L#{lib}", "-ldart",
                     "-L#{Formula["assimp"].opt_lib}", "-lassimp",
@@ -78,5 +82,11 @@ class Dartsim < Formula
                     "-L#{Formula["fcl"].opt_lib}", "-lfcl",
                     "-std=c++17", "-o", "test"
     system "./test"
+    # build with cmake
+    mkdir "build" do
+      system "cmake", ".."
+      system "make"
+      system "./test_cmake"
+    end
   end
 end

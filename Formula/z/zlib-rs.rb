@@ -1,19 +1,18 @@
 class ZlibRs < Formula
   desc "C API for zlib-rs"
   homepage "https://github.com/trifectatechfoundation/zlib-rs/tree/main/libz-rs-sys-cdylib#libz-rs-sys-cdylib"
-  url "https://github.com/trifectatechfoundation/zlib-rs/archive/refs/tags/v0.5.1.tar.gz"
-  sha256 "270dedde7e1cd63e7a743a520a74b92e82aaf02a2cb7e5e461364f58a03cc720"
+  url "https://github.com/trifectatechfoundation/zlib-rs/archive/refs/tags/v0.5.4.tar.gz"
+  sha256 "1069ad8b8dab0ab3f3d7ccccc380c81709d13f788f57b7ca167db774778ec1a7"
   license "Zlib"
   head "https://github.com/trifectatechfoundation/zlib-rs.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "38915205b01501c510264cd8aefb8da5d750efcab57330393899815bb4360784"
-    sha256 cellar: :any,                 arm64_sonoma:  "497eb4619f5bb32a1aafdc3810a27c2d9383cc7264d125e77815a1cf815ebd28"
-    sha256 cellar: :any,                 arm64_ventura: "77a3b525b3b45bd8ce128ccf6cede288fde8b69eb794035b59b4483774c633c0"
-    sha256 cellar: :any,                 sonoma:        "12df87dd4328d80c6fc09998b02c00ae4394a1819ec020e6a5942e8fab530839"
-    sha256 cellar: :any,                 ventura:       "000a275cbb2adfc476975f56f7c30cac63f7c3b7ec3bf1ced936c77db8a1b08d"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "f1b14ecc2ba8a86802a9b80e44e21015d508c475f996615f59ebda11d4dd6271"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8d7eac09031e10b77fb45dfa2ee6826df56bf79aa356a5e845418aa8a0f9de26"
+    sha256 cellar: :any,                 arm64_tahoe:   "c04001c73664ad59d758dc812cdeb8f66d39beafd8fc71c6b98792e5c7e0d864"
+    sha256 cellar: :any,                 arm64_sequoia: "e479aaa0cab4b01239e687ac474d80b11692d526b77abc6658d174198d499cce"
+    sha256 cellar: :any,                 arm64_sonoma:  "8cb3161ea6d5395aa84d68be21e8cbf9cfcccf9982ab8c4196c2b454fb0937f0"
+    sha256 cellar: :any,                 sonoma:        "20381afd60cc9322f0b15438c06d8049e37ff092b9c6e384408fb4c126085a6e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "8f68cef7701cfabb0d2d25ea31296ca64a6bf3522322a4e1947067d9599d5b52"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "851b64b4ac79b538933b6b2a151a4ad874e04067b45dc983173188250820b107"
   end
 
   depends_on "cargo-c" => :build
@@ -22,7 +21,7 @@ class ZlibRs < Formula
 
   def install
     # https://github.com/trifectatechfoundation/zlib-rs/tree/main/libz-rs-sys-cdylib#-cllvm-args-enable-dfa-jump-thread
-    ENV.append "RUSTFLAGS", "-Cllvm-args=-enable-dfa-jump-thread"
+    ENV.append_to_rustflags "-Cllvm-args=-enable-dfa-jump-thread"
     cd "libz-rs-sys-cdylib" do
       system "cargo", "cinstall", "--jobs", ENV.make_jobs.to_s, "--prefix", prefix, "--libdir", lib, "--release"
     end

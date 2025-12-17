@@ -2,25 +2,26 @@ class Metricbeat < Formula
   desc "Collect metrics from your systems and services"
   homepage "https://www.elastic.co/beats/metricbeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v9.0.4",
-      revision: "7f7d7133471388154c895cf8fc6b40ae6d6245e2"
+      tag:      "v9.2.2",
+      revision: "46e1e32d1aac0400a852b4565f184e23ab03e0e1"
   license "Apache-2.0"
-  head "https://github.com/elastic/beats.git", branch: "master"
+  head "https://github.com/elastic/beats.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "57098d4771f22ca94dc7d03b93a58444846e8377c88509c2d0b2ef9b20a86c39"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "90518e658f303407343d6c0d4b670b740ea53901adc6bf5fb1d064a9df07c272"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "b1033e3694a4383e83906eb91cea4584e9fba93fdd2f12434cf8507a77d0be46"
-    sha256 cellar: :any_skip_relocation, sonoma:        "93c2f1a748e33ba0af33fa68c77775b96d1c1b102ee88e24bc7949b6497aeaad"
-    sha256 cellar: :any_skip_relocation, ventura:       "3f8dba8c77a5738f1854331cdbadf57a1043c680e13595e84af338cfd1b451dd"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "7e1a62e222270c1a0009a631b9016e96c354d8640ef9f5f6331c4cfe63f2fbc4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3f789b7162e1fa9f3b0a4d06b5083b2fe378a3ebba38f8acfe0992b9bf3cd3c5"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f5ea1ef9b0d84aa5466c3a44cedc6006d6bfa4f2257b5c5cdcf0a5d65c332056"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d33ba3c08b67c6e3fa2fcb9a352fb473b2cf8f4fe17816a3f29be9e5c4bb75c0"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a20a7789e090a477785dabb973a853dc6bebb11f9824898373d192dfbcb4b070"
+    sha256 cellar: :any_skip_relocation, sonoma:        "4984d4e414c8c4d3b837797f7090b2617cb087674a164cddaaad7852c8d17677"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4f7663e6c9bd0d1a469d92704b3fbcfa31ddbf4b19477f6df55536777569894a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e26c8bf7232b915ff4d326568c68d6c4dbeaaead852dd3e01c001fa062ea13fa"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
 
   def install
+    ENV["CGO_ENABLED"] = "1" if OS.linux? && Hardware::CPU.arm?
+
     # remove non open source files
     rm_r("x-pack")
 

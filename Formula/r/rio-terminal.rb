@@ -1,8 +1,8 @@
 class RioTerminal < Formula
   desc "Hardware-accelerated GPU terminal emulator powered by WebGPU"
-  homepage "https://raphamorim.io/rio/"
-  url "https://github.com/raphamorim/rio/archive/refs/tags/v0.2.23.tar.gz"
-  sha256 "62d36296f3f53d573a9b34c8fa5da29882f7eb17c7d8abcd526245e0a33af9d0"
+  homepage "https://rioterm.com/"
+  url "https://github.com/raphamorim/rio/archive/refs/tags/v0.2.36.tar.gz"
+  sha256 "378cb6c0a0b46495afc1e79ec202b81467de6bd96d88e48e7713e785a3719ff2"
   license "MIT"
   head "https://github.com/raphamorim/rio.git", branch: "main"
 
@@ -12,11 +12,10 @@ class RioTerminal < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "525c6eef8be06c06c7484ad435542061f38ed79b3a9045dae568d3683a14b247"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "9e989be4fbf13948e6745d045f675338e46cb6e75bcd608e2f8c1a50dd230949"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "20b6cfdfdbcae205667b2772d518c0ee5019047acce3f46378fd52bdf1ae08f2"
-    sha256 cellar: :any_skip_relocation, sonoma:        "acc068d99fc030a30dea4f55c6ddd264bb3c4852aa1a92f040fe7fe5848638a5"
-    sha256 cellar: :any_skip_relocation, ventura:       "de0105d0f1ce0d3167cd51a727eb8cda6595232f0a8cdacbc106d5eb782a4a66"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "5d7466444a8b9f1cda7974cd34016e0160ac3b4983f6b2cb1c388daeb0b51f3b"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b0eba2188c72c1b81d55af46c10077efe85fd6b46ab98877a3b63412d953e5e4"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "9fbf9a22eec154d84eed1995d591b21de422a00d4f8193e07a5c0f251c1773b9"
+    sha256 cellar: :any_skip_relocation, sonoma:        "2ba2f5a2f9d563e4b0580d230cc4c4fec66f56dea292f44e47a6caa8c5b94971"
   end
 
   depends_on "rust" => :build
@@ -33,12 +32,8 @@ class RioTerminal < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/rio --version")
-    return if Hardware::CPU.intel? && ENV["HOMEBREW_GITHUB_ACTIONS"].present?
 
-    # This test does pass locally for x86 but it fails for containers
-    # which is the case of x86 in the CI
-
-    system bin/"rio", "-e", "touch", testpath/"testfile"
-    assert_path_exists testpath/"testfile"
+    system bin/"rio", "--write-config", testpath/"rio.toml"
+    assert_match "enable-log-file = false", (testpath/"rio.toml").read
   end
 end

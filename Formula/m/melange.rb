@@ -1,8 +1,8 @@
 class Melange < Formula
   desc "Build APKs from source code"
   homepage "https://github.com/chainguard-dev/melange"
-  url "https://github.com/chainguard-dev/melange/archive/refs/tags/v0.29.7.tar.gz"
-  sha256 "4eb07c8aa49e3d1040a88312d244b3d46db80d9b471523cb29e018f8c1b18a08"
+  url "https://github.com/chainguard-dev/melange/archive/refs/tags/v0.37.0.tar.gz"
+  sha256 "a20e9000cce5152a379c718e1c22836e626403acd30bea608cbbb1a18fc84bec"
   license "Apache-2.0"
   head "https://github.com/chainguard-dev/melange.git", branch: "main"
 
@@ -12,12 +12,12 @@ class Melange < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "71ed93432248bc76ba927c5a27963772a7056c35facd02246828bb827b085227"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "c8f657ca266658394fad4c60692c163fc60e090f62e8bb81905858ade283089c"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "e00fbedf4c6451455a0880afe401291f6a7b686891f2bdc5c4539f13147369fb"
-    sha256 cellar: :any_skip_relocation, sonoma:        "894541501a9abf0e0c5f87bfaa15a1899a4877c6e5fa65df3c7da3ddeb2beb17"
-    sha256 cellar: :any_skip_relocation, ventura:       "2bc078e57eba45a1aa5f8d55725654070340ccb6462189f5fe2b8067410cbc62"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "07a95157e706f217387ef42de37236b64a714f7b23d5986fd1cbb24f001f7dcd"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "33cc4fb26a3b4d39631e859a09cdbcf7825f587d76eb84ca6acc45ce3193fd82"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "3f08a4f02bad20c9f53fb9c4f95ccfd112da7b04dbc7add1a15847b9d922ce48"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a16a6ee66bbcc42eb02a2ac4a14f56867c18a3afea388139aaa025952b7306fd"
+    sha256 cellar: :any_skip_relocation, sonoma:        "72df143bf9fdf4423bd9a5943847db3a1f58001813a78ccfffc2d0f50d3306bf"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4e4ce35961eb10fb5add85bfc42494ec11485903774018b7deba9479c54f87cf"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0840b0ab98a56c6c671e1ff5e3e2510c304950e131e00d96bc406529ad2da3ea"
   end
 
   depends_on "go" => :build
@@ -26,7 +26,7 @@ class Melange < Formula
     ldflags = %W[
       -s -w
       -X sigs.k8s.io/release-utils/version.gitVersion=#{version}
-      -X sigs.k8s.io/release-utils/version.gitCommit=brew
+      -X sigs.k8s.io/release-utils/version.gitCommit=#{tap.user}
       -X sigs.k8s.io/release-utils/version.gitTreeState=clean
       -X sigs.k8s.io/release-utils/version.buildDate=#{time.iso8601}
     ]
@@ -81,6 +81,6 @@ class Melange < Formula
     system bin/"melange", "keygen"
     assert_path_exists testpath/"melange.rsa"
 
-    assert_match version.to_s, shell_output(bin/"melange version 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/melange version 2>&1")
   end
 end

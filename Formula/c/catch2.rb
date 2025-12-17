@@ -1,19 +1,18 @@
 class Catch2 < Formula
   desc "Modern, C++-native, test framework"
   homepage "https://github.com/catchorg/Catch2"
-  url "https://github.com/catchorg/Catch2/archive/refs/tags/v3.9.0.tar.gz"
-  sha256 "8061daf97429621bc62096841af02fc40070fad26cd04c93ee0b5a825cedb122"
+  url "https://github.com/catchorg/Catch2/archive/refs/tags/v3.11.0.tar.gz"
+  sha256 "82fa1cb59dc28bab220935923f7469b997b259eb192fb9355db62da03c2a3137"
   license "BSL-1.0"
   head "https://github.com/catchorg/Catch2.git", branch: "devel"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "086528ba5159f48c78e5c683ee6e06b90bfac078565110b4dd73ffe20d2c54a3"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "463d7f4e9191275c7d8c68163bd3010308475ac067442da900bc59f6acc01bd6"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "f6bf6f5b017001a8b51b2f65f29454a0181aa72573577dc5040f32f9864868f5"
-    sha256 cellar: :any_skip_relocation, sonoma:        "0d4eb98d5337fcb4527592a234aeb5e3815de650d106614228b987404a56b390"
-    sha256 cellar: :any_skip_relocation, ventura:       "6e44dbe251fb23c468b634cb96d4adbec981f4294ba9189105e9db0cfa55417c"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "bbe74061a43d78420da128ae764a9d34eec85a2054b936dd944abcd9a346e63c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d7361cb16c223d54371c63a814d4912676e2beebe241bf15581edcf28d9c6f3a"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "46eb4e040fc26befc55bd5b963b74cff2ce5c1290724eb72be40c8ec7cd362b4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "997ca95ba0337e4caf13577c3cc81624380b3c6f8ec8c4fdc539fa1ecc22064d"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "dbe41f2586b2426e9c21e309a4f5a11ee3abf89d9ecdc5daac2bb8de758fcf04"
+    sha256 cellar: :any_skip_relocation, sonoma:        "ad3dd63a7d71ed3153303d746b01f93f907135c85678ca17f7ac467834dec835"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "df57def370f1002bdbc57528222d5b2c6fe8f052fb3b4b9cde2d1d01c7c225de"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "10df67fe223b619f21e68f12202d006fb7fb192a52a3fbf43af5ec52a5acbc65"
   end
 
   depends_on "cmake" => :build

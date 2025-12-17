@@ -9,33 +9,19 @@ class WasiLibc < Formula
   head "https://github.com/WebAssembly/wasi-libc.git", branch: "main"
 
   stable do
-    # Check the commit hash of `src/wasi-libc` corresponding to the latest tag at:
-    # https://github.com/WebAssembly/wasi-sdk
-    url "https://github.com/WebAssembly/wasi-libc/archive/50ae11904df674fecaa311537967fe138c21fcc7.tar.gz"
-    version "26"
-    sha256 "d5550b25c90ddbede393957849562bdcbc79e9d58ab0ba0bd0763cec965c960a"
+    url "https://github.com/WebAssembly/wasi-libc/archive/refs/tags/wasi-sdk-28.tar.gz"
+    sha256 "6f0b2e533ba09617c1f65496e5537806e1a7b0a34d4939f7dbb659ff30857b38"
 
     resource "WASI" do
-      # Check the commit hash of `tools/wasi-headers/WASI` from the commit hash above.
+      # Check the commit hash of `tools/wasi-headers/WASI` from the commit of the tag above.
       url "https://github.com/WebAssembly/WASI/archive/59cbe140561db52fc505555e859de884e0ee7f00.tar.gz"
       sha256 "fc78b28c2c06b64e0233544a65736fc5c515c5520365d6cf821408eadedaf367"
     end
   end
 
-  livecheck do
-    url "https://github.com/WebAssembly/wasi-sdk.git"
-  end
-
-  no_autobump! because: :incompatible_version_format
-
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a754b6e9a71c5f06a2489dea882a36265c186182134db12395124d96288b863b"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a754b6e9a71c5f06a2489dea882a36265c186182134db12395124d96288b863b"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a754b6e9a71c5f06a2489dea882a36265c186182134db12395124d96288b863b"
-    sha256 cellar: :any_skip_relocation, sonoma:        "a754b6e9a71c5f06a2489dea882a36265c186182134db12395124d96288b863b"
-    sha256 cellar: :any_skip_relocation, ventura:       "a754b6e9a71c5f06a2489dea882a36265c186182134db12395124d96288b863b"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "3fafccb8cd85eef822881f2ca25d3756a67b09f8176968056c3db83b31019ccf"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3fafccb8cd85eef822881f2ca25d3756a67b09f8176968056c3db83b31019ccf"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, all: "a529c0735dbb8a0650b31e03540ce34aa2821efba92b1b032e15e47a662fe5d9"
   end
 
   depends_on "llvm" => [:build, :test]
@@ -52,12 +38,10 @@ class WasiLibc < Formula
     ENV.remove_cc_etc
     ENV.remove "PATH", Superenv.shims_path
 
-    # Flags taken from Arch:
-    # https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libc/-/blob/main/PKGBUILD
     make_args = [
-      "WASM_CC=#{Formula["llvm"].opt_bin}/clang",
-      "WASM_AR=#{Formula["llvm"].opt_bin}/llvm-ar",
-      "WASM_NM=#{Formula["llvm"].opt_bin}/llvm-nm",
+      "CC=#{Formula["llvm"].opt_bin}/clang",
+      "AR=#{Formula["llvm"].opt_bin}/llvm-ar --format=gnu",
+      "NM=#{Formula["llvm"].opt_bin}/llvm-nm",
       "INSTALL_DIR=#{share}/wasi-sysroot",
     ]
 
@@ -78,7 +62,7 @@ class WasiLibc < Formula
     target_flags["wasm32-wasip2"] << "WASI_SNAPSHOT=p2"
 
     targets.each do |target|
-      system "make", *make_args, "TARGET_TRIPLE=#{target}", "install", *target_flags[target]
+      system "make", *make_args, "TARGET_TRIPLE=#{target}", "CHECK_SYMBOLS=yes", "install", *target_flags[target]
     end
   end
 

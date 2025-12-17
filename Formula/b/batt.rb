@@ -2,8 +2,8 @@ class Batt < Formula
   desc "Control and limit battery charging on Apple Silicon MacBooks"
   homepage "https://github.com/charlie0129/batt"
   url "https://github.com/charlie0129/batt.git",
-      tag:      "v0.4.1",
-      revision: "3f6595f59f88d746e7a3f37a99039e00d6efa587"
+      tag:      "v0.6.0",
+      revision: "1310e0b06fe91ac206ef298fd129bde611f3cd5f"
   license "GPL-2.0-only"
   head "https://github.com/charlie0129/batt.git", branch: "master"
 
@@ -13,9 +13,10 @@ class Batt < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "7f6aa25db227b3a59b98e5d9c8afa8bb8002df5fd97322939b2e626d439e4a36"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "19a8639892d2267ae34312bbc6543903ca11011640412faeb5f14157731a398e"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "cf8bd5454466b832a46a8ef79fd73cad2d8544b012691200a08f099104106787"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "4066a9df10d2e0fd560d486adfcef19669bd55950a0feb4eb5d494f775baad25"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e5171ffc675f924be8107b6f99aa5887109d5919e6e28fafe9468d4df07b96e0"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "ba651ec290aaab976210d11b37406381af223b3b8dc56878f78a79bc977e81f9"
   end
 
   depends_on "go" => :build
@@ -38,6 +39,8 @@ class Batt < Formula
     system "make", "GOTAGS=brew", "VERSION=v#{version}"
     bin.install "bin/batt"
     prefix.install "hack/cc.chlc.batt.plist"
+
+    generate_completions_from_executable(bin/"batt", "completion", shells: [:bash, :zsh, :fish, :pwsh])
   end
 
   def caveats

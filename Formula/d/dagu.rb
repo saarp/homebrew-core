@@ -1,23 +1,30 @@
 class Dagu < Formula
   desc "Lightweight and powerful workflow engine"
   homepage "https://dagu.cloud"
-  url "https://github.com/dagu-org/dagu/archive/refs/tags/v1.17.4.tar.gz"
-  sha256 "b1552e6cfcc383880c5fad2448e43f236b0bdb674e17101a7e905b609f4de8cd"
+  url "https://github.com/dagu-org/dagu/archive/refs/tags/v1.26.5.tar.gz"
+  sha256 "55e06fd4070c555a7d3720d6ca22e9ef0d4bff310ffb11a7533bc474d6bb6fca"
   license "GPL-3.0-only"
+  head "https://github.com/dagu-org/dagu.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "34881220355da690627b7ee9f96b6cac6499113ce716d95a2042b700bc2f55fd"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "4d93fc93d1a4602b36c97ece9b97d3be24cb76d32c749192e13df19e33744f9e"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8d6c81ea3649324a19ad81c91ef631ffc79eac155f34c3050f81f78f00af031d"
-    sha256 cellar: :any_skip_relocation, sonoma:        "247d0b8fe1312b9157f6c65a36adf03ca02888d74b0de3b20c396c25f6461b13"
-    sha256 cellar: :any_skip_relocation, ventura:       "38d9c5ab6db4e1ab06b1aba2b01147ab3e8643fd2c9a207e227e5da5480286f2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d16799b507702ca03d0984cda14ecea6ad9388f6f4521aea98a94d45a3cc6861"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "fcc150c18d5f2d2ecdb07455baba66d2b29d103b8c08a2fbed9f9cfe3f22238c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d3b1a7e181f6090d2e21bb6e75bdbf31332ecbbd2bcd0aa0f114e1108bcd05cf"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "f92bea1a35d699b46ed04a62d608c7b4dfe645c74676261d64a768c53de0b496"
+    sha256 cellar: :any_skip_relocation, sonoma:        "914ae6d008ec88a0ba1cd08eb852045d18a04a1cbbc0a9b37e2794e53b9ad546"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "e09aef6393b1b9888b72841f2270586e2a784a0f082b67346ec01ca286dea808"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c6136efaaa6bcfa649d50e3da74d641476f1fde88315e8b634788583a3debda3"
   end
 
   depends_on "go" => :build
+  depends_on "node" => :build
+  depends_on "pnpm" => :build
 
   def install
-    ldflags = %W[-s -w -X main.version=#{version}]
+    system "pnpm", "--dir=ui", "install", "--frozen-lockfile"
+    system "pnpm", "--dir=ui", "run", "build"
+    (buildpath/"internal/service/frontend/assets").install (buildpath/"ui/dist").children
+
+    ldflags = "-s -w -X main.version=#{version}"
     system "go", "build", *std_go_args(ldflags:), "./cmd"
   end
 

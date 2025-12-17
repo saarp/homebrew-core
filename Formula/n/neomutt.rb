@@ -1,19 +1,18 @@
 class Neomutt < Formula
   desc "E-mail reader with support for Notmuch, NNTP and much more"
   homepage "https://neomutt.org/"
-  url "https://github.com/neomutt/neomutt/archive/refs/tags/20250510.tar.gz"
-  sha256 "12d225e270d8e16cda41d855880b9d938750a4f1d647f55c6353337d32ffd653"
+  url "https://github.com/neomutt/neomutt/archive/refs/tags/20251211.tar.gz"
+  sha256 "2dcb88c939514e15a55ac24f29dcb23f55754100e74df98558fd5c4b1347e542"
   license "GPL-2.0-or-later"
   head "https://github.com/neomutt/neomutt.git", branch: "main"
 
   bottle do
-    sha256 arm64_sequoia: "aeeccca4cdcc5bcfdd187ff32ec295746bd0ff57a92b108a67609917ca6ca96e"
-    sha256 arm64_sonoma:  "e7494884f1e9a9289e3993fd0fca9ae0f310d1d30b3886cc95abe0a58bbf18cd"
-    sha256 arm64_ventura: "2b2fd04f1c68cb95cca733c59c6892b7e9a91e33583844bcd36327c23ae08ddf"
-    sha256 sonoma:        "fe987a4cb6230c846a72b1eb4a7112bbe6699400f349ca3152811a5d7b941999"
-    sha256 ventura:       "695b0073f3d0b12d395f8b4c82606d941879ef26c091ce3c29f358a26c1da1bf"
-    sha256 arm64_linux:   "6b80fca262c7f3614cb79765ca84c2dc49b0b00ac42262f387939bb5cfad4736"
-    sha256 x86_64_linux:  "a04f64ef9d7de760165d6816de3256163f3473d26e4b25967e09a1d1e6f7320f"
+    sha256 arm64_tahoe:   "2c9d7eba7ffee51a5c3e82700187bc2d642e7e20c6f98122ffb02417fd9dd366"
+    sha256 arm64_sequoia: "bc89b3df79a86a0ad64ad364637947ec454bebfc6fef12e82713f680afdae0fc"
+    sha256 arm64_sonoma:  "5e028735fda85b4d65c7426dad5f89d4df7e7525da43703cdf86803eeb41cef0"
+    sha256 sonoma:        "fc1c6273c07d157ed507c861a7acb2bf9b6630ac0c60df0ffcebafb4a36eccc9"
+    sha256 arm64_linux:   "e96a147e2b729a1724b09f547c9cafa3ea55188e4c4fc856934fba64b21b9bfd"
+    sha256 x86_64_linux:  "08e6875dac97939c550e31a091443a9fef504ac40a7b69ade02cf8e0cbdd749f"
   end
 
   depends_on "docbook-xsl" => :build
@@ -75,7 +74,6 @@ class Neomutt < Formula
   end
 
   test do
-    output = shell_output("#{bin}/neomutt -F /dev/null -Q debug_level", 1)
-    assert_equal "set debug_level = 0", output.chomp
+    assert_match "set debug_level = 0", shell_output("#{bin}/neomutt -F /dev/null -Q debug_level")
   end
 end

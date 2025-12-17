@@ -1,23 +1,23 @@
 class Vet < Formula
   desc "Policy driven vetting of open source dependencies"
-  homepage "https://github.com/safedep/vet"
-  url "https://github.com/safedep/vet/archive/refs/tags/v1.12.1.tar.gz"
-  sha256 "90924fd77f5266d4d47eb2b7bdb3a9a4e3f726e3d8d22806aab637c4477edb42"
+  homepage "https://safedep.io/"
+  url "https://github.com/safedep/vet/archive/refs/tags/v1.12.16.tar.gz"
+  sha256 "8e39b4d39957f40b47c233bfa1558591779888427dad37c7a9391f08707672b7"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "11bdbc2f9ad690c0b565c406416150295f9a40958d81c4b43023339807064391"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "7b1faa2f513bd146cb2d26026a7d46b9f72e3e049768927b6ef8f998d136624c"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "6cbf6c7140501d6969b81f88c737b224dbf8f61e2877879943425c1ddf4ff89c"
-    sha256 cellar: :any_skip_relocation, sonoma:        "0e48bf8ffc70adff6bbe3e712e46469a7730e5b8008a3263ccd9c4f624add07f"
-    sha256 cellar: :any_skip_relocation, ventura:       "a20ebfbf9f30367efbd8c99c228aaa486fa5437ad784155928adc14426729c9e"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "450da30292f08ad12f80cab515685e58e9976e21e93dce7aa5074c4567222279"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "af476e82335592961bd5e8f5ba95e1a74c8207d99ebbc1940fa461a9f24ad15a"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "41abd1bd42438d29a1041f274e6a2e9be20f1e5a82d56a08752bf344b88d95eb"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "7237eabd378568e0905d0693fe6dbcefb33ea403fbc7efd64f5f1a466d3c217d"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "b5c055ca23834eab8eec12b1eeb637017cf8e4008c3efd51747bdb08f0b67f98"
+    sha256 cellar: :any_skip_relocation, sonoma:        "fc9a6113cacb9280a8b50030c0b4596d18b48138ca53a05b1f6558f35c709911"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9629bf2dacef0c95ac47f354699e4ba265925d84c4d7d1bcada49ea6868d09bf"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "72db7c1c9d5e0f2bcd0f928df33722874b2460dcdd8359843491bb3497806f71"
   end
 
   depends_on "go"
 
   def install
+    ENV["CGO_ENABLED"] = "1"
     ldflags = "-s -w -X main.version=#{version} -X main.commit=#{tap.user}"
     system "go", "build", *std_go_args(ldflags:)
 

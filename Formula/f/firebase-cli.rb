@@ -1,18 +1,17 @@
 class FirebaseCli < Formula
   desc "Firebase command-line tools"
   homepage "https://firebase.google.com/docs/cli/"
-  url "https://registry.npmjs.org/firebase-tools/-/firebase-tools-14.11.1.tgz"
-  sha256 "c82bf9d87a13b6960009289ed3ef588638ad44b7af0e06b815b1158481b2efa0"
+  url "https://registry.npmjs.org/firebase-tools/-/firebase-tools-15.0.0.tgz"
+  sha256 "8d124f96f0fec3c5e0604a5556648bd5378cce800e93b8824381fcb634236364"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "bac44d30fe12ae44dbcd5f7906df90441aea67e4f13e856d6a9b7d3f7d5c8765"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "bac44d30fe12ae44dbcd5f7906df90441aea67e4f13e856d6a9b7d3f7d5c8765"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "bac44d30fe12ae44dbcd5f7906df90441aea67e4f13e856d6a9b7d3f7d5c8765"
-    sha256 cellar: :any_skip_relocation, sonoma:        "2d810e5018819cc08796a21d7bb629f1167c1dd6703eaec46ce6b1bc8f45173d"
-    sha256 cellar: :any_skip_relocation, ventura:       "2d810e5018819cc08796a21d7bb629f1167c1dd6703eaec46ce6b1bc8f45173d"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "539fe033a336dcdc18b4b0c754ed3eb6575520b229fddee3316631eee8e17138"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1b2554692f9cbf02ff9b93950d5edc99b8cf4f4fa5115313c8285fb6d30fa7ad"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f188af1e15774b403c2969b429dc19be1c369e254dce771b205c77a338d51eef"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "36bb9ced2355a99c89d47bf8fa413141fb6bfe64dcd8f9936ab3b814b43787fb"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "36bb9ced2355a99c89d47bf8fa413141fb6bfe64dcd8f9936ab3b814b43787fb"
+    sha256 cellar: :any_skip_relocation, sonoma:        "7640c39d32ffa3b2179b55e966d08184f4328ff8f3e282529315470cb409dce3"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "b96c04c61b23a58dee7ad274849e04938b0f639bbfeb20c03ce763b712b615a5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b96c04c61b23a58dee7ad274849e04938b0f639bbfeb20c03ce763b712b615a5"
   end
 
   depends_on "node"
@@ -20,15 +19,14 @@ class FirebaseCli < Formula
   def install
     system "npm", "install", *std_npm_args
     bin.install_symlink libexec.glob("bin/*")
+
+    node_modules = libexec/"lib/node_modules/firebase-tools/node_modules"
+    deuniversalize_machos node_modules/"fsevents/fsevents.node" if OS.mac?
   end
 
   test do
-    # Skip `firebase init` on self-hosted Linux as it has different behavior with nil exit status
-    if !OS.linux? || ENV["GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED"].blank?
-      assert_match "Failed to authenticate", shell_output("#{bin}/firebase init", 1)
-    end
+    assert_match version.to_s, shell_output("#{bin}/firebase --version")
 
-    output = shell_output("#{bin}/firebase use dev 2>&1", 1)
-    assert_match "Failed to authenticate, have you run \e[1mfirebase login\e[22m?", output
+    assert_match "Failed to authenticate", shell_output("#{bin}/firebase projects:list", 1)
   end
 end

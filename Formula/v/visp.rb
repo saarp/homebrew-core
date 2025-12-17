@@ -4,7 +4,7 @@ class Visp < Formula
   url "https://visp-doc.inria.fr/download/releases/visp-3.6.0.tar.gz"
   sha256 "eec93f56b89fd7c0d472b019e01c3fe03a09eda47f3903c38dc53a27cbfae532"
   license "GPL-2.0-or-later"
-  revision 15
+  revision 21
 
   livecheck do
     url "https://visp.inria.fr/download/"
@@ -14,11 +14,12 @@ class Visp < Formula
   no_autobump! because: :requires_manual_review
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:  "a592ed0de0fb3752b0ff874035dbc0896f5f360e1b21e8457301e93f413a2bd8"
-    sha256 cellar: :any,                 arm64_ventura: "c626370b71f304dd623bc6d0c8802cc73f5f97ce1e68e03072fc3e3d42e096e5"
-    sha256 cellar: :any,                 sonoma:        "7e2a8fbe76d65210c458ab099cfb1b0560f1c5d9251b5923bd11e91559a88a41"
-    sha256 cellar: :any,                 ventura:       "ab0ef3642020ffc73365fa3b6d7f5b4f5074c1c03d5432a2c36675ec8f983c45"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "06638ce4aa4cb32aceb3b2862e265f77ecf52202b4a63a7c0a847f02f4401139"
+    sha256 cellar: :any,                 arm64_tahoe:   "bc139fcd6ecbac13823589c2ed2c125d43310440c18b89024028967b5f62e0bc"
+    sha256 cellar: :any,                 arm64_sequoia: "686547846df0e34db4a8b9dc84de9b0f55f6c791b023dca017ba5cc8af9aebc0"
+    sha256 cellar: :any,                 arm64_sonoma:  "f5974761e913dc70ab79cc43d77012bb178873241121bb9b4a0794d5da26a146"
+    sha256 cellar: :any,                 sonoma:        "a7039e6f03a3003d87583611b0ee611d0e1d1c74681575ec7e1243eeb4b82752"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4fef26c6dc00bd882fef3cb7b894e1ab684126907f401fa633a7c93ad47960d7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5bb80bd845d80b508bd4a9937ae2b5edd28623383d61ac0019efed86a5bbe00f"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -29,6 +30,7 @@ class Visp < Formula
   depends_on "jpeg-turbo"
   depends_on "libdc1394"
   depends_on "libpng"
+  depends_on "lz4"
   depends_on "openblas"
   depends_on "opencv"
   depends_on "pcl"
@@ -45,7 +47,7 @@ class Visp < Formula
     depends_on "libomp"
     depends_on "libpcap"
     depends_on "qhull"
-    depends_on "qt"
+    depends_on "qtbase"
   end
 
   on_linux do
@@ -105,6 +107,7 @@ class Visp < Formula
                          "-DDC1394_LIBRARY=#{Formula["libdc1394"].opt_lib/shared_library("libdc1394")}",
                          "-DUSE_EIGEN3=ON",
                          "-DEigen3_DIR=#{Formula["eigen"].opt_share}/eigen3/cmake",
+                         "-DEIGEN3_INCLUDE_DIR=#{Formula["eigen"].opt_include}/eigen3",
                          "-DUSE_GSL=ON",
                          "-DGSL_INCLUDE_DIR=#{Formula["gsl"].opt_include}",
                          "-DGSL_cblas_LIBRARY=#{Formula["gsl"].opt_lib/shared_library("libgslcblas")}",
@@ -130,6 +133,7 @@ class Visp < Formula
                          "-DZBAR_INCLUDE_DIRS=#{Formula["zbar"].opt_include}",
                          "-DZBAR_LIBRARIES=#{Formula["zbar"].opt_lib/shared_library("libzbar")}",
                          "-DUSE_ZLIB=ON",
+                         "-DUSE_MAVSDK=OFF",
                          *std_cmake_args
 
     # Replace generated references to OpenCV's Cellar path

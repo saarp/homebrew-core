@@ -1,18 +1,18 @@
 class SpicetifyCli < Formula
   desc "Command-line tool to customize Spotify client"
   homepage "https://spicetify.app/"
-  url "https://github.com/spicetify/cli/archive/refs/tags/v2.40.11/v2.40.11.tar.gz"
-  sha256 "64575466e75fc0909a14ce3e82bdfa4ecd0fee55556a27d50e5eeb7db6aa1656"
+  url "https://github.com/spicetify/cli/archive/refs/tags/v2.42.5/v2.42.5.tar.gz"
+  sha256 "d04d1f465da7a2972f6bf5a9ba99b4a4efcb8c57068b862b2f63d4eaa032f64c"
   license "LGPL-2.1-only"
-  head "https://github.com/spicetify/cli.git", branch: "master"
+  head "https://github.com/spicetify/cli.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a109dad77ff112a3d2ccce59f214281087cf056dbf2484c8bf5e78cf865f08a3"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a109dad77ff112a3d2ccce59f214281087cf056dbf2484c8bf5e78cf865f08a3"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a109dad77ff112a3d2ccce59f214281087cf056dbf2484c8bf5e78cf865f08a3"
-    sha256 cellar: :any_skip_relocation, sonoma:        "d3b0ebc2290197e6122408273937b93fe45ca8d6318480146730a7639df3dfd6"
-    sha256 cellar: :any_skip_relocation, ventura:       "d3b0ebc2290197e6122408273937b93fe45ca8d6318480146730a7639df3dfd6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e7c247c53606d21b002849fe97aabc4337f42a9931fee0db2c3fcd8be50edc06"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "84d13aebf94664c5f87bf8a30b5b92fc2c50f3533a198b852692dbf33bd91e0a"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "84d13aebf94664c5f87bf8a30b5b92fc2c50f3533a198b852692dbf33bd91e0a"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "84d13aebf94664c5f87bf8a30b5b92fc2c50f3533a198b852692dbf33bd91e0a"
+    sha256 cellar: :any_skip_relocation, sonoma:        "866dd20f9d039e523ee270efd8d231a089a3fa72c0126f6bf947fa84aff4d031"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "31f54f64c4658bf319056ab722f96d52655dcf4611d1b486ac3ce635f0177bf3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2867f77202dd991db3a49546146932856291c157f92372551d58f18dbf7dbb95"
   end
 
   depends_on "go" => :build

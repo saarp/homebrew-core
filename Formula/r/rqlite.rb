@@ -1,23 +1,30 @@
 class Rqlite < Formula
   desc "Lightweight, distributed relational database built on SQLite"
   homepage "https://www.rqlite.io/"
-  url "https://github.com/rqlite/rqlite/archive/refs/tags/v8.41.0.tar.gz"
-  sha256 "31870eab4d0aba12d1bc4fe7a13c35859d78bc16c96d596cadadc0c382d3da47"
+  url "https://github.com/rqlite/rqlite/archive/refs/tags/v9.3.5.tar.gz"
+  sha256 "1459de455470be70d98e3165a8d194dc66ebcdd1dd8066c4abfbe1d00f5f170c"
   license "MIT"
   head "https://github.com/rqlite/rqlite.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "33ce0a623fe0bd44ced7b1e7b277c2f8271f36365e896c5ac590113e03a940a9"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "ba541262efed5b26a3374f57a22fd14ab4a57f2d952173c581e55b1887724962"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8e6053a6bcaf054b480b3beace6ecc68c45079a1cd880190d4b78fd9a93fd176"
-    sha256 cellar: :any_skip_relocation, sonoma:        "e5084660fd372d7250cdecb610ce9e5c78ed8e68efd8fc319e78052e00fd7cea"
-    sha256 cellar: :any_skip_relocation, ventura:       "55a2bb99da125f83f5c27f509fad7b94a4d1b4d74c70948ff4751863fd1f59ee"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f4378894f8038cae808d77140e9fb1b8eba18b5c209cacb4d457066768e6e786"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "c28ea04a3f60b680d0e8695614813392ff8d3e946e19d43adec812de985dcd97"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "2672884287affae1f874b35e82cc49c7361705ca4c3710be81e90ece25319dc0"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "b2574caaa4d2d0c7be47b011e75b7d18c181ccfc3aa3993fed0327ed9e01d269"
+    sha256 cellar: :any_skip_relocation, sonoma:        "29d20fae267c2ba904869527c98ac7fad6166170837f18295b768b59cdad91a7"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "d787921011c874bb4b9e6567b40cfe4084967bef302ac5f198c4d194c812ee26"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d3d077f51af108f0c5dede3e3a68eade2ddeb912c1d43509ada51a10f6c3ebc2"
   end
 
   depends_on "go" => :build
 
   def install
+    # Workaround to avoid patchelf corruption when cgo is required (for go-sqlite3)
+    if OS.linux? && Hardware::CPU.arch == :arm64
+      ENV["CGO_ENABLED"] = "1"
+      ENV["GO_EXTLINK_ENABLED"] = "1"
+      ENV.append "GOFLAGS", "-buildmode=pie"
+    end
+
     version_ldflag_prefix = "-X github.com/rqlite/rqlite/v#{version.major}"
     ldflags = %W[
       -s -w

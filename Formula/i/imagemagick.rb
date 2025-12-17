@@ -1,8 +1,8 @@
 class Imagemagick < Formula
   desc "Tools and libraries to manipulate images in many formats"
   homepage "https://imagemagick.org/index.php"
-  url "https://imagemagick.org/archive/releases/ImageMagick-7.1.2-0.tar.xz"
-  sha256 "edc13694c2f27554b36dc4817d80284f52c07c31e1ef8b88c8a4902a723dd643"
+  url "https://imagemagick.org/archive/releases/ImageMagick-7.1.2-11.tar.xz"
+  sha256 "9955090ece3fe283e98e175e2a22a23a61e92b16708e11bc69e068a5f4948f4a"
   license "ImageMagick"
   head "https://github.com/ImageMagick/ImageMagick.git", branch: "main"
 
@@ -12,13 +12,12 @@ class Imagemagick < Formula
   end
 
   bottle do
-    sha256 arm64_sequoia: "48f2e3af4e9a6950936e04abedbf3c5d7458fe84a1ecdd888df4865aeae95130"
-    sha256 arm64_sonoma:  "a0e279a8b7d18db0e6fccf2e3e4da088f10b88262a29c54c0971c1ed8a766e64"
-    sha256 arm64_ventura: "cdd2ac129ea55e56fc5102e99615e2d4f468abe50d642372108665bae921830f"
-    sha256 sonoma:        "0bf9d6a9e5a4597ac4c75e7ae87a2894cbc70a0205e37f0d1b90b843b5ddc6e9"
-    sha256 ventura:       "129b228c7e935daacebb93a01dfa86ffce2480e38fd8fa5dcdfdd623eb2914c9"
-    sha256 arm64_linux:   "fe1203d40737a111f3e4a707e68a969a73525c37205cb25a2bd2a2c713f8f225"
-    sha256 x86_64_linux:  "eb16595179b6cd70da42eca693b5976a6dc2c88d4a85309950969b6761748715"
+    sha256 arm64_tahoe:   "840d28dd78ff13f673d6095d2ed35ebf2f300b389733c6cba506d761993f48a5"
+    sha256 arm64_sequoia: "44d52aa3ae0dd97ee4898af3f2afc4e879292bfa562e3108a562293a105ef720"
+    sha256 arm64_sonoma:  "1d35ec6983973559ef432d6b1c03ca95b1c6a6bbe2a39409253207adcf223f05"
+    sha256 sonoma:        "e9ca6c83912309c1fe6ac777f9ae64b1fc8c2a87978d1ec64e8127a29d5e03a4"
+    sha256 arm64_linux:   "9d286b6a081794dc5938af6c643c1db42701cdb8724092118415e0adbbc4116a"
+    sha256 x86_64_linux:  "a03d26c1ae545867be02511f3f2dacd89bce83eb9793893a547842356d23d12d"
   end
 
   depends_on "pkgconf" => :build
@@ -32,6 +31,8 @@ class Imagemagick < Formula
   depends_on "libraw"
   depends_on "libtiff"
   depends_on "libtool"
+  depends_on "libultrahdr"
+  depends_on "libzip"
   depends_on "little-cms2"
   depends_on "openexr"
   depends_on "openjpeg"
@@ -76,6 +77,8 @@ class Imagemagick < Formula
       "--with-webp=yes",
       "--with-heic=yes",
       "--with-raw=yes",
+      "--with-uhdr=yes",
+      "--with-zip=yes",
       "--without-gslib",
       "--with-gs-font-dir=#{HOMEBREW_PREFIX}/share/ghostscript/fonts",
       "--with-lqr",

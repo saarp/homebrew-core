@@ -5,16 +5,15 @@ class Ly < Formula
   sha256 "cf1780fe53d367efc1f2642cb77c57246106ea7517f8c2d1126f0a36ee26567a"
   license "GPL-2.0-or-later"
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "9a28dcdb3270423db13b9b8eb52ef1b65beffa23cd684672e6ebfa8b992cd413"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, all: "d19bee18e8e8af49f12760978d612f416a48fa5e6bbc46b030f895f23c38423f"
   end
 
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def install

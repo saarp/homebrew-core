@@ -1,19 +1,18 @@
 class JqLsp < Formula
   desc "Jq language server"
   homepage "https://github.com/wader/jq-lsp"
-  url "https://github.com/wader/jq-lsp/archive/refs/tags/v0.1.13.tar.gz"
-  sha256 "badf5c72063ae3232bd18f938980308f77fe2b4c5f3b8db6fccb8ca6db523834"
+  url "https://github.com/wader/jq-lsp/archive/refs/tags/v0.1.15.tar.gz"
+  sha256 "34a693262ca1df0375701847962c43043ab4a2dd720ed637ce8f73d34243db97"
   license "MIT"
   head "https://github.com/wader/jq-lsp.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a9cec3d399e0d6c5d50e89d4dcf8f953b77fd362b592f6e63b0b0be286e9ed42"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a9cec3d399e0d6c5d50e89d4dcf8f953b77fd362b592f6e63b0b0be286e9ed42"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a9cec3d399e0d6c5d50e89d4dcf8f953b77fd362b592f6e63b0b0be286e9ed42"
-    sha256 cellar: :any_skip_relocation, sonoma:        "ecc89cf44dcdd6924883a47fca57336d075678c5c7862d4849c7ebe9aa23fc04"
-    sha256 cellar: :any_skip_relocation, ventura:       "ecc89cf44dcdd6924883a47fca57336d075678c5c7862d4849c7ebe9aa23fc04"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ba5464b2c3c72bc4753a5be84bff2e6bd42bf466bef660afaf28bbe3f26de5e7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e0feaf2b9afcdabee223722922c26b851e2eb3536f5a873b6529f5a3c073b2ca"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "115478691dfbe74b6be6e80bdab1af763aeae7b488f21a2af2f17ee79419035f"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "115478691dfbe74b6be6e80bdab1af763aeae7b488f21a2af2f17ee79419035f"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "115478691dfbe74b6be6e80bdab1af763aeae7b488f21a2af2f17ee79419035f"
+    sha256 cellar: :any_skip_relocation, sonoma:        "e1e445a4064ce44be225fc606c2fcff75917feeed398f02a5b9ee5d125a5028d"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "bbf7411589b3489a6efc411cb4eede66c46280d70b8794cd4d5b9c97edc4a176"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7f62f9d9aec3e138c6c4bed4654b9c104636b31eff1a8c0d664c8585b5fc0293"
   end
 
   depends_on "go" => :build
@@ -27,11 +26,11 @@ class JqLsp < Formula
 
     expected = JSON.parse(<<~JSON)
       {
-        "message": null,
-        "name": null
+        "name": "jq-lsp",
+        "version": "#{version}"
       }
     JSON
-    query = ".[0] | {message: .test.message, name: .test.name}"
+    query = ".config | {name: .name, version: .version}"
 
     assert_equal expected, JSON.parse(shell_output("#{bin}/jq-lsp --query '#{query}'"))
   end

@@ -1,8 +1,8 @@
 class Incus < Formula
   desc "CLI client for interacting with Incus"
   homepage "https://linuxcontainers.org/incus"
-  url "https://linuxcontainers.org/downloads/incus/incus-6.14.tar.xz"
-  sha256 "9a4392ab12e56e75440b0b88dfe6db1f96bd7b7050305e8cf135848d8af99c21"
+  url "https://linuxcontainers.org/downloads/incus/incus-6.19.1.tar.xz"
+  sha256 "a3f513e988a6b1c38182478d57f5e60dc6c7331217d22c05a73de33baa553de8"
   license "Apache-2.0"
   head "https://github.com/lxc/incus.git", branch: "main"
 
@@ -11,16 +11,13 @@ class Incus < Formula
     regex(/href=.*?incus[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "3926d000e75be945d42a3271fe79216ba8b501176e76d43ef638f7ee6301948f"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "3926d000e75be945d42a3271fe79216ba8b501176e76d43ef638f7ee6301948f"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "3926d000e75be945d42a3271fe79216ba8b501176e76d43ef638f7ee6301948f"
-    sha256 cellar: :any_skip_relocation, sonoma:        "640a6fca8ee3b63d7105875698be1db96a508a0bb42132d2500d6444a86c4c1c"
-    sha256 cellar: :any_skip_relocation, ventura:       "640a6fca8ee3b63d7105875698be1db96a508a0bb42132d2500d6444a86c4c1c"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "a11b74dddbbbc6b584ddd010d797f98c2211d2d58bec0a9849315a7fac37d22b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d6816ac83ffb33490b752ac21984e8b18009b486609f7f48982f2fbcd88df504"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "81bb8f45fe95b23d5436b1ceb4aaab7f3f3e74f9950964e2688fc08b246e8f0c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "81bb8f45fe95b23d5436b1ceb4aaab7f3f3e74f9950964e2688fc08b246e8f0c"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "81bb8f45fe95b23d5436b1ceb4aaab7f3f3e74f9950964e2688fc08b246e8f0c"
+    sha256 cellar: :any_skip_relocation, sonoma:        "0e2e6cbf0c8e0a56ec89ded6f24a54bad8a881d1e4307ba5f591904de700b4c9"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "a5a2a2013baa11a21d4f424a35fb3c0e4a7c2010d30927eaeb0174deb6dde4a5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b02f2c7b9959280abe42747068cd40cae8332adac63ff444caf3e4847f30e55a"
   end
 
   depends_on "go" => :build

@@ -1,22 +1,22 @@
 class Sqlpage < Formula
   desc "Web app builder using SQL queries to create dynamic webapps quickly"
   homepage "https://sql-page.com/"
-  url "https://github.com/sqlpage/SQLpage/archive/refs/tags/v0.35.2.tar.gz"
-  sha256 "e04cdcd74a1b41a3f46b67ec99f941fd149a79a3d2b8eb8fb095b3883d564f05"
+  url "https://github.com/sqlpage/SQLpage/archive/refs/tags/v0.40.0.tar.gz"
+  sha256 "1550ef8ee187f2ddf16b182b51716606d7b3e6ba71a6c5007de0a61c94d71bec"
   license "MIT"
   head "https://github.com/sqlpage/SQLpage.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "eae7ad1b7852267faf16fe9e73d69a04c54afc7e3663329381403a5880f470c8"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "90e80fa9f25f9496c83e67a292b761ce75223d81d3e7be4522867925fc5e9e70"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a53534861bdae31dcff24b2baecbfc1bce6dc9f085d6e0fda499c20f5ed177bb"
-    sha256 cellar: :any_skip_relocation, sonoma:        "afab63b27f0c80eef043088ee6ad22e5dd8aba79f4b28b2a25e74ee634a81f40"
-    sha256 cellar: :any_skip_relocation, ventura:       "3918e238835168b1fd4f4a6c30cd129c1c0bc0ecbc7aa1d206b425e00e7e144f"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "cc7cd756939f87a85b84b5c3aec00d289fc071aee405b4d9292b2f17b8a8a094"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f0576f81cecdd1fa7a3bc0478395d3030a1d9a1636b24356b4510ff796649916"
+    sha256 cellar: :any,                 arm64_tahoe:   "fbb8faaff6ff8031ce45cdb4f902776d91e88e39b4f87fafe8fd594227dda373"
+    sha256 cellar: :any,                 arm64_sequoia: "3c3a6a1f2a41528e3c576adb4168aa66a1d0e7d0d84222ffbc16ceee64998cd3"
+    sha256 cellar: :any,                 arm64_sonoma:  "5cfc5fb55701ca049f891488cfd8390f14c5a8c9095c6f750607f2bae512068d"
+    sha256 cellar: :any,                 sonoma:        "c598d70af92811e6b18177969bcb982fe3e02b7d58e5296e6b30104a8aeefdf7"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "d7af59b25dc9825511f9264a2c98202b33f7c37e361ed0780f3c0cc270ea1d36"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cced23443e621fa7d01bc67c1bb972219ae96c7c6909385cf7d34158b70e7bec"
   end
 
   depends_on "rust" => :build
+  depends_on "unixodbc"
 
   def install
     system "cargo", "install", *std_cargo_args
@@ -24,12 +24,16 @@ class Sqlpage < Formula
 
   test do
     port = free_port
-    pid = fork do
-      ENV["PORT"] = port.to_s
-      exec "sqlpage"
-    end
-    sleep(2)
+
+    ENV["PORT"] = port.to_s
+    pid = spawn bin/"sqlpage"
+
+    sleep 2
+    sleep 3 if OS.mac? && Hardware::CPU.intel?
+
     assert_match "It works", shell_output("curl -s http://localhost:#{port}")
-    Process.kill(9, pid)
+  ensure
+    Process.kill("TERM", pid)
+    Process.wait(pid)
   end
 end

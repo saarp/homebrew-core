@@ -1,24 +1,28 @@
 class FabricAi < Formula
   desc "Open-source framework for augmenting humans using AI"
-  homepage "https://danielmiessler.com/p/fabric-origin-story"
-  url "https://github.com/danielmiessler/fabric/archive/refs/tags/v1.4.264.tar.gz"
-  sha256 "fa4e13de58ad145d334a0836d5a1f074191b0740a7f7d0451ae9cf257083dde9"
+  homepage "https://github.com/danielmiessler/fabric"
+  url "https://github.com/danielmiessler/fabric/archive/refs/tags/v1.4.349.tar.gz"
+  sha256 "259e27c9acda7e3996c2d72adce8be3d3b4346a7f1c4db8bfcfb96d7049e35ec"
   license "MIT"
   head "https://github.com/danielmiessler/fabric.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a1ec09fd0056c4fccde4b0809578688b599a59752e0455b8ff25d675c60910e6"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a1ec09fd0056c4fccde4b0809578688b599a59752e0455b8ff25d675c60910e6"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "a1ec09fd0056c4fccde4b0809578688b599a59752e0455b8ff25d675c60910e6"
-    sha256 cellar: :any_skip_relocation, sonoma:        "131e02cb165e9f9f055da4e33af8d2de4f1dfa1db7e70767e7e8e7a885cce60e"
-    sha256 cellar: :any_skip_relocation, ventura:       "131e02cb165e9f9f055da4e33af8d2de4f1dfa1db7e70767e7e8e7a885cce60e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "36a9f9e779d1d9aaee03e551c3a13652435328a730a921f8949fd0714757ee9d"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "b20123735687a388053944d6ca51cd66781a09096263956290d0c6f47269a77c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b20123735687a388053944d6ca51cd66781a09096263956290d0c6f47269a77c"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "b20123735687a388053944d6ca51cd66781a09096263956290d0c6f47269a77c"
+    sha256 cellar: :any_skip_relocation, sonoma:        "4fc391669cb1ae3839cf7b4c7703389a0e475ca0aeb1a4a11e85dffddf0554fe"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "8c80f3bc9974a234d360978d267c51c9a555684984301494c54790b546e1f2c6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3009e21ce51782e9d78d627e8b0aaaf1b2a9c6096630605a5da523f9b287c940"
   end
 
   depends_on "go" => :build
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd/fabric"
+    # Install completions
+    bash_completion.install "completions/fabric.bash" => "fabric-ai"
+    fish_completion.install "completions/fabric.fish" => "fabric-ai.fish"
+    zsh_completion.install "completions/_fabric" => "_fabric-ai"
   end
 
   test do

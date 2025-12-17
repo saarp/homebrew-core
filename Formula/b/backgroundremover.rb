@@ -3,26 +3,28 @@ class Backgroundremover < Formula
 
   desc "Remove background from images and video using AI"
   homepage "https://github.com/nadermx/backgroundremover"
-  url "https://files.pythonhosted.org/packages/81/c9/5c7d668bea7bb5ae6e069afe33c19e55ae95975a87a7e3a5bbd3d6199f74/backgroundremover-0.3.4.tar.gz"
-  sha256 "c4ce35da0194138c115017dba9f5dae38b7e2bfcf15a413ef04d8ce01e66e214"
+  url "https://files.pythonhosted.org/packages/dc/27/17f2999cb4b53fd8b36bf04c4ed71a7728390bb7defd05eaf0db2e4eea21/backgroundremover-0.3.7.tar.gz"
+  sha256 "5a42cc2628658154528d42d401b6d9ec05d22171d0ba85420198ef1379e53fb7"
   license "MIT"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_sequoia: "286b2ad743b98bedf6d0a5338f013abe9cf99881dbe7ac4127fb2f64a824fe5d"
-    sha256 cellar: :any,                 arm64_sonoma:  "592c6fbd6fbde280e68abda2546add2453b69f4a8f55b7cc3f937975a7105a15"
-    sha256 cellar: :any,                 arm64_ventura: "943c28154f8a0e1eb7c253dffd2c2c2c1e7da4d76805459500055668d579df2f"
-    sha256 cellar: :any,                 sonoma:        "6905e6393ae3bec530bdf1e106c249476728a22e1d7d1186cd33188b3cb15670"
-    sha256 cellar: :any,                 ventura:       "9802b0c0187d92eb2b94803a7f46c7542fd2b1b9f33480307c1d250eefcd3f45"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "82ea9de6cb0117397d34580dd48adda9309b71b213bf4b1886f0f5225e4c0eac"
+    sha256 cellar: :any,                 arm64_tahoe:   "94be17025e285d461b1d84a4986e6e429e5ea49a4457f1a1a99c5bcd8681ed00"
+    sha256 cellar: :any,                 arm64_sequoia: "34663a60519d7cb4fcbdc63ec83570eca7ca86f8ec73683b4cc828711bb270ee"
+    sha256 cellar: :any,                 arm64_sonoma:  "e1ce48fba91656a7b386c533c32c65e25bbcf8fc0bb295584f56763cb182aa89"
+    sha256 cellar: :any,                 sonoma:        "f5d9c788e88f0f7a3a25c81266231abe020ad59aa6fa13ecacbad587aaaa3e6a"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f95619ebc010163c0ce8dbd893e1ea6e7b8b02688689dc2f85e38a8a95723bd1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "32238368f4b7750407d5b1e4bb523302ea90cf78cbde95aad474535a01060b2b"
   end
 
+  depends_on "cmake" => :build
+  depends_on "pkgconf" => :build
   depends_on "certifi"
   depends_on "ffmpeg"
-  depends_on "llvm@16" # LLVM 20 PR: https://github.com/numba/llvmlite/pull/1092
+  depends_on "libheif"
+  depends_on "llvm@20"
   depends_on "numpy"
   depends_on "pillow"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
   depends_on "scikit-image"
   depends_on "scipy"
   depends_on "torchvision"
@@ -31,9 +33,22 @@ class Backgroundremover < Formula
     depends_on "patchelf" => :build
   end
 
+  pypi_packages exclude_packages: %w[certifi numpy torch torchvision pillow scipy scikit-image],
+                extra_packages:   "imageio"
+
+  resource "blinker" do
+    url "https://files.pythonhosted.org/packages/21/28/9b3f50ce0e048515135495f198351908d99540d69bfdc8c1d15b73dc55ce/blinker-1.9.0.tar.gz"
+    sha256 "b4ce2265a7abece45e7cc896e98dbebe6cead56bcf805a3d23136d145f5445bf"
+  end
+
   resource "charset-normalizer" do
-    url "https://files.pythonhosted.org/packages/e4/33/89c2ced2b67d1c2a61c19c6751aa8902d46ce3dacb23600a283619f5a12d/charset_normalizer-3.4.2.tar.gz"
-    sha256 "5baececa9ecba31eff645232d59845c07aa030f0c81ee70184a90d35099a0e63"
+    url "https://files.pythonhosted.org/packages/13/69/33ddede1939fdd074bce5434295f38fae7136463422fe4fd3e0e89b98062/charset_normalizer-3.4.4.tar.gz"
+    sha256 "94537985111c35f28720e43603b8e7b43a6ecfb2ce1d3058bbe955b73404e21a"
+  end
+
+  resource "click" do
+    url "https://files.pythonhosted.org/packages/3d/fa/656b739db8587d7b5dfa22e22ed02566950fbfbcdc20311993483657a5c0/click-8.3.1.tar.gz"
+    sha256 "12ff4785d337a1bb490bb7e9c2b1ee5da3112e94a8622f26a6c77f5d2fc6842a"
   end
 
   resource "commandlines" do
@@ -56,6 +71,11 @@ class Backgroundremover < Formula
     sha256 "66b56cd6474bf41d8c54660347d37afcc3f7d1970648de365c102ef77548aadb"
   end
 
+  resource "flask" do
+    url "https://files.pythonhosted.org/packages/dc/6d/cfe3c0fcc5e477df242b98bfe186a4c34357b4847e87ecaef04507332dab/flask-3.1.2.tar.gz"
+    sha256 "bf656c15c80190ed628ad08cdfd3aaa35beb087855e2f494910aa3774cc4fd87"
+  end
+
   resource "future" do
     url "https://files.pythonhosted.org/packages/a7/b2/4140c69c6a66432916b26158687e821ba631a4c9273c474343badf84d3ba/future-1.0.0.tar.gz"
     sha256 "bd2968309307861edae1458a4f8a4f3598c03be43b97521076aebf5d94c07b05"
@@ -67,13 +87,8 @@ class Backgroundremover < Formula
   end
 
   resource "idna" do
-    url "https://files.pythonhosted.org/packages/f1/70/7703c29685631f5a7590aa73f1f1d3fa9a380e654b86af429e0934a32f7d/idna-3.10.tar.gz"
-    sha256 "12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9"
-  end
-
-  resource "imageio" do
-    url "https://files.pythonhosted.org/packages/0c/47/57e897fb7094afb2d26e8b2e4af9a45c7cf1a405acdeeca001fdf2c98501/imageio-2.37.0.tar.gz"
-    sha256 "71b57b3669666272c818497aebba2b4c5f20d5b37c81720e5e1a56d59c492996"
+    url "https://files.pythonhosted.org/packages/6f/6d/0703ccc57f3a7233505399edb88de3cbd678da106337b9fcde432b65ed60/idna-3.11.tar.gz"
+    sha256 "795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"
   end
 
   resource "imageio-ffmpeg" do
@@ -81,14 +96,19 @@ class Backgroundremover < Formula
     sha256 "e2556bed8e005564a9f925bb7afa4002d82770d6b08825078b7697ab88ba1755"
   end
 
+  resource "itsdangerous" do
+    url "https://files.pythonhosted.org/packages/9c/cb/8ac0172223afbccb63986cc25049b154ecfb5e85932587206f42317be31d/itsdangerous-2.2.0.tar.gz"
+    sha256 "e0050c0b7da1eea53ffaf149c0cfbb5c6e2e2b69c4bef22c81fa6eb73e5f6173"
+  end
+
   resource "llvmlite" do
-    url "https://files.pythonhosted.org/packages/89/6a/95a3d3610d5c75293d5dbbb2a76480d5d4eeba641557b69fe90af6c5b84e/llvmlite-0.44.0.tar.gz"
-    sha256 "07667d66a5d150abed9157ab6c0b9393c9356f229784a4385c02f99e94fc94d4"
+    url "https://files.pythonhosted.org/packages/74/cd/08ae687ba099c7e3d21fe2ea536500563ef1943c5105bf6ab4ee3829f68e/llvmlite-0.46.0.tar.gz"
+    sha256 "227c9fd6d09dce2783c18b754b7cd9d9b3b3515210c46acc2d3c5badd9870ceb"
   end
 
   resource "more-itertools" do
-    url "https://files.pythonhosted.org/packages/ce/a0/834b0cebabbfc7e311f30b46c8188790a37f89fc8d756660346fe5abfd09/more_itertools-10.7.0.tar.gz"
-    sha256 "9fddd5403be01a94b204faadcff459ec3568cf110265d3c54323e1e866ad29d3"
+    url "https://files.pythonhosted.org/packages/ea/5d/38b681d3fce7a266dd9ab73c66959406d565b3e85f21d5e66e1181d93721/more_itertools-10.8.0.tar.gz"
+    sha256 "f638ddf8a1a0d134181275fb5d58b086ead7c6a72429ad725c67503f13ba30bd"
   end
 
   resource "moviepy" do
@@ -97,11 +117,13 @@ class Backgroundremover < Formula
   end
 
   resource "numba" do
-    url "https://files.pythonhosted.org/packages/1c/a0/e21f57604304aa03ebb8e098429222722ad99176a4f979d34af1d1ee80da/numba-0.61.2.tar.gz"
-    sha256 "8750ee147940a6637b80ecf7f95062185ad8726c8c28a2295b8ec1160a196f7d"
+    url "https://files.pythonhosted.org/packages/dc/60/0145d479b2209bd8fdae5f44201eceb8ce5a23e0ed54c71f57db24618665/numba-0.63.1.tar.gz"
+    sha256 "b320aa675d0e3b17b40364935ea52a7b1c670c9037c39cf92c49502a75902f4b"
+  end
 
-    # Support numpy 2.3, upstream issue, https://github.com/numba/numba/issues/10105
-    patch :DATA
+  resource "pillow-heif" do
+    url "https://files.pythonhosted.org/packages/64/65/77284daf2a8a2849b9040889bd8e1b845e693ed97973a28ba2122b8922ad/pillow_heif-1.1.1.tar.gz"
+    sha256 "f60e8c8a8928556104cec4fff39d43caa1da105625bdb53b11ce3c89d09b6bde"
   end
 
   resource "proglog" do
@@ -120,13 +142,13 @@ class Backgroundremover < Formula
   end
 
   resource "python-dotenv" do
-    url "https://files.pythonhosted.org/packages/f6/b0/4bc07ccd3572a2f9df7e6782f52b0c6c90dcbb803ac4a167702d7d0dfe1e/python_dotenv-1.1.1.tar.gz"
-    sha256 "a8a6399716257f45be6a007360200409fce5cda2661e3dec71d23dc15f6189ab"
+    url "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz"
+    sha256 "42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6"
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/e1/0a/929373653770d8a0d7ea76c37de6e41f11eb07559b103b1c02cafb3f7cf8/requests-2.32.4.tar.gz"
-    sha256 "27d0316682c8a29834d3264820024b62a36942083d52caf2f14c0591336d3422"
+    url "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz"
+    sha256 "dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"
   end
 
   resource "six" do
@@ -140,8 +162,8 @@ class Backgroundremover < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/15/22/9ee70a2574a4f4599c47dd506532914ce044817c7752a79b6a51286319bc/urllib3-2.5.0.tar.gz"
-    sha256 "3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760"
+    url "https://files.pythonhosted.org/packages/5e/1d/0f3a93cca1ac5e8287842ed4eebbd0f7a991315089b1a0b01c7788aa7b63/urllib3-2.6.1.tar.gz"
+    sha256 "5379eb6e1aba4088bae84f8242960017ec8d8e3decf30480b3a1abdaa9671a3f"
   end
 
   resource "waitress" do
@@ -149,9 +171,13 @@ class Backgroundremover < Formula
     sha256 "682aaaf2af0c44ada4abfb70ded36393f0e307f4ab9456a215ce0020baefc31f"
   end
 
-  def install
-    ENV["LLVM_CONFIG"] = Formula["llvm@16"].opt_bin/"llvm-config"
+  resource "werkzeug" do
+    url "https://files.pythonhosted.org/packages/45/ea/b0f8eeb287f8df9066e56e831c7824ac6bab645dd6c7a8f4b2d767944f9b/werkzeug-3.1.4.tar.gz"
+    sha256 "cd3cd98b1b92dc3b7b3995038826c68097dcb16f9baa63abe35f20eafeb9fe5e"
+  end
 
+  def install
+    ENV["LLVMLITE_SHARED"] = "1"
     venv = virtualenv_install_with_resources
 
     # We depend on the formula below, but they are separate formula, so install a `.pth` file to link them.
@@ -169,32 +195,3 @@ class Backgroundremover < Formula
     assert_path_exists testpath/"output.png"
   end
 end
-
-__END__
-diff --git a/numba/__init__.py b/numba/__init__.py
-index ab1081d..44fe64a 100644
---- a/numba/__init__.py
-+++ b/numba/__init__.py
-@@ -39,8 +39,8 @@ def _ensure_critical_deps():
-                f"{numpy_version[0]}.{numpy_version[1]}.")
-         raise ImportError(msg)
-
--    if numpy_version > (2, 2):
--        msg = (f"Numba needs NumPy 2.2 or less. Got NumPy "
-+    if numpy_version > (2, 3):
-+        msg = (f"Numba needs NumPy 2.3 or less. Got NumPy "
-                f"{numpy_version[0]}.{numpy_version[1]}.")
-         raise ImportError(msg)
-
-diff --git a/setup.py b/setup.py
-index d40c84c..3d407c1 100644
---- a/setup.py
-+++ b/setup.py
-@@ -23,7 +23,7 @@ min_python_version = "3.10"
- max_python_version = "3.14"  # exclusive
- min_numpy_build_version = "2.0.0rc1"
- min_numpy_run_version = "1.24"
--max_numpy_run_version = "2.3"
-+max_numpy_run_version = "2.4"
- min_llvmlite_version = "0.44.0dev0"
- max_llvmlite_version = "0.45"

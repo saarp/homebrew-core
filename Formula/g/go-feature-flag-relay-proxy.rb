@@ -1,18 +1,18 @@
 class GoFeatureFlagRelayProxy < Formula
   desc "Stand alone server to run GO Feature Flag"
   homepage "https://gofeatureflag.org"
-  url "https://github.com/thomaspoignant/go-feature-flag/archive/refs/tags/v1.45.5.tar.gz"
-  sha256 "8e9ab7934e0d0cda86b8dbb1f6e2624b9a2aa122ad33e91e65ea7d52739e1d8e"
+  url "https://github.com/thomaspoignant/go-feature-flag/archive/refs/tags/v1.49.0.tar.gz"
+  sha256 "1257db6397b031ed84ea86645f9c511e737a593429d4d0fc2c82621da6ef9871"
   license "MIT"
   head "https://github.com/thomaspoignant/go-feature-flag.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a6d9a2de3e058b520c1e5cb0c7205c647de4da62b914ffc1a4df458e3c1fb58d"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "180d159765dcc39f4ff75244c410b7bbe474570a56d33d77f41acd34a1587ee3"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "47392aee64b7f816e8cf30e62a36ec62094c0e1debc032137cb0d2693f2812f8"
-    sha256 cellar: :any_skip_relocation, sonoma:        "3eb1f266921c4c9d0303c68f1b1041c98f52f42c6c5e6723577154fb99c6ca81"
-    sha256 cellar: :any_skip_relocation, ventura:       "85227c97bb007c9456d7feed53503d2eabac9354409fb5e7333cef4497c63a05"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "87be180fa9c608e08c7032ab13952c05640a9a55ae400ee6fba602cbeab72260"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "e151a7265105e51a6e74619ca67adea37792346f4c0ad18d3ae99ec39415dc2c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "568a5f2a4f86599e9962f412b24a4e8bfd1326e98ca42bfe36301880d422ae7a"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "c23e4447cf919a9e93664ac510f9356ec99c377f2e8d20418aba094d26ef7cff"
+    sha256 cellar: :any_skip_relocation, sonoma:        "5528051c6badabe755163fb2e6581c5c8a9da0f24a6178358f1d38f873bbaf0c"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "fac2d428015b66ba5794aa2558fbbfc28c3d4fecdc09967f8bbcbe45ecc8b38e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ea488ff93711db7aef0adeeb06be7b4c08979b315475a87b81ce3586d5f6d30d"
   end
 
   depends_on "go" => :build

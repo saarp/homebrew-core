@@ -1,19 +1,20 @@
 class Hk < Formula
   desc "Git hook and pre-commit lint manager"
   homepage "https://hk.jdx.dev"
-  url "https://github.com/jdx/hk/archive/refs/tags/v1.2.2.tar.gz"
-  sha256 "ccb22f9683d3a20ea68b6dbed56acac7056812e955b85d6c2b90da4a5e583047"
+  # pull from git tag to get submodules
+  url "https://github.com/jdx/hk.git",
+      tag:      "v1.27.0",
+      revision: "432a820653692acdaaa0f23b77c388b643e1bc1a"
   license "MIT"
   head "https://github.com/jdx/hk.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "3f6f94d30f983d330c9180451fc49c43917f45e455cea87509b035c3b54556f7"
-    sha256 cellar: :any,                 arm64_sonoma:  "6fa6ce07c871903956cb6c1e9a2061aa87a36f5b09b5da617d50b333ab1acd26"
-    sha256 cellar: :any,                 arm64_ventura: "0698a592b0499a8ccb63cd7d0cb373828955235d942de7f680eef89cc85bbe9f"
-    sha256 cellar: :any,                 sonoma:        "fab275e688270087df38407fca4418a3dc17b852885cfccc36a2366814a303b3"
-    sha256 cellar: :any,                 ventura:       "7c95ab7e4b4604533b074d52cd85b388e53a8fa6b72fe06c8a126978d74243e5"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "7174c9b8708f258b8cb4d8542d9ce64ce039c2adea9009656ffbc3b0ae65f996"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8f4d917adeb58d92cbac14ea46ed9ae5d4a57b4af55f89bdbdc42bc62635367c"
+    sha256 cellar: :any,                 arm64_tahoe:   "271fda0dfd468afbf70d49765501824079bc2b4702a0ea74b6a1eb7685d3aa7f"
+    sha256 cellar: :any,                 arm64_sequoia: "44d82e1aa748a5aa98018d9ca262ebb5e983a5a6075a609e67f393f07779dd5f"
+    sha256 cellar: :any,                 arm64_sonoma:  "cc1eae7e20554682ee7d0d8b665c2d8c48bdf17d94d727d65e5b9bcfdb710df0"
+    sha256 cellar: :any,                 sonoma:        "1b68e742415781715338dc6719049529202d215d5abff989a0e589c5c99b8c20"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "ab4e1daa11f37008ff9e90221dd5fedcbfb88210e42e5197d821822e3d233d39"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "129daf0d8703c5bf48c4c1a80a92af159cbe08f83d0b819cb07e50afa9c65f08"
   end
 
   depends_on "rust" => [:build, :test]
@@ -51,6 +52,10 @@ class Hk < Formula
     PKL
 
     system "cargo", "init", "--name=brew"
+
+    system "git", "config", "user.name", "BrewTestBot"
+    system "git", "config", "user.email", "BrewTestBot@test.com"
+
     system "git", "add", "--all"
     system "git", "commit", "-m", "Initial commit"
 

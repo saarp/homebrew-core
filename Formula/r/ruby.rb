@@ -7,20 +7,26 @@ class Ruby < Formula
   stable do
     # Consider changing the default of `Gem.default_user_install` to true with Ruby 3.5.
     # This may depend on https://github.com/rubygems/rubygems/issues/5682.
-    url "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.5.tar.gz"
-    sha256 "1d88d8a27b442fdde4aa06dc99e86b0bbf0b288963d8433112dd5fac798fd5ee"
+    url "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.7.tar.gz"
+    sha256 "23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36"
 
     # Should be updated only when Ruby is updated (if an update is available).
     # The exception is Rubygem security fixes, which mandate updating this
     # formula & the versioned equivalents and bumping the revisions.
     resource "rubygems" do
-      url "https://rubygems.org/rubygems/rubygems-3.6.9.tgz"
-      sha256 "ffdd46c6adbecb9dac561cc003666406efd2ed93ca21b5fcc47062025007209d"
+      url "https://rubygems.org/rubygems/rubygems-3.7.2.tgz"
+      sha256 "efece01225a532f4b52cf8764d20a00e0d29ed6f85b33d9302df4896a90fa5ab"
 
       livecheck do
         url "https://rubygems.org/pages/download"
         regex(/href=.*?rubygems[._-]v?(\d+(?:\.\d+)+)\.t/i)
       end
+    end
+
+    # Update the bundled openssl gem for compatibility with OpenSSL 3.6+
+    resource "openssl" do
+      url "https://github.com/ruby/openssl/archive/refs/tags/v3.3.1.tar.gz"
+      sha256 "ca9b8f5940153e67b0d5e7e075ecd64b9d28b9f9b2f2c9f0748c1538734dfe10"
     end
   end
 
@@ -30,13 +36,12 @@ class Ruby < Formula
   end
 
   bottle do
-    sha256 arm64_sequoia: "fe2e6af6b11313883954878627943bf07005163e900df6dd467161856a4a6d56"
-    sha256 arm64_sonoma:  "f167f2d046973aeab53465b39e4be4938af87159f5470d352e533d3227a903ef"
-    sha256 arm64_ventura: "83fd2e8ef72c6d8c019f966c540255bc29b798d500d54dce95569a65bfe73538"
-    sha256 sonoma:        "6bbca4c617a71bc124cd160221529a9bbc84a4cc6583cd990cdc27992fa845d0"
-    sha256 ventura:       "c41f6e7b60de36d562cc8d94d12e40080f5b25dd448f0e727c2ac81a7931509e"
-    sha256 arm64_linux:   "cdd7c07ee9fc9b1081f4e6e22e2f8b7892f97276c13d704f87a2a4fdf6256383"
-    sha256 x86_64_linux:  "b280f0425f4d7a70d05eabbfe5305b6ceb9eb4bc929b04e21b8ab9910db0c5f4"
+    sha256 arm64_tahoe:   "fd5bd616bde3e6620a727de2ac4846af1a844de3fc4bd2be0be8da5ea37c8cea"
+    sha256 arm64_sequoia: "c2e6a5b6e46e28ff6fb34295146ee09cb2f4d461cbb3d43b9e3f38faac6ce2bc"
+    sha256 arm64_sonoma:  "f7a70bf109409b25cc7078f63eeb30bda4b79cdb6f65a04a6eaaa119382d0719"
+    sha256 sonoma:        "39a1a9c6b5027fa1c9d2ccd8ef43bce3691af2092df7ffc5dcab2eff8f91dc76"
+    sha256 arm64_linux:   "8effd59d391a4fa6b5f2a14b8c3250b8d306da641278788a3cc64d15d6876b30"
+    sha256 x86_64_linux:  "cb6a3b60667918b8615997e17583b00c9bf62dacd9e3a747738c91b11953929a"
   end
 
   keg_only :provided_by_macos
@@ -74,6 +79,17 @@ class Ruby < Formula
   end
 
   def install
+    if build.stable?
+      openssl_gem_version = File.read("ext/openssl/openssl.gemspec")[/spec\.version\s*=\s*"(\d+(?:\.\d+)+)/, 1]
+      odie "Remove openssl resource!" if Version.new(openssl_gem_version) >= "3.3.1"
+      rm_r(%w[ext/openssl test/openssl])
+      resource("openssl").stage do
+        (buildpath/"ext").install "ext/openssl"
+        (buildpath/"ext/openssl").install "lib", "History.md", "openssl.gemspec"
+        (buildpath/"test").install "test/openssl"
+      end
+    end
+
     # otherwise `gem` command breaks
     ENV.delete("SDKROOT")
 
@@ -138,7 +154,7 @@ class Ruby < Formula
       end
     end
 
-    unless build.head? # Use bundled RubyGems for --HEAD (will be newer)
+    if build.stable? # Use bundled RubyGems for --HEAD (will be newer)
       # This is easier than trying to keep both current & versioned Ruby
       # formulae repeatedly updated with Rubygem patches.
       resource("rubygems").stage do

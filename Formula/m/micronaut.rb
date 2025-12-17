@@ -1,8 +1,8 @@
 class Micronaut < Formula
   desc "Modern JVM-based framework for building modular microservices"
   homepage "https://micronaut.io/"
-  url "https://github.com/micronaut-projects/micronaut-starter/archive/refs/tags/v4.9.1.tar.gz"
-  sha256 "f30e012576da47a3ffcbf761e7816c45001a59b05ecaa3e9e434e9f6c7037082"
+  url "https://github.com/micronaut-projects/micronaut-starter/archive/refs/tags/v4.10.5.tar.gz"
+  sha256 "0aa8ae7268a0809449c6e9f6c90c685143ef89d96916ff9e25a71553b3c18a0b"
   license "Apache-2.0"
 
   livecheck do
@@ -11,16 +11,16 @@ class Micronaut < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6c967b0531c15292a40e32af63012a784da17b56e4591ec87938e1d4c37e6ba7"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "14c6c0324d738201e4c97f4b49bbf87b384ecf6ef8ec562b1c96500fab1a6151"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "5dd67480e2123fd329b3ed67dd987530013b5ee79dd87117b8f12169523f13ae"
-    sha256 cellar: :any_skip_relocation, sonoma:        "4f1d40b2b116f1bde5ef3a5a8155d4c08e8c4d02204070a409768655eda737bd"
-    sha256 cellar: :any_skip_relocation, ventura:       "1138bfb29f17db49cade353cc0e2b00dc86ed61690e6401da03fdd2d9ced12d3"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "8149ed5687e51d1d7248fcd4f68d96caeac189f18da53d219d39ac3d4569738c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c2fa4629109d28210d496b82851267ea1f75dce7758c324605e8a014af5d1364"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "fb530c9113342e72251f8689af3bf046811f69b757e8fd26875b9f4645c25c25"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "81c39afef813b371793abd9f70fdb6477cfdc950f6e1e34e39792cab06e42d97"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "ef4321fb6d06b080181bb6794650583fccd5da4f8d2eb2dd93e85456d4805e47"
+    sha256 cellar: :any_skip_relocation, sonoma:        "c8187d20de8ca64fc08fb3e1de2091397999d5e0f7e24827bf115aa76c31380f"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9ee5e2ed24a3c4808f7bdb6f996c4fbe3dd80be373d46f1a2655ca503bcd72b2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a32835bdbd1e2e9838f56aa2b67ccb03d25b539d6b5a0ddeb3d1392859211af0"
   end
 
-  depends_on "gradle" => :build
+  # Issue ref: https://github.com/micronaut-projects/micronaut-starter/issues/2848
+  depends_on "gradle@8" => :build
   depends_on "openjdk@21"
 
   def install

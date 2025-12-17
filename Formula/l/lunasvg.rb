@@ -1,18 +1,17 @@
 class Lunasvg < Formula
   desc "SVG rendering and manipulation library in C++"
   homepage "https://github.com/sammycage/lunasvg"
-  url "https://github.com/sammycage/lunasvg/archive/refs/tags/v3.3.0.tar.gz"
-  sha256 "06045afc30dbbdd87e219e0f5bc0526214a9d8059087ac67ce9df193a682c4b3"
+  url "https://github.com/sammycage/lunasvg/archive/refs/tags/v3.5.0.tar.gz"
+  sha256 "1abf1472ee6c4d19797916e8cc3c2e4b628e0d81178ffac60bdb0d457e32c690"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "16cfb6298fabbd5b71023ca7879b49bb1ee7bad1d91a540173ff02d3aa841b3f"
-    sha256 cellar: :any,                 arm64_sonoma:  "a00160c03606ff6039d7b12401ce59cbd2fc2a8e63482c81112dec7828f357ab"
-    sha256 cellar: :any,                 arm64_ventura: "d602df1f3d4d246808d22c49ecf81e4a696734811ef4b81b769f0d2c4680eb32"
-    sha256 cellar: :any,                 sonoma:        "c8188f17b54572252d434d3e0bfb837826c355fa6fe141812da2430be501ea1f"
-    sha256 cellar: :any,                 ventura:       "1db019fe6dccb91f02ba0ee9daf2866ea72aa6a86598b8fc83efde71b613ff87"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ae455197a5e27b7f38fb4dca0b2f7116966c3bd6df2dd2326e7e6f8d09efdbe6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4c9e3d41f146637461633611a259c12cb20ae9715b0c04af654ecf1bc5b34a14"
+    sha256 cellar: :any,                 arm64_tahoe:   "3ba4d114606c7abb635b3520f37ec4cb4ddd24c921d5b01086cd2a0c9cbea447"
+    sha256 cellar: :any,                 arm64_sequoia: "499a9cabbbac89c833bb9761d8216939a695f7ce998da8fcb6783f33b92597ee"
+    sha256 cellar: :any,                 arm64_sonoma:  "731dbc29fd57799e6c28e7412c187ed84818eafa98b2e4de54b3c79d72537e1e"
+    sha256 cellar: :any,                 sonoma:        "62a69aaf4f59fe8d216d7ba3d114613d13cca88fcc82d001c8302821e3d026e4"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "cf5601203a5abc7c1b45ea80120d5a2f4e077cac9cb2f227929b67e14ef63cd3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3926b29e2b76ef27165734559a8f8cc6a6812be61e8c97c04055478e5fca7da9"
   end
 
   depends_on "cmake" => :build

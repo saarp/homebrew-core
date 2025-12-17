@@ -1,8 +1,8 @@
 class Tenv < Formula
   desc "OpenTofu / Terraform / Terragrunt / Terramate / Atmos version manager"
   homepage "https://tofuutils.github.io/tenv/"
-  url "https://github.com/tofuutils/tenv/archive/refs/tags/v4.7.6.tar.gz"
-  sha256 "006233f57c84f10d33716ffb192326c45460475de9bde6ea81acae1d42e8654b"
+  url "https://github.com/tofuutils/tenv/archive/refs/tags/v4.9.0.tar.gz"
+  sha256 "c8cb262f7e851ea70e083390928959ee85d1e5bdacabe255515b479044f21a77"
   license "Apache-2.0"
   head "https://github.com/tofuutils/tenv.git", branch: "main"
 
@@ -12,19 +12,17 @@ class Tenv < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "752a4df1d58c88788c9b699b6e94e32dc70b14b982dd77fcb0a7ab24c86c803f"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "752a4df1d58c88788c9b699b6e94e32dc70b14b982dd77fcb0a7ab24c86c803f"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "752a4df1d58c88788c9b699b6e94e32dc70b14b982dd77fcb0a7ab24c86c803f"
-    sha256 cellar: :any_skip_relocation, sonoma:        "4e3894c1e7d72e0533925c969de733619c393ef90ae278ab5f73f4c6d6f2ad6e"
-    sha256 cellar: :any_skip_relocation, ventura:       "4e3894c1e7d72e0533925c969de733619c393ef90ae278ab5f73f4c6d6f2ad6e"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "7845250cbeac9b570a6f5d02cc954bff0c97d23d50979d282409dde377e3833b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9cfaab99d16ea83c4174600417d09d2bb7e1561b165a975419ec77c8c79cb913"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "d6f88f4ab71b33bbe739a34e73291b1ba7c9651ac2636a700af5fe3974004f01"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d6f88f4ab71b33bbe739a34e73291b1ba7c9651ac2636a700af5fe3974004f01"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "d6f88f4ab71b33bbe739a34e73291b1ba7c9651ac2636a700af5fe3974004f01"
+    sha256 cellar: :any_skip_relocation, sonoma:        "655c1bd74c52e47d8786eab4a3e22c0fe45d0c175f534d6c91c3f6b01635e9ba"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "cd1af3dae5d6db1014daa38e96bab6057e64bada4c412eb56224c9ce4840f8ac"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bf1a87cdda83db11d58d15370971d429a5d930107ac2549488d7ea2acfb6a25c"
   end
 
   depends_on "go" => :build
 
   conflicts_with "opentofu", "tofuenv", because: "both install tofu binary"
-  conflicts_with "terraform", because: "both install terraform binary"
   conflicts_with "terragrunt", because: "both install terragrunt binary"
   conflicts_with "terramate", because: "both install terramate binary"
   conflicts_with "atmos", because: "both install atmos binary"

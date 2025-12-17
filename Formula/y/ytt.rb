@@ -1,18 +1,18 @@
 class Ytt < Formula
   desc "YAML templating tool that works on YAML structure instead of text"
   homepage "https://carvel.dev/ytt/"
-  url "https://github.com/carvel-dev/ytt/archive/refs/tags/v0.52.0.tar.gz"
-  sha256 "130758548c465eb2707813890597e59209cb802a9c47b1196969cae0374a07ea"
+  url "https://github.com/carvel-dev/ytt/archive/refs/tags/v0.52.2.tar.gz"
+  sha256 "ce442e6dfd26cc0fe2504b16f7aa93d33bd6f8279a757b86b37cfc37dc228d2d"
   license "Apache-2.0"
   head "https://github.com/carvel-dev/ytt.git", branch: "develop"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8abbee75bbe9f764cf8ccc28080d10e22700966bc1533fbe268fcbd5e91eddb7"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "8abbee75bbe9f764cf8ccc28080d10e22700966bc1533fbe268fcbd5e91eddb7"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "8abbee75bbe9f764cf8ccc28080d10e22700966bc1533fbe268fcbd5e91eddb7"
-    sha256 cellar: :any_skip_relocation, sonoma:        "162afff45fc8af482a35996c709f197e4c550d6d83fc6f30f834d94c6ad5378b"
-    sha256 cellar: :any_skip_relocation, ventura:       "162afff45fc8af482a35996c709f197e4c550d6d83fc6f30f834d94c6ad5378b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "810e7536d4c05e5f46519de42b9b5d18a242eed31de410158eda1f4ce8b146f5"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "0254a6414921c1e6956ac61d1e7b1ee1ecca67a5722b19fef729c660a634a231"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0254a6414921c1e6956ac61d1e7b1ee1ecca67a5722b19fef729c660a634a231"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "0254a6414921c1e6956ac61d1e7b1ee1ecca67a5722b19fef729c660a634a231"
+    sha256 cellar: :any_skip_relocation, sonoma:        "517e1206cebfa6e41940fa956fc41c4011580e23f9a6cd950cc9f219a6f3630e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "919b44fefc8523d1e62afddfb2645a9ac0757b35f27ee2b2eac109d0f240786f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "29447001500600bbda41ab028ce8ea03b7e17b3cb178100609f913ea15e80ead"
   end
 
   depends_on "go" => :build

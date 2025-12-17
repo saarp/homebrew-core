@@ -1,8 +1,8 @@
 class Kubescape < Formula
   desc "Kubernetes testing according to Hardening Guidance by NSA and CISA"
   homepage "https://kubescape.io"
-  url "https://github.com/kubescape/kubescape/archive/refs/tags/v3.0.35.tar.gz"
-  sha256 "41f05a1821b5311bf3b7514056a82b67f68be662da0a9b89886ef12ee2c870ed"
+  url "https://github.com/kubescape/kubescape/archive/refs/tags/v3.0.47.tar.gz"
+  sha256 "3782a959a87ea9b0f3409f335e87edda54b0f1d7285c1113e5ec220ff998aef3"
   license "Apache-2.0"
   head "https://github.com/kubescape/kubescape.git", branch: "master"
 
@@ -12,13 +12,12 @@ class Kubescape < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "4af0cb9d1b63d1bd0de5b959a9b2b965dfa119b9faa38fd765fff66b568702b5"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "79647706c824a3c8d077947297996fe47201aa4148a91840fb7781a0834c74db"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "0b086d36a742325957c9aaa293c670d4232e56c50a6f56c24f11060e4920951d"
-    sha256 cellar: :any_skip_relocation, sonoma:        "5a1a2c6c8b1afc5ea144b938bdb8cb9c3bb6f1decef743c61076221d59f2a0f8"
-    sha256 cellar: :any_skip_relocation, ventura:       "ad94a2c3453828c3fe67094759ffbb07d8fb7b057d1f8e91f2e805762edc36f0"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "82e4c501058e0f39c7add15a46871cf3da2dae9aa4f8aade0d8202b26c65546c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1de4ddc605040cfefe0cde10f1df7812f1633dce7697fc3aae5b7532585e799a"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "6c8efae31ff5c90c30b7450069c1c04d14ca8aac7d380fafe66167eb3308fcfb"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "080cf638391911824d14c0741282d423ca99067e97abcd09a4e06fc4d05c8d0d"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "9fef080c009c116480db5a37fd644cc85c44896af7413372fc8ce53a35cce719"
+    sha256 cellar: :any_skip_relocation, sonoma:        "f320caa10f69f0ae7a4d5f13f3442840e5711faf7858256694603cb908ea20c1"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "5e756ec986db859d0504543c2ccc5d7ff5cb8d778741587f71ca5b2d5290f971"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a6366b595cbd0b546d89a0d4dfdbbe12fb1827a5811deed8a2a0bd548adfdd28"
   end
 
   depends_on "go" => :build

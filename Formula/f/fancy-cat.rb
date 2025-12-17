@@ -1,18 +1,18 @@
 class FancyCat < Formula
   desc "PDF reader for terminal emulators using the Kitty image protocol"
   homepage "https://github.com/freref/fancy-cat"
-  url "https://github.com/freref/fancy-cat/archive/refs/tags/v0.4.1.tar.gz"
-  sha256 "d264dbaf05f8713a4c52ce0c74a8d5e900989ec815fac1bbfec7d7b385bc1dd5"
+  url "https://github.com/freref/fancy-cat/archive/refs/tags/v0.5.0.tar.gz"
+  sha256 "7191c8b6259f8124d2bef4c38ab0bcb7f13923dd84a6ec5cb5512f729765f5b5"
   license "AGPL-3.0-or-later"
+  revision 2
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "28be4cc3f727ed15ab555b774c78c2d4376f4de67cf694f05b5980c638b088d2"
-    sha256 cellar: :any,                 arm64_sonoma:  "745862c671df5a51e5ea900ab0cd153ed9cff49ae4efb346b9d8374d8e28c52f"
-    sha256 cellar: :any,                 arm64_ventura: "1cb419023d41f8533e4c263cf40ad2a8f84d61e7e7149e660f11a9e8dbcafa07"
-    sha256 cellar: :any,                 sonoma:        "490e48aee2397b765da0eeae1030096d9ce673732b41aa1ac3b87b4dc8cfd951"
-    sha256 cellar: :any,                 ventura:       "fcae3eaeb13585a561479b0e1e860e6720c1ca983ec6e0e441e336e36d10ce81"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "8aca7669ede29c36af9c3e264185a9da881654a36926a9ef850ff400262cdae0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c07344d4fbeff7870e19ddb7a4db356b06f5d387f60f184bd82ecb7eff792b43"
+    sha256 cellar: :any,                 arm64_tahoe:   "fa2247970af16f34db31eadc37f2786a9a2537f6acfc189964d0bcc958a6b370"
+    sha256 cellar: :any,                 arm64_sequoia: "21c9e586d933128219b54a09ac691959a2838d5203fde9dc9d83ab9339d5012e"
+    sha256 cellar: :any,                 arm64_sonoma:  "1e526a3efa2e6fc1dd81bf1c1c45ef01142fee28264f770650e6dda0890421dc"
+    sha256 cellar: :any,                 sonoma:        "86f0bc6ac7fea7f0532473630c1d3225b47f6b10fb1d1ab5686c8cf1a4ab98e5"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "84ca60d2ffbe19ab8111306dacf60a6f57f5881980adf95117cdcbb65634fbb1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "490e0fe47479e56fd48e416c12375fcabb7f72df1be684dde1015e91b0afa5f0"
   end
 
   depends_on "zig" => :build

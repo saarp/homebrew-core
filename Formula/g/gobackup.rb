@@ -1,20 +1,20 @@
 class Gobackup < Formula
   desc "CLI tool for backup your databases, files to cloud storages"
   homepage "https://gobackup.github.io"
-  url "https://github.com/gobackup/gobackup/archive/refs/tags/v2.15.3.tar.gz"
-  sha256 "5ffb9daf0f0698c1f3020fa28cbfc2a4e100922db091a345602dd464f04b9589"
+  url "https://github.com/gobackup/gobackup/archive/refs/tags/v2.17.0.tar.gz"
+  sha256 "b35d47e4f8cbe1c11ae2a5af1daa35dbf0d5442fc8f977a20b4f73f28833d24a"
   license "MIT"
   head "https://github.com/gobackup/gobackup.git", branch: "main"
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "bf6001bf9cb50409b7e53664aa70a2e50014c8d0b03683e339d26e8dc59c9052"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "bf6001bf9cb50409b7e53664aa70a2e50014c8d0b03683e339d26e8dc59c9052"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "bf6001bf9cb50409b7e53664aa70a2e50014c8d0b03683e339d26e8dc59c9052"
-    sha256 cellar: :any_skip_relocation, sonoma:        "99608d3b6097ae8ffc97047150ae2fe29945be524fb7f02948c3852868d62b90"
-    sha256 cellar: :any_skip_relocation, ventura:       "99608d3b6097ae8ffc97047150ae2fe29945be524fb7f02948c3852868d62b90"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "518c737e3d8244496cfdebe3f99aca70a89a9c23e678a809c02364abe79ef8b5"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "2f1ed3ee08a3489d5cccdce104fcf12b0eaaa1124977886a623a8eb38dcd7293"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "2f1ed3ee08a3489d5cccdce104fcf12b0eaaa1124977886a623a8eb38dcd7293"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "2f1ed3ee08a3489d5cccdce104fcf12b0eaaa1124977886a623a8eb38dcd7293"
+    sha256 cellar: :any_skip_relocation, sonoma:        "80d4e8e2c5bf269e6a180172789292aa7958dc6cf7c784eaefb3275c4fe77180"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "d15b0f57c71e741447c1fa07c1b79d8ab58375a208ac26230660b478ef79b495"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8cd1a250cfefb7564c9c9d7a8b96f6170643bd6c2371f5c87c8d79d553ea4707"
   end
 
   depends_on "go" => :build

@@ -1,8 +1,8 @@
 class Tiledb < Formula
   desc "Universal storage engine"
   homepage "https://tiledb.com/"
-  url "https://github.com/TileDB-Inc/TileDB/archive/refs/tags/2.28.1.tar.gz"
-  sha256 "f011240a2ab7863b037a2e5531a0cba537dd65f603fa2508878541514a472e90"
+  url "https://github.com/TileDB-Inc/TileDB/archive/refs/tags/2.30.0.tar.gz"
+  sha256 "c5f94da6de0e0f93925f7ad107bd80fef0615f9b3d111a5bae245f75b1fcc173"
   license "MIT"
 
   livecheck do
@@ -11,19 +11,19 @@ class Tiledb < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "58a3d297198f9475bf928ff9dacdb15e9eaf39abbeea80495a76011124bbb2ce"
-    sha256 cellar: :any,                 arm64_sonoma:  "92d58bb7e8c9bf76e2ef43a13bd4d1444280e2a4ef8a70fd798773a5f5f78387"
-    sha256 cellar: :any,                 arm64_ventura: "d88069d7b5752c6a20559dfb2b11a3e75a396d77c0328dc5a9815ce1ca7b9e3a"
-    sha256 cellar: :any,                 sonoma:        "0572d46029ca4f5970f327a8b8f0c19ce2c303a072d7e88fddd1f172b0d95c55"
-    sha256 cellar: :any,                 ventura:       "a0eab1d6dcc106ca683022f1a66e0921ee6138a57d8d245e55e3c48b5c79c0ed"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "0ee6cebf5c288281f53636027ed049ea9cf1860ed4cce4136885e2edb27f5ffe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4bc942a87a4e62ff078cf9ffde7e270ad5552fe67d145e9441f9e0654d7103f5"
+    sha256 cellar: :any,                 arm64_tahoe:   "d24643620924306af3314b92336a425196ee12ac582b5cf454aeb95918c82e34"
+    sha256 cellar: :any,                 arm64_sequoia: "447fb3b5eb102ae3ed47d77b6aa1f978c9b3d3e1b7a23090d3ef2886b685320f"
+    sha256 cellar: :any,                 arm64_sonoma:  "92da40d1dd7e7dfe082f95eeadceb9a8190d6db64d454a14820d1d4b68e7771e"
+    sha256 cellar: :any,                 sonoma:        "f38a90aa06777eaa085e4f92fb496dadb443db1de3c7ebf1f2d43b15def77776"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "2b521539ed19cbb3f04687298c61c2ebe9fd0cb6fb2cb845dc2915f543ecbbba"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8e78c42be0f23e86e08deb5490473fbaee901d311aa8950fdd07b620ccb96066"
   end
 
+  depends_on "c-blosc2" => :build
   depends_on "cmake" => :build
+  depends_on "nlohmann-json" => :build
 
   depends_on "fmt"
-  depends_on "libmagic"
   depends_on "lz4"
   depends_on "openssl@3"
   depends_on "spdlog"

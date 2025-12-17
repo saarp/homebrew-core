@@ -1,21 +1,21 @@
 class Zrok < Formula
   desc "Geo-scale, next-generation sharing platform built on top of OpenZiti"
   homepage "https://zrok.io"
-  url "https://github.com/openziti/zrok/releases/download/v1.0.7/source-v1.0.7.tar.gz"
-  sha256 "a4f94b95ee7e6464fea5c43a3779219cf41aec14265e5ad12fdad449005b27ce"
+  url "https://github.com/openziti/zrok/releases/download/v1.1.10/source-v1.1.10.tar.gz"
+  sha256 "1e6999f11be37fab066254d080a3593e37835a2f8d7927d13e8524acf5e6073d"
   # The main license is Apache-2.0. ACKNOWLEDGEMENTS.md lists licenses for parts of code
   license all_of: ["Apache-2.0", "BSD-3-Clause", "MIT"]
   head "https://github.com/openziti/zrok.git", branch: "main"
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "7325ef51fd90a7f091a6ebdffa6e2a15b82b0ec376311ce7ac02acaf479a8e81"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "2628a53704535f6e004a3a9b5c038244503972af74720822a5bb6315188b7693"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "6ea91da5e3dd244163359f9139d966f25e3a857e7f406835b50ed1299c2ed57e"
-    sha256 cellar: :any_skip_relocation, sonoma:        "51fd315059bba9e7120bdacd9806bd4270349454083113a2684d44d3968ba2db"
-    sha256 cellar: :any_skip_relocation, ventura:       "dac24ef9bbd70af181d6fc67baf37bda055fc69da96db59da92d67486558b866"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "15d21f52f12e03170fa68fd92a9e9793945d8a7f33a1430600d1f1ea73ca077a"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f119049ac0ea153167191c0ee9da00a052ee1e7a523fb609820e123f96696e27"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "999818d3fa25c30120a5db6ba5a8dd7ce152593ca017bbf59f18cc7c35b2b1f7"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "af66c3978664de1a290fc71ab5767e48a7caa81376dd59bd7c690593be4c9e72"
+    sha256 cellar: :any_skip_relocation, sonoma:        "fd805e9a12731fefad3b83875236d3c22d2c1fbe8a4c52eed42ba9b35fe48d98"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "06dd4b43ca1833265863cb58066e3390b7807197df83142fe65bb88cf38f871e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0b0c4c54227362d9b43651e76eb09b287fac2106eeece701a6656ca7e7a8fbf5"
   end
 
   depends_on "go" => :build
@@ -27,6 +27,13 @@ class Zrok < Formula
         system "npm", "install", *std_npm_args(prefix: false)
         system "npm", "run", "build"
       end
+    end
+
+    # Workaround to avoid patchelf corruption when cgo is required (for go-sqlite3)
+    if OS.linux? && Hardware::CPU.arch == :arm64
+      ENV["CGO_ENABLED"] = "1"
+      ENV["GO_EXTLINK_ENABLED"] = "1"
+      ENV.append "GOFLAGS", "-buildmode=pie"
     end
 
     ldflags = %W[

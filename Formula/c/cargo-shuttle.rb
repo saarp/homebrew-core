@@ -1,19 +1,18 @@
 class CargoShuttle < Formula
   desc "Build & ship backends without writing any infrastructure files"
   homepage "https://shuttle.dev"
-  url "https://github.com/shuttle-hq/shuttle/archive/refs/tags/v0.56.5.tar.gz"
-  sha256 "5b9c36743a3cff98b803fe1e97d82cee37c9ead84f3f775ea5c17924599d7859"
+  url "https://github.com/shuttle-hq/shuttle/archive/refs/tags/v0.57.3.tar.gz"
+  sha256 "f6726ccc4e0885d76b55751a252570459ac8a6a42503c6c1e09ed2b2aea44412"
   license "Apache-2.0"
   head "https://github.com/shuttle-hq/shuttle.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "c98a72303199eeb45e7c0e840ea3365c92a1c2098a7ee12e45c41c8d9d51c45a"
-    sha256 cellar: :any,                 arm64_sonoma:  "e9a2d84c98437910a797e9c65dcf1bf797e24803702cd9e64d78bea50f26297c"
-    sha256 cellar: :any,                 arm64_ventura: "5bca175d8d05ff15d68febec77320c4c32f371a6edddc767a162e2c3ff8491be"
-    sha256 cellar: :any,                 sonoma:        "d276f5926fd78c335f32ddd88dad5930e06994e13af8e5546a1c786957f340b1"
-    sha256 cellar: :any,                 ventura:       "c03263f93ce98fb75e596744dbb704b922819acd3445e2c757cd7e65b191c1f0"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "e5896dbce6f54bb9883f1afe1ca6bc98567faa44b19be752aa8efece7a622838"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c5c7b03a8b3ea56a02a03982e4d7bfbacbc7a0fa10a62413a880950ec49b1450"
+    sha256 cellar: :any,                 arm64_tahoe:   "53893034e05f07ba1cbe232d50113a1a05d9a5b94e6cc0726cfa59442c643a4b"
+    sha256 cellar: :any,                 arm64_sequoia: "c14bb2636101ce21da96496b34b948ea128387f28f87b5c33a02c7f7d61065b0"
+    sha256 cellar: :any,                 arm64_sonoma:  "f348b0f5d6241bff629bc68e2bb802f18cc94abf4fed1256249e7da0575ac771"
+    sha256 cellar: :any,                 sonoma:        "8e2dbea2a2da19ede37d07cbfad0cf727a59d4f9be669268978d5c16c357a08e"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9aa6585bc4a09118827047e8ccbc07cae53f48f35236e0dd8837a0d1931881e3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "32ed2953148966df0689a01238a4b1122337cafbc037f4bbaf26798d27084ff8"
   end
 
   depends_on "pkgconf" => :build
@@ -40,6 +39,6 @@ class CargoShuttle < Formula
     assert_match version.to_s, shell_output("#{bin}/shuttle --version")
     assert_match "Unauthorized", shell_output("#{bin}/shuttle account 2>&1", 1)
     output = shell_output("#{bin}/shuttle deployment status 2>&1", 1)
-    assert_match "ailed to find a Rust project in this directory.", output
+    assert_match "Failed to find a Rust project", output
   end
 end

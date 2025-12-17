@@ -2,8 +2,8 @@ class Rdkit < Formula
   desc "Open-source chemoinformatics library"
   homepage "https://rdkit.org/"
   # NOTE: Make sure to update RPATHs if any "@rpath-referenced libraries" show up in `brew linkage`
-  url "https://github.com/rdkit/rdkit/archive/refs/tags/Release_2025_03_2.tar.gz"
-  sha256 "4db5d503c3e0040321c32a2dc60d60221dc73ee9e5902b8208f2a39057bbfb15"
+  url "https://github.com/rdkit/rdkit/archive/refs/tags/Release_2025_09_3.tar.gz"
+  sha256 "2d68e147086d107d210477b38bcea6df286de5acf1eab5e22ac9aec3b3b15d5a"
   license "BSD-3-Clause"
   head "https://github.com/rdkit/rdkit.git", branch: "master"
 
@@ -15,23 +15,22 @@ class Rdkit < Formula
     end
   end
 
-  no_autobump! because: :requires_manual_review
+  no_autobump! because: :incompatible_version_format
 
   bottle do
-    sha256                               arm64_sequoia: "fc0084d88f8068bc87338a68421b0178d089cfc10e9d55ba0a58498c1807830c"
-    sha256                               arm64_sonoma:  "aff5c49f467699a77fa87cdd1b1ad3cf91a5d5b484e7afe7dc1d2df7f0f90f37"
-    sha256                               arm64_ventura: "59e482ee31900e49c08b716970ebeceaf78e72d678e3a681d2e936c639a3a552"
-    sha256 cellar: :any,                 sonoma:        "86ab0cbb0d2414b87ee993bffdd75ddaa8bfd197c568645bfc77d122de2cd33a"
-    sha256 cellar: :any,                 ventura:       "eec570d4cec882a75b3cbe9f7ae1c3346a4cf4cd64b8f314b9f187e01af92dd6"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "c8c63f853cafee1a32449279e2ac6604a400f6786f4493e2f9167fe94a220933"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8283dbef87308e95d19c0721a67f42470475cf74b19ce4eb8c306197569bddc3"
+    sha256                               arm64_tahoe:   "e7b9fdef34a30b5bba0ceba81b9aa020582d5548e014e044b3b73232c7c6613b"
+    sha256                               arm64_sequoia: "b120a1dac37cc18056a686c89beb013d749b4eb70e7f7f0fd6033ffcfcef91cd"
+    sha256                               arm64_sonoma:  "f3cbb127fd8eca508530b2265d537b7c81e508f6a178ae83a107a5e1cbc060cd"
+    sha256 cellar: :any,                 sonoma:        "b8f010246a13003a121bf5c8fdfaef9391598fdb2b12b64edbb594f15cb0b8a8"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "316a6e5396e71d089ef5d19caf4444ee8b723b01b556d16f091fcaf7b82c00f8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "494df8887962fcb8c709348e528ecabfb80dfa5a064eb8b474e9f3f2027d9df9"
   end
 
   depends_on "catch2" => :build
   depends_on "cmake" => :build
   depends_on "pkgconf" => :build
-  depends_on "postgresql@14" => [:build, :test]
   depends_on "postgresql@17" => [:build, :test]
+  depends_on "postgresql@18" => [:build, :test]
   depends_on "boost"
   depends_on "boost-python3"
   depends_on "cairo"
@@ -42,7 +41,7 @@ class Rdkit < Formula
   depends_on "maeparser"
   depends_on "numpy"
   depends_on "py3cairo"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   resource "better_enums" do
     url "https://github.com/aantron/better-enums/archive/refs/tags/0.11.3.tar.gz"
@@ -50,7 +49,7 @@ class Rdkit < Formula
   end
 
   def python3
-    "python3.13"
+    "python3.14"
   end
 
   def postgresqls
@@ -59,6 +58,7 @@ class Rdkit < Formula
   end
 
   def install
+    odie "Too many postgresql dependencies!" if postgresqls.count > 2
     (buildpath/"better_enums").install resource("better_enums")
 
     python_rpath = rpath(source: lib/Language::Python.site_packages(python3))
@@ -66,6 +66,7 @@ class Rdkit < Formula
     args = %W[
       -DCMAKE_INSTALL_RPATH=#{rpath}
       -DCMAKE_MODULE_LINKER_FLAGS=#{python_rpaths.map { |path| "-Wl,-rpath,#{path}" }.join(" ")}
+      -DCMAKE_PREFIX_PATH='#{Formula["maeparser"].opt_lib};#{Formula["coordgen"].opt_lib}'
       -DCMAKE_REQUIRE_FIND_PACKAGE_coordgen=ON
       -DCMAKE_REQUIRE_FIND_PACKAGE_maeparser=ON
       -DCMAKE_REQUIRE_FIND_PACKAGE_Inchi=ON
@@ -116,6 +117,8 @@ class Rdkit < Formula
       system "cmake", "--build", "#{builddir}/Code/PgSQL/rdkit"
       system "cmake", "--install", builddir, "--component", "pgsql"
     end
+
+    rm lib/"libexpat.a" # conflicts with `expat` formula
   end
 
   def caveats

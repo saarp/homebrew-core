@@ -1,20 +1,19 @@
 class Passenger < Formula
   desc "Server for Ruby, Python, and Node.js apps via Apache/NGINX"
   homepage "https://www.phusionpassenger.com/"
-  url "https://github.com/phusion/passenger/releases/download/release-6.0.27/passenger-6.0.27.tar.gz"
-  sha256 "82c830aee98feece09e84309c2d0c6bb3f7b22a3c8e33cfe93b5e0d498615d0f"
+  url "https://github.com/phusion/passenger/releases/download/release-6.1.0/passenger-6.1.0.tar.gz"
+  sha256 "1cf30bbb6d39f19811141a43cb0d67e7bbf6a4bc3fe8b4145eaeb53a6ee21268"
   license "MIT"
-  revision 2
-  head "https://github.com/phusion/passenger.git", branch: "stable-6.0"
+  revision 3
+  head "https://github.com/phusion/passenger.git", branch: "stable-6.1"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "7d587933f9606519d026d7221ea089397f2ec9fbfbd36c69df5f861d4e318562"
-    sha256 cellar: :any,                 arm64_sonoma:  "16c00c531cfd959799928b021c85ed565fc756e7d9177426670384ef2f544dd2"
-    sha256 cellar: :any,                 arm64_ventura: "4aec8ca1d40ee97818108dd5f3737cd2f794fd2cbbe15ba9df011a0d7f7b970e"
-    sha256 cellar: :any,                 sonoma:        "25a19834fb3612058936f28562a1f71c54a5a8434d806c52d55e0b78d1c0d04f"
-    sha256 cellar: :any,                 ventura:       "6bcd6e8840ffe05c10da42aa3a10cc5b6fcb0661591f0ab667dfd5bd29e73036"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "978c3bd1459fbc688ffb230ded1103f7c943bd640cadff7d5bca07442a8c5f19"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0dde58aaf00f72de06110cddca3d20d1127d14bd4398aeee4891aea3788beb15"
+    sha256 cellar: :any,                 arm64_tahoe:   "0dfd5093bffc0a6fd00a026c7ac7038c290e1da4960882f99119b2f0b2aa737e"
+    sha256 cellar: :any,                 arm64_sequoia: "c73b864b35b287ac767d12080f8e0bbd97a58bc274c9cb6d49f3f3b3a1cc0242"
+    sha256 cellar: :any,                 arm64_sonoma:  "bbc2a9d2c55a41186d2d6f268e527ef9e1613ef9a3c4652b196e681edce0e587"
+    sha256 cellar: :any,                 sonoma:        "a825b542e388f326768a0409e2151dcf74f46b2d57b9c095b0cec5404c452d33"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "51f4dc8bcbd317c93c7e480225bcc124e914c118f54a133e01b4cb3d6dbf560c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ab65e4248cd9630aa419db70d36f8a174e6ab278b00f8c301ab1a36f7350fe48"
   end
 
   depends_on "httpd" => :build # to build the apache2 module
@@ -27,11 +26,11 @@ class Passenger < Formula
   uses_from_macos "xz" => :build
   uses_from_macos "curl"
   uses_from_macos "libxcrypt"
-  uses_from_macos "ruby", since: :catalina
+  uses_from_macos "ruby"
   uses_from_macos "zlib"
 
   def install
-    if OS.mac? && MacOS.version >= :mojave && MacOS::CLT.installed?
+    if OS.mac? && MacOS::CLT.installed?
       ENV["SDKROOT"] = MacOS::CLT.sdk_path(MacOS.version)
     else
       ENV.delete("SDKROOT")

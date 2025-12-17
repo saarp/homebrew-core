@@ -1,39 +1,38 @@
 class Subfinder < Formula
   desc "Subdomain discovery tool"
   homepage "https://github.com/projectdiscovery/subfinder"
-  url "https://github.com/projectdiscovery/subfinder/archive/refs/tags/v2.8.0.tar.gz"
-  sha256 "d4273408c6eeeb9e69fe04e5d7400247502575841c79371dc680fc6b2e3aaaa8"
+  url "https://github.com/projectdiscovery/subfinder/archive/refs/tags/v2.10.1.tar.gz"
+  sha256 "fab71430b869ee26d4a44cd2b0685b80bd61326a9cd42925247f6a8eb6d4c4f7"
   license "MIT"
-  head "https://github.com/projectdiscovery/subfinder.git", branch: "master"
+  head "https://github.com/projectdiscovery/subfinder.git", branch: "dev"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e4bb33f0b28d7c5a0582927b1fbb47543dfc495af2f8ca6b8ac36585e6a061b7"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "0d016d52ab0e1fd1a47cbcd4175d16436f0fc148e0883ce021324ce5f149b4ec"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "7284c7ab3e13f87e17c2ca36d4f52ac2a1fe9fff5a1182d50e88e3de2498ff59"
-    sha256 cellar: :any_skip_relocation, sonoma:        "8cf9736a33684adcb7efeca52e55e01777f05927b4e5b97ae2fe2fbb882b297d"
-    sha256 cellar: :any_skip_relocation, ventura:       "8094944b73a10f682b0b915b8f4978490cc895f237d1c40e3e2794f6ad07d35e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cbf3866c7396c20b2684c1883edf264c2ad8df5eaf9b8e9ba02f7f07ca8df4f0"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f5b41590312152c2dad9ed7baaa2752537e695aec33f1c099d9c27385a35ea92"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "02042ec11eea6d0ba3bb70e806f71a9e97b78cbd8833146a42b913b34042537c"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "ddb9f0907045ff85cd22dd71af17190d84d781c9f704fd07c92fcbb6d8606ffb"
+    sha256 cellar: :any_skip_relocation, sonoma:        "806acaafd3c45ce83efa3332bdca94a69963b33fba09474992de35143f7a5c44"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "7a4fb13fae46b37cbda757524625f68dc75dce118ba3dfa556f9cf76ae260419"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "845c84755125795326f37910025a286d8726e4cd006157361b9a5853b7dde464"
   end
 
   depends_on "go" => :build
 
   def install
-    cd "v2" do
-      system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd/subfinder"
-    end
+    system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd/subfinder"
   end
 
   test do
     assert_match "docs.brew.sh", shell_output("#{bin}/subfinder -d brew.sh")
 
     # upstream issue, https://github.com/projectdiscovery/subfinder/issues/1124
-    if OS.mac?
-      assert_path_exists testpath/"Library/Application Support/subfinder/config.yaml"
-      assert_path_exists testpath/"Library/Application Support/subfinder/provider-config.yaml"
+    config_prefix = if OS.mac?
+      testpath/"Library/Application Support/subfinder"
     else
-      assert_path_exists testpath/".config/subfinder/config.yaml"
-      assert_path_exists testpath/".config/subfinder/provider-config.yaml"
+      testpath/".config/subfinder"
     end
+
+    assert_path_exists config_prefix/"config.yaml"
+    assert_path_exists config_prefix/"provider-config.yaml"
 
     assert_match version.to_s, shell_output("#{bin}/subfinder -version 2>&1")
   end

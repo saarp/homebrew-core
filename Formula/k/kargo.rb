@@ -1,22 +1,21 @@
 class Kargo < Formula
   desc "Multi-Stage GitOps Continuous Promotion"
   homepage "https://kargo.io/"
-  url "https://github.com/akuity/kargo/archive/refs/tags/v1.6.1.tar.gz"
-  sha256 "de1fdddee478d4be259e4c49fbcf50e40df3d9e3396684be6c08262689bd577a"
+  url "https://github.com/akuity/kargo/archive/refs/tags/v1.8.4.tar.gz"
+  sha256 "7162cdf57815d7cb84bdd14fee07436dffbdc8cfaf527969ff9473cc7a144d6c"
   license "Apache-2.0"
   head "https://github.com/akuity/kargo.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "9c254fc8bb20668c0bdba34e01e8c43d54801677a6050cca106262fa20f66c5a"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "e66ab4b24d247116bf3c76028b4ce6617d70757dfdbd3a204e75b5fb362b6d4e"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "61078721af2e7acd3c733c68f64010d325fd739c8b4056f178a19c2f9b443d83"
-    sha256 cellar: :any_skip_relocation, sonoma:        "6768a0678e67ef3f83832175fadbe25b539987ffc048ecf1ebc76bce564eb28f"
-    sha256 cellar: :any_skip_relocation, ventura:       "d0fcc621dda1878231f6f7dac422b1168d8e0dd387b3d3ecdd9c56766f9ab74d"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ba9fe82c0acfe7e724a70979d875e029c0ebc0af55482dd3328cc2e58a4121f9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "662352cc3b0b94bcad72cf697efa302f1a0fbb610a21c9a014d92d0c9f096ebe"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "db05ff79b0c8d6615dca052833623cd91aa3b99bc7f0e40c053cf3443d4e45c1"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a136614da14f2ad7376601563aa8327d8a05f113b657021eef59c6ffe93e120d"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "5166c5cc4b55e27c703d912eae0ff3db747db08356d6296a2530d2c0c9736485"
+    sha256 cellar: :any_skip_relocation, sonoma:        "162d73d31eccb55423bca5d1fea0ecbd279fb1ead2e884948ae29a0479e264f0"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "0ec0b419f836aa26899464d68bb4464cf9ef75eb6fadfb15b6f08bd92c96cd8a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3c521a52133de6b2db3ec68d7b899872b49a9fa327cbaeff213085557a300e2c"
   end
 
-  depends_on "go"
+  depends_on "go" => :build
 
   def install
     ldflags = %W[

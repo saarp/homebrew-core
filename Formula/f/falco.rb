@@ -1,18 +1,18 @@
 class Falco < Formula
   desc "VCL parser and linter optimized for Fastly"
   homepage "https://github.com/ysugimoto/falco"
-  url "https://github.com/ysugimoto/falco/archive/refs/tags/v1.19.0.tar.gz"
-  sha256 "f4834fe3cdff0fe76c0c33709504a28058775583eef22582fa708ffdc0b23a74"
+  url "https://github.com/ysugimoto/falco/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "8dd8074b8cf198c1925aebf1003b40a9e20e04f9eb94ae3507e722feeea3d16c"
   license "MIT"
   head "https://github.com/ysugimoto/falco.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "5aa9a71b492dfebddd297ec103552dae8127310890f114235d37111982114f95"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "5aa9a71b492dfebddd297ec103552dae8127310890f114235d37111982114f95"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "5aa9a71b492dfebddd297ec103552dae8127310890f114235d37111982114f95"
-    sha256 cellar: :any_skip_relocation, sonoma:        "a436b3a8d8047f4ad246799d86830c409df998351bd4afa11e4627d39c529550"
-    sha256 cellar: :any_skip_relocation, ventura:       "a436b3a8d8047f4ad246799d86830c409df998351bd4afa11e4627d39c529550"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f2281396b92d779f41e2e420fab5ce709e4162127d7d9e166aedfa3a31a409a7"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "c1377c352c9601da06adc9f2202e646b358e49f85b6a9be53e9b98d1376badaf"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "c1377c352c9601da06adc9f2202e646b358e49f85b6a9be53e9b98d1376badaf"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "c1377c352c9601da06adc9f2202e646b358e49f85b6a9be53e9b98d1376badaf"
+    sha256 cellar: :any_skip_relocation, sonoma:        "85d8546f39800eb14b6d6e2c90799fa50edde6ace527e97f868e003bc2d97dad"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "37911ce3f2d8d1ac7319b55ab93cf248dc9456b05c29496f1b0265f6f66f8ef6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b5c0e51cfa9c42489d3e04557837405d4cd9f080cb6cb261d407d81ca21be91d"
   end
 
   depends_on "go" => :build

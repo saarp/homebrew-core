@@ -1,17 +1,17 @@
 class Skopeo < Formula
   desc "Work with remote images registries"
   homepage "https://github.com/containers/skopeo"
-  url "https://github.com/containers/skopeo/archive/refs/tags/v1.19.0.tar.gz"
-  sha256 "043e9f568440accf1aafca122a25c4d21441f16de49475192ec4abeef7430358"
+  url "https://github.com/containers/skopeo/archive/refs/tags/v1.21.0.tar.gz"
+  sha256 "f76eeddf697a3cc7a872e3077ab4d0fdbebe9f3c6171462e3e9feb84368b3fac"
   license "Apache-2.0"
 
   bottle do
-    sha256 arm64_sequoia: "b92bf9e74a3f729b3ee4022b1b26f4ce9b459d8c1919a438b45ddf61ccee08f9"
-    sha256 arm64_sonoma:  "e4d4585fec2cd666321ed3a3c4ac086a454589614280391bbc5ab52eb0331cba"
-    sha256 arm64_ventura: "7e2b25e6d2f2a2649eae99ed1e9313e55b0ec8b4a386189844dab63e8f27c496"
-    sha256 sonoma:        "56921c1ded643f7a11ffb8b1ade837cf89d5f95ff695343a275186c31cc48733"
-    sha256 ventura:       "bea60e3be5267fcf0aad619f9bb5d833e6eb25374b4b2a3e5aa3453911b04e55"
-    sha256 x86_64_linux:  "46546e227bc13941c5a6a980ba444703cf1df6efffc989636e39677b33874fe1"
+    sha256               arm64_tahoe:   "42a235a9010237e3b8c381c53338c0580ffebd66188409e39b7bd4ed4542f2b3"
+    sha256               arm64_sequoia: "92c13c46dc6641cc2a45df17427731b29c71aa3a9819c837b3a11914afe56902"
+    sha256               arm64_sonoma:  "63d438d8feac6d73502bdd1b93bc889c48a54e1ffe3b72920b2b2ea21287771e"
+    sha256 cellar: :any, sonoma:        "6ce78007250925ec83c468f6d0c04bbbf78e858d75a2c4d30b2d1c41813c3d03"
+    sha256               arm64_linux:   "c7b7b957b0fe14c9cac3a84e92265a7f6873673562f7859cc2d6583302188c18"
+    sha256               x86_64_linux:  "73e7baa86798f4ee9680f332df3eb665bee222531f02aaca8e3e17cf08c505df"
   end
 
   depends_on "go" => :build
@@ -34,7 +34,7 @@ class Skopeo < Formula
       Utils.safe_popen_read("hack/libsubid_tag.sh").chomp,
     ].uniq
 
-    ldflag_prefix = "github.com/containers/image/v5"
+    ldflag_prefix = "go.podman.io/image/v5"
     ldflags = %W[
       -X main.gitCommit=
       -X #{ldflag_prefix}/docker.systemRegistriesDirPath=#{etc}/containers/registries.d
@@ -53,7 +53,7 @@ class Skopeo < Formula
   end
 
   test do
-    cmd = "#{bin}/skopeo --override-os linux inspect docker://busybox"
+    cmd = "#{bin}/skopeo --override-os linux inspect --no-creds docker://busybox"
     output = shell_output(cmd)
     assert_match "docker.io/library/busybox", output
 

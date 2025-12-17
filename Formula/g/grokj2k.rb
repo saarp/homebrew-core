@@ -3,8 +3,8 @@ class Grokj2k < Formula
   homepage "https://github.com/GrokImageCompression/grok"
   # pull from git tag to get submodules
   url "https://github.com/GrokImageCompression/grok.git",
-      tag:      "v15.1.0",
-      revision: "8d516f767a9d511372f0a25a15edeff7f0908b80"
+      tag:      "v20.0.4",
+      revision: "8a576b8157b8c55945b23b02abfffee2ed94b934"
   license "AGPL-3.0-or-later"
   head "https://github.com/GrokImageCompression/grok.git", branch: "master"
 
@@ -14,13 +14,12 @@ class Grokj2k < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "44060bd2dd60f53476caf5681c85006dbb3dd52a8b49c0f04cc83b8673868bb2"
-    sha256 cellar: :any,                 arm64_sonoma:  "3106d2ed36a53006f28feb020a9649ecd42258ef82c12549d4fe2666f31f897d"
-    sha256 cellar: :any,                 arm64_ventura: "57376549d1514236cf0d72ea584c9573fc53bb53878a3db6ddf3fc3247a596e1"
-    sha256 cellar: :any,                 sonoma:        "42291c77556e0491032b1f9c435a75a34eb04069ce121c6e659394c846d0081d"
-    sha256 cellar: :any,                 ventura:       "6cb72236f5ab703ff3afa1dcf404495997cbe31ebbc118fdb31f99acec2076b5"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "0835de9a6c263f4604415c43f529fd17309abb5bada419df33fd4ab73567fc40"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "779b58719e3bac4234a8c34245ab6eaa722d82b0e9fe8b9065531ad9a80afbb2"
+    sha256 cellar: :any,                 arm64_tahoe:   "c7e92721c13381eec2ee59f9ee5f6ba1cf9ecdcb64b00c07e33afbbd1234dd0e"
+    sha256 cellar: :any,                 arm64_sequoia: "e53f6d31a9f318d5298990246d05703c2a5bff654d18d458f374f3f7bd4b3f44"
+    sha256 cellar: :any,                 arm64_sonoma:  "4bf47ddf246877376dfb94dea41b8fe3799d25d6170e723ea934379cbfd10e94"
+    sha256 cellar: :any,                 sonoma:        "c9e8f4f961e891fd5b226110914ac52f45735862f5cfa0dce6713d878ad7d3d7"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "38bfb196adf3559881f7d4f7faaf32df62e61d947df85d3000c9f6bb9f0903b2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0340d5eb837faa45642c47880b744ad5ec73c45771e7860ab700720b93bf0b43"
   end
 
   depends_on "cmake" => :build
@@ -31,13 +30,12 @@ class Grokj2k < Formula
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "little-cms2"
-  depends_on macos: :catalina
 
   uses_from_macos "perl"
   uses_from_macos "zlib"
 
   on_macos do
-    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1200
+    depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1700
     depends_on "xz"
     depends_on "zstd"
   end
@@ -54,7 +52,7 @@ class Grokj2k < Formula
   end
 
   def install
-    ENV.llvm_clang if OS.mac? && (DevelopmentTools.clang_build_version <= 1200)
+    ENV.llvm_clang if OS.mac? && (DevelopmentTools.clang_build_version < 1700)
 
     # Fix: ExifTool Perl module not found
     ENV.prepend_path "PERL5LIB", Formula["exiftool"].opt_libexec/"lib/perl5"

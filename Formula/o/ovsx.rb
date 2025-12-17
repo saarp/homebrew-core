@@ -1,18 +1,17 @@
 class Ovsx < Formula
   desc "Command-line interface for Eclipse Open VSX"
   homepage "https://www.npmjs.com/package/ovsx"
-  url "https://registry.npmjs.org/ovsx/-/ovsx-0.10.5.tgz"
-  sha256 "6c20f2ed2580a6ee4700350da226befc8d28419417124fca5a84fbc200490101"
+  url "https://registry.npmjs.org/ovsx/-/ovsx-0.10.7.tgz"
+  sha256 "74f82371e0d0ba3ce7ceb3a49e6e06dc8323d8ebc05a6764cd1fffbbcf09ccb8"
   license "EPL-2.0"
 
   bottle do
-    sha256                               arm64_sequoia: "021c68046daa02c5edaa74b35933717f7144199c82edcfcf85f9a7ac21c2dc72"
-    sha256                               arm64_sonoma:  "b8d3d472537cb3f599d55ff06b070090f62bfbcb471022cf9232e5bea59d1bec"
-    sha256                               arm64_ventura: "e1980a772c01f68d90ab1d1da1c844b410f82ea0afe3834169b959642b1112d8"
-    sha256                               sonoma:        "4a2deeb3b338a9c896851241e581f91a110d134667af95ae99920becb5e006d8"
-    sha256                               ventura:       "551128b6c61eadd36ab8a280d5424069dc85b91ff813f0a73826f83773f0f3b5"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "f905ca29b8e8d9f7f51eb85c5dbb1a3fb07c8fbbe4c4c2b7d830917288975977"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a675c25475f1cbb84c7bc340e6a3554513557ef248bd2d21fc392f3e943f50c0"
+    sha256                               arm64_tahoe:   "e427e4992a6dbf269c4eaf1de8a95ab3c3fc9ad39fee183a116fd0a59e80be7b"
+    sha256                               arm64_sequoia: "8617f49925a1b7aff82ad37897e4e63760fd9e2b91657d323c466ce875d94a11"
+    sha256                               arm64_sonoma:  "5fac4075d52c22062da7978fdcf25153f95795cd49f062f1e34d75a260a392fc"
+    sha256                               sonoma:        "c33eafc72cfcb5b0b3c89e6e4e8e911fe48feff5122fd8c87e6fa0052a14283c"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "21650d33785b07df120de9841f42af6104c6d606b0e3c407a5871ac83d4d4324"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0e025efef6eb7b2f51f9d01695b00cea6bbbf1c1d3643ac71f072def4330c856"
   end
 
   depends_on "node"
@@ -23,7 +22,7 @@ class Ovsx < Formula
   end
 
   test do
-    error = shell_output(bin/"ovsx verify-pat 2>&1", 1)
+    error = shell_output("#{bin}/ovsx verify-pat 2>&1", 1)
     assert_match "Unable to read the namespace's name", error
   end
 end

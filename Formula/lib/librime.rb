@@ -2,23 +2,23 @@ class Librime < Formula
   desc "Rime Input Method Engine"
   homepage "https://rime.im"
   url "https://github.com/rime/librime.git",
-      tag:      "1.14.0",
-      revision: "e053fb29e4a7c584d93c81e2e314bc1c9efca0a6"
+      tag:      "1.15.0",
+      revision: "75bc43ae9acdd2042d150a8c446e9ac8b6d77c84"
   license "BSD-3-Clause"
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "1adf609bd7d7fbdefdc4c61f22286353bc58e3ccaa37f017d4a95d9fdcb682c1"
-    sha256 cellar: :any,                 arm64_sonoma:  "14d9f57764a6b5a0d53c7f3873be7662b7c165f573094860fb40623cd0691857"
-    sha256 cellar: :any,                 arm64_ventura: "6e45c1b22aaa6aceb263b1193c2da3f8abaaf1d7ef1a024616f12baf052e02dd"
-    sha256 cellar: :any,                 sonoma:        "d29dc1c67f9718755b41cd7c6468635b8c84e9c1139be79b5da2210bf95cf7e6"
-    sha256 cellar: :any,                 ventura:       "fb36ab6bfc5025f2094a4c79635ab3e1c3c79b377382dd1c0253eed5c67467c8"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "593b69d2cd6eb87d1ce411007bfd7cd8b28e28c4e04c3d0e19c657becd9ec2be"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a1fbfebca1dd86132c8420fc30d41c44728371a473c6ae4e608d82cf7a7d27cd"
+    sha256 cellar: :any,                 arm64_tahoe:   "01b95ed9e57b54a5152df3154dcf1e6b3b5704829d29ea0608370e7387af5019"
+    sha256 cellar: :any,                 arm64_sequoia: "5513652e0d0665e9b0db5176c3ce8c505897bf21575908dd2d656338e16f597c"
+    sha256 cellar: :any,                 arm64_sonoma:  "1a7addad03c24515f8bb410736699c92e25741ddefa72afaab42eeb43a798e9a"
+    sha256 cellar: :any,                 sonoma:        "d125fe0c51fc2b8c4335de66a5987da66e6add132dde309cfe6df46bcb456515"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "67878900d8bb70087d5df5e455daaec0615858a72153c55cffd27bbff13d4703"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c0faad9a3ae6c72ba5f08547eaffbefcb1ffd5ad70fcccad2c63362b8d6eb794"
   end
 
   depends_on "boost" => :build
   depends_on "cmake" => :build
-  depends_on "icu4c@77" => :build
+  depends_on "icu4c@78" => :build
   depends_on "pkgconf" => :build
 
   depends_on "capnp"

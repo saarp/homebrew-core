@@ -1,8 +1,8 @@
 class Atmos < Formula
   desc "Universal Tool for DevOps and Cloud Automation"
   homepage "https://github.com/cloudposse/atmos"
-  url "https://github.com/cloudposse/atmos/archive/refs/tags/v1.183.1.tar.gz"
-  sha256 "5060e1e6e536969137ed46c6ab99dea13947bc75de49a74e8c78236493478a46"
+  url "https://github.com/cloudposse/atmos/archive/refs/tags/v1.201.0.tar.gz"
+  sha256 "adc9a9a490cec6fb178de00ded8cd8564ecccb73e4836579b39e3c6c1e89377b"
   license "Apache-2.0"
   head "https://github.com/cloudposse/atmos.git", branch: "main"
 
@@ -14,19 +14,26 @@ class Atmos < Formula
   no_autobump! because: :bumped_by_upstream
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e6635a30492cb16d12a57ee069db8f1ef50f2df9e3ec5e6afff77906f144761c"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "d17d967b69e129d13b6b102f48f42c554394e8c56cd949ecff301eaa7c519568"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "77b55bc03e6726f2b6244125d8d67c504a72435c06d171f1eab5bc718de278b0"
-    sha256 cellar: :any_skip_relocation, sonoma:        "7da48516765ae0bc7d4f5d4ec87ac9e14ef82b7d12c8d6111752fff7aa682b42"
-    sha256 cellar: :any_skip_relocation, ventura:       "1d6f0bd87e913467e4877feb8af212f863883a50c7ac01223c4c819acd0792ab"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "02bbbfe31bc935a98040c338ed777a25221e85a8d277470a80f904daf01ed3b3"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "a6f93fcb2380c545de310def86551f4850e37a096b6686b1591dfa0132e367b9"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "4b6c05944c5a6928c287fff1252977cf178a3b2bf633dcb65990f1206cd6d260"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "da9d3a383557db3adbe9d3b463b67eea76900d934ee61d48e866944e21455a6e"
+    sha256 cellar: :any_skip_relocation, sonoma:        "76fc85e54893378b2067446ea64e219a4aef6160fe83abf89b0679231716f934"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4b493402214541919fa4139f662f275a1387d1f135b5a2513b22a32c5a79a783"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a1868886793b14f327c55fca5a572df0b6ab4cd2d3ef949d5e213be5ebfac200"
   end
 
   depends_on "go" => :build
+  depends_on "pkgconf" => :build
+
+  on_linux do
+    depends_on "systemd" # libudev
+  end
 
   conflicts_with "tenv", because: "tenv symlinks atmos binaries"
 
   def install
+    ENV["CGO_ENABLED"] = "1" if OS.linux? && Hardware::CPU.arm?
+
     system "go", "build", *std_go_args(ldflags: "-s -w -X 'github.com/cloudposse/atmos/pkg/version.Version=#{version}'")
 
     generate_completions_from_executable(bin/"atmos", "completion")

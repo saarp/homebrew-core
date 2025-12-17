@@ -2,25 +2,26 @@ class Auditbeat < Formula
   desc "Lightweight Shipper for Audit Data"
   homepage "https://www.elastic.co/beats/auditbeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v9.0.4",
-      revision: "7f7d7133471388154c895cf8fc6b40ae6d6245e2"
+      tag:      "v9.2.2",
+      revision: "46e1e32d1aac0400a852b4565f184e23ab03e0e1"
   license "Apache-2.0"
   head "https://github.com/elastic/beats.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "c742f455eb3eb3bd8987b36d1120f0bd0830415afbbc782553c55bf83eb10578"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "a9ad67c42d227b6eefc10dd24377bf7dc291280979844a878205439309659a13"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "ce86bf970b8b919e0ccf98300535bf41eec260c1545601624a2e5b58d5ada631"
-    sha256 cellar: :any_skip_relocation, sonoma:        "871b93127d99aa3b163038f659de68dcac5287a651269927d9ec9620105f6a76"
-    sha256 cellar: :any_skip_relocation, ventura:       "0302ce1f2026fa8b28b056be065891cd74ed3a7bc813afb642c8e45233587ce3"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "8ae962aa10a15286ec00433dc2482a3e78f4a9570054629f803e2735e3dca5cc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "86590a132d89569f5821c5c2aa2e1da00b7ffe36d71f000328d973dd4eeb060e"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "3c55020c3146ef8ce8e7986f53700cb59212997130b6b330dd339e30de5f852f"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "6e90356f661691783160458e0ff8ef323e1c72d4c2155c45ecff660bc16a9784"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "7e736d78eadde57aa5a5d49d7ed9eca92808cd4dcb8def7a3404f99600e6e1f3"
+    sha256 cellar: :any_skip_relocation, sonoma:        "89db88f9735c4435a7e534fc8143944e9b86f53e895197c456ab92ab6d6bf538"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "7324fafa6b499a2ec0b5c03dc1e58a55a42265abba7f903d9a1ac65dfca4dd26"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "33cc9b03a546d594353ca60839f19497445ec33e0ccce3bd02d6266554274674"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
 
   def install
+    ENV["CGO_ENABLED"] = "1" if OS.linux? && Hardware::CPU.arm?
+
     # remove non open source files
     rm_r("x-pack")
 
@@ -50,9 +51,7 @@ class Auditbeat < Formula
 
     chmod 0555, bin/"auditbeat"
     generate_completions_from_executable(bin/"auditbeat", "completion", shells: [:bash, :zsh])
-  end
 
-  def post_install
     (var/"lib/auditbeat").mkpath
     (var/"log/auditbeat").mkpath
   end

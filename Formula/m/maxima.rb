@@ -1,24 +1,23 @@
 class Maxima < Formula
   desc "Computer algebra system"
   homepage "https://maxima.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/maxima/Maxima-source/5.47.0-source/maxima-5.47.0.tar.gz"
-  sha256 "9104021b24fd53e8c03a983509cb42e937a925e8c0c85c335d7709a14fd40f7a"
+  url "https://downloads.sourceforge.net/project/maxima/Maxima-source/5.48.1-source/maxima-5.48.1.tar.gz"
+  sha256 "b0916b5fb37b6eeaae400083175e68e28f80b9a1ab580c106a05448cf1c496b2"
   license "GPL-2.0-only"
-  revision 23
+  revision 3
 
   livecheck do
     url :stable
     regex(%r{url=.*?/maxima[._-]v?(\d+(?:\.\d+)+)\.t}i)
   end
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "1504157234aee064744b46329cc7ddbadbebc76531c96ec565fa3f6fcebbc6ff"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "55533e9b6bc22937b39f5767e18f94a8148d219a4551a79395fbf9b6b42920dc"
-    sha256 cellar: :any_skip_relocation, sonoma:        "3392051fbf077ddd9e5a40164e64964fe33e556696481f692ab471cf89fc82c9"
-    sha256 cellar: :any_skip_relocation, ventura:       "b30fdd46eec5609a4691b2b1a9827bf925a20b2fba786a5c730a7923b017803f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cfb2478d571e65e8e8bae71dfcfdbcbe6176a8a33fe12bdb63973f14ee841c48"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "7413a88afcfdc054c90ff3f9e1c33d07ce92e37a811b3da3beefaa956453b631"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "642afa2412d2595b4b8c5d9aaa4c2bccf17e6a2ce4152fabfb11314235fddca2"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "e91ef3daffd2556df2764c72fb6cc24a82cffacd492195aa82e327661579363c"
+    sha256 cellar: :any_skip_relocation, sonoma:        "de6ecb86a38e9ffdfd717fd121ccc92557c2ca5cb7a5d368f5b0b44d482e8640"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "9dff0ae9940639acebc6de0ca6ae46cc83b26e9e8e15753fb4b32d4aa52fcd9b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e068db669604e391637b7d38fba699a927d62875e1dc79e34ee7f26f0fc4bc70"
   end
 
   depends_on "gawk" => :build
@@ -32,14 +31,11 @@ class Maxima < Formula
 
   def install
     ENV["LANG"] = "C" # per build instructions
-    system "./configure",
-           "--disable-debug",
-           "--disable-dependency-tracking",
-           "--prefix=#{prefix}",
-           "--enable-gettext",
-           "--enable-sbcl",
-           "--with-emacs-prefix=#{share}/emacs/site-lisp/#{name}",
-           "--with-sbcl=#{Formula["sbcl"].opt_bin}/sbcl"
+    system "./configure", "--enable-gettext",
+                          "--enable-sbcl",
+                          "--with-emacs-prefix=#{elisp}",
+                          "--with-sbcl=#{Formula["sbcl"].opt_bin}/sbcl",
+                          *std_configure_args
     system "make"
     system "make", "install"
   end

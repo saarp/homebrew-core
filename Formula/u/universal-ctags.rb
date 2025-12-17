@@ -1,9 +1,9 @@
 class UniversalCtags < Formula
   desc "Maintained ctags implementation"
   homepage "https://ctags.io/"
-  url "https://github.com/universal-ctags/ctags/archive/refs/tags/p6.2.20250713.0.tar.gz"
-  version "p6.2.20250713.0"
-  sha256 "d0054c365c35c0cea853df39c050776923cd1896cc561ee16190919a461ffb0f"
+  url "https://github.com/universal-ctags/ctags/archive/refs/tags/p6.2.20251130.0.tar.gz"
+  version "p6.2.20251130.0"
+  sha256 "b13de8f85bebc2e6421fec4030893635b7730d33cbe469df04de091f7f5ad385"
   license "GPL-2.0-only"
   head "https://github.com/universal-ctags/ctags.git", branch: "master"
 
@@ -13,27 +13,26 @@ class UniversalCtags < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "fcc0d50f8df27ed86ac8f3776539ec6ca3288d2630dcb794f089ab2baa10956e"
-    sha256 cellar: :any,                 arm64_sonoma:  "a12d5d0198262b6469b99328822e825cd37a70a3387dd27a74f7954b588e4220"
-    sha256 cellar: :any,                 arm64_ventura: "b2249ba971b2c6e15f9fa9457b8200d7427938cc93d29ccf726743a9f592fe4c"
-    sha256 cellar: :any,                 sonoma:        "de3cbaed045efb370bc204198be012b34c97f2bf66c7d770ae70bf6d3583fd8e"
-    sha256 cellar: :any,                 ventura:       "a19b0c406f2d688b0dde7e94fb82a4315662bcc9c069bbef4d08d3aa031bce6b"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "66af0731b4ed58544db7b42a91027a36ac801f95f46914e2a8402c8349834093"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3cf4fb45a0c2bbacbec3cc5f0bdf6007a294c0431cd970b0796994ff50d83a91"
+    sha256 cellar: :any,                 arm64_tahoe:   "aa3313e095bf1c72a464e72bfb444ee9ecfb59cb3d528951eada3ffcba25238f"
+    sha256 cellar: :any,                 arm64_sequoia: "2c733f80db53d7c7cebc518ae646aae81cb4989eb7f25428fd5e5aa64aead2bf"
+    sha256 cellar: :any,                 arm64_sonoma:  "85c520639964198818372b8db5f8198f1c1b112096bf1a45b01b72807369f5df"
+    sha256 cellar: :any,                 sonoma:        "fb904ebfb8a766f3a3b0d236d2a656b7745da05d9e61be3e2e4dd5047a53d6fa"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "d35f17175ddf0d095b125d51214f3de1398723f465be7d5cdbb24a13e095a6b0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1be31d65d0618b8c416465eb186749fefdde1aec34625870553814e47baeb3cf"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "docutils" => :build
   depends_on "pkgconf" => :build
-  depends_on "python@3.13" => :build
+  depends_on "python@3.14" => :build
   depends_on "jansson"
   depends_on "libyaml"
   depends_on "pcre2"
 
   uses_from_macos "libxml2"
 
-  conflicts_with "ctags", because: "this formula installs the same executable as the ctags formula"
+  conflicts_with "ctags", because: "both install `ctags` binaries"
 
   def install
     system "./autogen.sh"

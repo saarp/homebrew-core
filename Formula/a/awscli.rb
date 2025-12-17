@@ -3,31 +3,32 @@ class Awscli < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
-  url "https://github.com/aws/aws-cli/archive/refs/tags/2.27.59.tar.gz"
-  sha256 "71afd48bdeb0abfedbf1dcabe793faca6cca33f75ed17d8a556e201ebc9170df"
+  url "https://github.com/aws/aws-cli/archive/refs/tags/2.32.18.tar.gz"
+  sha256 "dc7b67c9d0ac8e51458c0e712f6bebc465e2ab1ea4babb15112ddbebc6c2a683"
   license "Apache-2.0"
   head "https://github.com/aws/aws-cli.git", branch: "v2"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "22158121f1f235064051cd066f8ad166fc553a41879669e10def65421c12addd"
-    sha256 cellar: :any,                 arm64_sonoma:  "cdf55c1256d25c75a56e4c46a0adceccaa3f79f90493bd0d24596c3fd47e5c8e"
-    sha256 cellar: :any,                 arm64_ventura: "c5315b98b5b8529e21172011c2a4e3b6ed0e2dfc249af26531eb3ae018eeeb43"
-    sha256 cellar: :any,                 sonoma:        "d72ca0b94c996adfe26825dd826dc9023331a33fe1e3d337669a269f58d252e2"
-    sha256 cellar: :any,                 ventura:       "df290164bedf080f3f58966735ff5d295af3ccd85d6cb2c1f27cf976ba79d88d"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "00b1243da6d7cd44bde727adb07fcdbe908f4d7d6d09b381e6f351a6d541e662"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fe180ce9ebcdb88e4dd32c7ed453a614b17c4b30e757c129f36bb611d100e5c5"
+    sha256 cellar: :any,                 arm64_tahoe:   "5d71f1b0aa496faedd38f3528f5e8bfd925f11f7560db0e58d0b7a1227125034"
+    sha256 cellar: :any,                 arm64_sequoia: "fc197f4e4dbccf84af3ab2ecbeddc3085d36e50716482a4e71092dbbbaf0c0be"
+    sha256 cellar: :any,                 arm64_sonoma:  "9d1388d1edd198c5ee5c6d6b8ee4ccc67dc8e8de06110b85f444030cc612bf8e"
+    sha256 cellar: :any,                 sonoma:        "889ec86563744c40fca67637c02e9c731170150c6021922c8070da3bd7f72463"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "fbce70d5c6b31f633b29a1b7d84ac8e93afd8ed2b6a0bba2002e95070c2332cb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7b8008afcda777f9cde733b4a8324df2542dbd9bf848823e9567a274542c0380"
   end
 
   depends_on "cmake" => :build
   depends_on "openssl@3"
-  depends_on "python@3.13"
+  depends_on "python@3.13" # Python 3.14 issue: https://github.com/aws/aws-cli/issues/9783
 
   uses_from_macos "libffi"
   uses_from_macos "mandoc"
 
+  pypi_packages extra_packages: "flit-core"
+
   resource "awscrt" do
-    url "https://files.pythonhosted.org/packages/42/db/72989a426cdf2b9f38454b1cdba246b2d2e95a77397ad3df18d1d9d4f5b3/awscrt-0.26.1.tar.gz"
-    sha256 "a8d63a7dcc6484c5c1675b31a8d1b6726c3dc85b13796fb143dfb0072260935e"
+    url "https://files.pythonhosted.org/packages/67/59/ad1d57c1cc5e76e11b762b3412183e2addf506f7f1e42f7b28aeee7631f6/awscrt-0.29.1.tar.gz"
+    sha256 "8fc304af5f6f83e7e73096fb42eb51d4a85fa7a90456466ef22872095d4ca46f"
   end
 
   resource "colorama" do
@@ -86,8 +87,8 @@ class Awscli < Formula
   end
 
   resource "wcwidth" do
-    url "https://files.pythonhosted.org/packages/6c/63/53559446a878410fc5a5974feb13d31d78d752eb18aeba59c7fef1af7598/wcwidth-0.2.13.tar.gz"
-    sha256 "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
+    url "https://files.pythonhosted.org/packages/24/30/6b0809f4510673dc723187aeaf24c7f5459922d01e2f794277a3dfb90345/wcwidth-0.2.14.tar.gz"
+    sha256 "4d478375d31bc5395a3c55c40ccdf3354688364cd61c4f6adacaa9215d0b3605"
   end
 
   def python3

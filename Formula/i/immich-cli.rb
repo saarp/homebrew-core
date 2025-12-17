@@ -1,12 +1,12 @@
 class ImmichCli < Formula
   desc "Command-line interface for self-hosted photo manager Immich"
   homepage "https://immich.app/docs/features/command-line-interface"
-  url "https://registry.npmjs.org/@immich/cli/-/cli-2.2.73.tgz"
-  sha256 "9fec913a0b12cdf7fb19a3b4cdfe1ad593bb140f9e034ffb0e56cf8b5cab24e9"
+  url "https://registry.npmjs.org/@immich/cli/-/cli-2.2.103.tgz"
+  sha256 "80d76ce2c481806da427ce84702fd1ae9404f1d5ad924dcef6e103c93f6e8fca"
   license "AGPL-3.0-only"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "c108b8b9b599fe7e50a3480eaab5378f3952b99760b3835c4d18a6ee80e77b11"
+    sha256 cellar: :any_skip_relocation, all: "0d07e799a024a21c572600d8f5f76f10dbeddd6851a4e773a3cbc6974597ebf0"
   end
 
   depends_on "node"
@@ -17,7 +17,7 @@ class ImmichCli < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output(bin/"immich --version")
-    assert_match "No auth file exists. Please login first.", shell_output(bin/"immich server-info", 1)
+    assert_match version.to_s, shell_output("#{bin}/immich --version")
+    assert_match "No auth file exists. Please login first.", shell_output("#{bin}/immich server-info", 1)
   end
 end

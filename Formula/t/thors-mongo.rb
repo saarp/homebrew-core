@@ -2,23 +2,22 @@ class ThorsMongo < Formula
   desc "Mongo API and Serialization library"
   homepage "https://github.com/Loki-Astari/ThorsMongo"
   url "https://github.com/Loki-Astari/ThorsMongo.git",
-      tag:      "6.0.06",
-      revision: "9ff64c7f7d52415a9f09d764078a9d2b29b06f16"
+      tag:      "8.0.02",
+      revision: "6b978082056e1602ce6fb7b5f849c3e66c09f94e"
   license "GPL-3.0-only"
-  revision 1
-
-  no_autobump! because: :requires_manual_review
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "df22574c3d8d42c2acd7545936aac68e10fb01a62d468e8a37737fdf29d0d61e"
-    sha256 cellar: :any,                 arm64_sonoma:  "ba80135aa78d5bbd0bd423da47424b2f2ecf57321971e20574c91e92ea9bc299"
-    sha256 cellar: :any,                 arm64_ventura: "45f3b9efe0946ceb9b65e733276324e0627dee6935c6de01a754db430fc74ef7"
-    sha256 cellar: :any,                 sonoma:        "685f7324a917a8a8c535483572c45fdb40324be940c5ac3347792df6f43898c9"
-    sha256 cellar: :any,                 ventura:       "5f2ef80e0b25ca4b261d310ce1f4e3d555024c9681e445dc6881575f55de48e5"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "9fdff2c40dd5efb489fad7025d5e026a9dc69163bfbb5fb0ff938a7ad1410b40"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e075ff4433d7bfe5d4a31dc004ca0a3243e8de78d7046866174d493d90d57118"
+    sha256 cellar: :any,                 arm64_tahoe:   "2d1ab5584eb9f49de7fabf424f87eb99b1093b60b091697afc9c9a52d3fbd39f"
+    sha256 cellar: :any,                 arm64_sequoia: "2488a6b4c438730689a96d191f4b3954cfd928de2c8f7dc24cfa50c9783c0c60"
+    sha256 cellar: :any,                 arm64_sonoma:  "e61212ba929d3f2c5be2aff3993ae8a57fb2808382a6ee25e3eb5204a67fb341"
+    sha256 cellar: :any,                 sonoma:        "5409a6b22e0dd7b59f782df8fd54cced90ca816dc4b9ab5a2bb9f900c95b8b5b"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "3937f2bfe3f76a68d2084f4942d19e2501b9049782cc238e66ea314eb0c90911"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "94cfd4096dae3b44612e06e3b9d493120b761aefa4131efaf328f7b7b5a8d032"
   end
 
+  depends_on "cmake" => :build
+  depends_on "boost"
+  depends_on "libevent"
   depends_on "libyaml"
   depends_on "magic_enum"
   depends_on "openssl@3"
@@ -28,15 +27,18 @@ class ThorsMongo < Formula
 
   def install
     ENV["COV"] = "gcov"
+    # Workaround for failure when building with Xcode std::from_chars
+    # src/Serialize/./StringInput.h:104:27: error: call to deleted function 'from_chars'
+    ENV.append_to_cflags "-DNO_STD_SUPPORT_FROM_CHAR_DOUBLE=1" if DevelopmentTools.clang_build_version == 1700
 
     system "./brew/init"
-
     system "./configure", "--disable-vera",
-                          "--prefix=#{prefix}",
                           "--disable-test-with-integration",
                           "--disable-test-with-mongo-query",
-                          "--disable-Mongo-Service"
-
+                          "--disable-Mongo-Service",
+                          "--disable-slacktest",
+                          *std_configure_args
+    ENV.deparallelize
     system "make"
     system "make", "install"
   end
